@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/warn-notices.schema.json",
+  "$id": "https://humancost.ai/schemas/warn-notices.schema.json",
   "title": "WARN Notices",
   "description": "State WARN filings ingested as A1-eligible corroboration. Public record, threshold-limited, state-uneven.",
   "type": "object",

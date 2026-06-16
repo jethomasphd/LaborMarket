@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/manifest-log.schema.json",
+  "$id": "https://humancost.ai/schemas/manifest-log.schema.json",
   "title": "Manifest Log (provenance trail)",
   "description": "Every update, dated, with a content hash. Idempotent: re-applying a manifest must not append a duplicate entry.",
   "type": "object",

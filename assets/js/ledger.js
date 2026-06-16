@@ -1,15 +1,15 @@
 // ledger.js — event-level table over ai-layoff-events.json.
 // Sortable/filterable; rows expand to sources + rationale; CSV export (free, attributed).
 
-import { el, tierBadge, fmtInt, fmtDate, fmtPct, CLASS_LABEL, TIER_META, escapeHtml } from "./util.js";
+import { el, tierBadge, fmtInt, fmtDate, fmtPct, plainTier, CLASS_LABEL, AXIS } from "./util.js";
 
 const COLUMNS = [
   { key: "date_announced", label: "Announced", num: false },
   { key: "company", label: "Company", num: false },
   { key: "sector", label: "Sector", num: false },
-  { key: "headcount", label: "Headcount", num: true },
-  { key: "event_confidence", label: "A — happened", num: false },
-  { key: "ai_attribution", label: "B — AI cause", num: false },
+  { key: "headcount", label: "People", num: true },
+  { key: "event_confidence", label: "Did it happen?", num: false },
+  { key: "ai_attribution", label: "Is it AI?", num: false },
 ];
 
 const B_ORDER = { B1: 0, B2: 1, B3: 2, B0: 3 };
@@ -83,12 +83,21 @@ export function renderLedger(state, mount) {
   const vs = { q: "", a: "", b: "", sector: "", cls: "", sortKey: "date_announced", sortDir: "desc" };
 
   mount.append(el("div", { class: "view-head" },
-    el("h2", {}, "The Ledger"),
-    el("p", {}, "Every event, with record-level source attribution. Two orthogonal tiers — A (did it happen) and B (is AI the cause) — never collapsed. Click any row for sources and rationale.")));
+    el("h2", {}, "Every layoff, on the record"),
+    el("p", {}, "One row per layoff, each with the sources behind it — open them yourself. Two columns score it: did it really happen, and is AI actually the cause. Click any row for the full reasoning.")));
+
+  // A plain-language key so the A1/B1 codes are never a mystery.
+  const keyStrip = (axis, tiers) => el("div", { class: "key-axis" },
+    el("span", { class: "key-q" }, axis), " ",
+    ...tiers.map((t) => el("span", { class: "key-item" }, el("span", { class: `badge tier-${t}` }, t), " ", plainTier(t))));
+  mount.append(el("div", { class: "ledger-key" },
+    keyStrip(AXIS.A.short, ["A1", "A2", "A3"]),
+    keyStrip(AXIS.B.short, ["B1", "B2", "B3", "B0"])));
 
   const search = el("input", { type: "search", placeholder: "Search company or sector…", "aria-label": "Search", oninput: (e) => { vs.q = e.target.value.toLowerCase(); paint(); } });
-  const selA = mkSelect("A-tier", ["A1", "A2", "A3"], (v) => { vs.a = v; paint(); });
-  const selB = mkSelect("B-tier", ["B1", "B2", "B3", "B0"], (v) => { vs.b = v; paint(); });
+  const tierOpt = (t) => `${plainTier(t)} (${t})`;
+  const selA = mkSelect("Did it happen?", ["A1", "A2", "A3"], (v) => { vs.a = v; paint(); }, tierOpt);
+  const selB = mkSelect("Is it AI?", ["B1", "B2", "B3", "B0"], (v) => { vs.b = v; paint(); }, tierOpt);
   const selSector = mkSelect("Sector", sectors, (v) => { vs.sector = v; paint(); });
   const selCls = mkSelect("Source class", Object.keys(CLASS_LABEL), (v) => { vs.cls = v; paint(); }, (k) => CLASS_LABEL[k]);
   const count = el("span", { class: "count" });

@@ -1,15 +1,21 @@
 // util.js — shared formatting, the canonical tier metadata, and tiny DOM helpers.
 // The tier definitions live HERE once and are reused everywhere a tier appears,
-// so the rubric can never drift between views.
+// so the rubric can never drift between views. Each tier carries a PLAIN-LANGUAGE
+// label (for laypeople) alongside its formal code + definition.
+
+export const AXIS = {
+  A: { label: "Did the layoff really happen?", short: "Did it happen?" },
+  B: { label: "Is AI actually the cause?", short: "Is it AI?" },
+};
 
 export const TIER_META = {
-  A1: { name: "VERIFIED",     axis: "A", desc: "Government/legal record (WARN, SEC 8-K/10-Q) or official company statement with a headcount figure." },
-  A2: { name: "REPORTED",     axis: "A", desc: "Credible secondary reporting (Reuters, Bloomberg) or an established aggregator (Layoffs.fyi); not yet in a filing." },
-  A3: { name: "UNCONFIRMED",  axis: "A", desc: "Rumor, anonymous internal memo, single-source social post, or no count available." },
-  B1: { name: "STATED-BY-FIRM",       axis: "B", desc: "The company explicitly attributes the cut to AI/automation. The strongest attribution signal — but a claim, not proof of causation." },
-  B2: { name: "STRUCTURAL-INFERENCE", axis: "B", desc: "No firm attribution, but role composition + AI capex + sector pattern make displacement a plausible analyst inference. Labeled as inference." },
-  B3: { name: "NARRATIVE-ONLY",       axis: "B", desc: "“AI” appears only in third-party framing, or is contradicted by other stated firm reasons. A contested narrative artifact." },
-  B0: { name: "NOT-ATTRIBUTED",       axis: "B", desc: "No actor claims AI involvement; an ordinary macro/structural layoff. Most layoffs are B0 — the denominator." },
+  A1: { name: "VERIFIED",    plain: "Confirmed",          axis: "A", desc: "Backed by a government/legal record (a WARN notice or SEC filing) or an official company statement with a headcount." },
+  A2: { name: "REPORTED",    plain: "Reported",           axis: "A", desc: "Reported by credible news (Reuters, Bloomberg) or an established tracker — but not yet in an official filing." },
+  A3: { name: "UNCONFIRMED", plain: "Unconfirmed",        axis: "A", desc: "A rumor, an anonymous memo, or a single social post. No solid count." },
+  B1: { name: "STATED-BY-FIRM",       plain: "Company blames AI",     axis: "B", desc: "The company itself said AI/automation was the reason. The strongest signal we accept — but still a claim, not proof." },
+  B2: { name: "STRUCTURAL-INFERENCE", plain: "Likely AI-related",     axis: "B", desc: "The company didn't say AI, but the roles cut + heavy AI spending make it a reasonable inference. Labeled as our inference, not their claim." },
+  B3: { name: "NARRATIVE-ONLY",       plain: "Only headlines say AI", axis: "B", desc: "'AI' shows up only in headlines or trackers — or the company gave other reasons. An unproven narrative." },
+  B0: { name: "NOT-ATTRIBUTED",       plain: "Not about AI",          axis: "B", desc: "Nobody claims AI was involved. An ordinary layoff. Most layoffs are this — the baseline." },
 };
 
 // Hex mirrors of the CSS confidence encoding (for canvas/SVG charts).
@@ -74,11 +80,19 @@ export function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-// A tier badge — used in tables, cards, anywhere a tier is shown.
+export const plainTier = (tier) => TIER_META[tier]?.plain || tier;
+
+// A compact tier badge (the code) — used in dense tables. Tooltip carries the plain meaning.
 export function tierBadge(tier) {
   const meta = TIER_META[tier];
-  const b = el("span", { class: `badge tier-${tier}`, title: meta ? `${tier} ${meta.name} — ${meta.desc}` : tier }, tier);
-  return b;
+  return el("span", { class: `badge tier-${tier}`, title: meta ? `${tier} (${meta.plain}) — ${meta.desc}` : tier }, tier);
+}
+
+// A plain-language chip: the everyday phrase up front, the formal code small alongside.
+export function tierChip(tier) {
+  const meta = TIER_META[tier];
+  return el("span", { class: `tchip tier-${tier}`, title: meta ? meta.desc : tier },
+    el("span", { class: "tchip-dot" }), plainTier(tier), el("span", { class: "tchip-code" }, tier));
 }
 
 export const escapeHtml = (s) =>

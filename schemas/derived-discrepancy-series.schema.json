@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/derived-discrepancy-series.schema.json",
+  "$id": "https://humancost.ai/schemas/derived-discrepancy-series.schema.json",
   "title": "Derived — Discrepancy Series",
-  "description": "Auto-generated. The strategic-layer measurement: Challenger AI-CITED total vs. LaborMarket.ai B1 firm-stated, A1/A2-verified total. The gap is the metric, NOT an error to reconcile.",
+  "description": "Auto-generated. The strategic-layer measurement: Challenger AI-CITED total vs. our stricter confirmed-by-company total. The gap is the metric, NOT an error to reconcile.",
   "type": "object",
   "required": ["meta", "months"],
   "additionalProperties": false,

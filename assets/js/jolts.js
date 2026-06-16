@@ -23,9 +23,9 @@ export function renderJolts(state, mount) {
   const months = commonMonths(series);
 
   mount.append(el("div", { class: "view-head" },
-    el("h2", {}, "JOLTS — the measured baseline"),
-    el("p", {}, `${jolts?.meta?.source || "BLS JOLTS"}. Released ~2 months in arrears. This is what is `,
-      el("em", {}, "measured"), "; it cannot attribute causation. Treat it as the rigorous denominator, not an AI-impact measure.")));
+    el("h2", {}, "The official jobs data"),
+    el("p", {}, "JOLTS is the U.S. government's monthly count of job openings, hires, quits, and layoffs (from the Bureau of Labor Statistics). It's the trustworthy yardstick for ",
+      el("em", {}, "how many"), " jobs end — but it ", el("em", {}, "never"), " says why. So it can't tell you a layoff was caused by AI; it just shows the real scale underneath all the headlines. Released about two months late.")));
 
   // Latest readings
   const rows = SERIES_ORDER.map(([key, label]) => {
