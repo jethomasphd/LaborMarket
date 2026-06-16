@@ -63,15 +63,12 @@ Legend: ☐ not started · ◐ in progress · ☑ gate passed (evidence logged)
   - *Gate:* malformed fixtures FAIL with clear messages + non-zero exit. — **PASSED:** `tests/fixtures/malformed-events` → `✗ VALIDATION FAILED — 3 error(s)` EXIT=1, refusing (a) B1-from-headline (“headline alone caps at B3”) and (b) averaged discrepancy (“headcount 1500 is the AVERAGE…”, “discrepancy_note is empty”). Locked as regression: `tests/test_validator.py` 9 passed.
 - **☑ Step 4 — `apply_manifest.py` + `build_rollups.py`.** Manifest parse (add/update ops), candidate-then-commit (all-or-nothing), idempotency guard, sha256 logging, deterministic rollups.
   - *Gate:* apply twice = identical data + one log entry; rollups match hand-computed expectation. — **PASSED:** twice-applied `manifests/2026-06-15.md` → 10 events, one `MAN-2026-06-15` entry, byte-identical events file on re-run; `tests/` 17 passed (rollup hand-computed values, idempotency, A2→A1 upgrade, hash, malformed-manifest aborts with nothing applied). Committed `data/` kept at the clean 8-event pre-manifest state.
-- **☐ Step 5 — Dashboard shell + data loader (`app.js`).** Router, async JSON loading, empty/loading/error states.
-  - *Gate:* all five tabs render from the JSON layer with **zero hardcoded figures**.
-  - *Deps:* Step 1 (data + schemas).
-- **☐ Step 6 — PULSE + tier-honest AI counter.**
-  - *Gate:* a casual viewer **cannot** mistake a B3 figure for the headline; B0 denominator is visible.
-  - *Deps:* Step 5.
-- **☐ Step 7 — LEDGER, JOLTS, ATTRIBUTION, SOURCES.** Build out, wire charts.
-  - *Gate:* the discrepancy panel renders Challenger-cited vs. B1-verified with the gap as its own series.
-  - *Deps:* Steps 4, 5.
+- **☑ Step 5 — Dashboard shell + data loader (`app.js`).** ES-module app: parallel fetch of all 9 JSON files, hash router, loading overlay, error state (with file:// hint), masthead injected from data.
+  - *Gate:* all five tabs render from the JSON layer with zero hardcoded figures. — **PASSED:** headless jsdom render of all 5 views (`tests/dom_smoke.mjs` → "all render checks passed"); figure scan finds no data numbers in markup/JS (only hex colors, layout constants, unit multiplier); static server serves index/js/data at HTTP 200.
+- **☑ Step 6 — PULSE + tier-honest AI counter.** Headline = B1 (stated-by-firm, A1/A2-verified) ONLY; B2 a distinct band; B3 shown but struck-through “excluded from headline”; B0 labeled denominator; epistemic disclaimer in-component.
+  - *Gate:* a casual viewer cannot mistake a B3 figure for the headline; B0 denominator visible. — **PASSED:** render test asserts headline = derived 5,200 (Snap+Citi B1), “excluded from headline” on B3, “denominator” on B0.
+- **☑ Step 7 — LEDGER, JOLTS, ATTRIBUTION, SOURCES.** Ledger (sort/filter/expand/CSV); JOLTS (six series + churn + causation framing); Attribution (rubric + B-composition + discrepancy); Sources (registry + ceilings + manifest log + methodology).
+  - *Gate:* discrepancy panel renders Challenger-cited vs. B1-verified with the gap as its own series. — **PASSED:** D3 divergence + table; render test asserts derived gap 37,579 (May 38,579 − 1,000).
 - **☐ Step 8 — Design pass.** Restrained Watchtower system; typography, motion, responsive.
   - *Gate:* legible at 360px width; tier colors consistent everywhere.
   - *Deps:* Steps 6, 7.
