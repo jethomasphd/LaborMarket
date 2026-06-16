@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/ai-layoff-events.schema.json",
+  "$id": "https://humancost.ai/schemas/ai-layoff-events.schema.json",
   "title": "AI Layoff Events Ledger",
   "description": "Event-level ledger. Two orthogonal confidence axes (A = did it happen; B = is AI the cause), NEVER collapsed. Structural rules here; cross-record/source-ceiling rules live in scripts/validate.py.",
   "type": "object",

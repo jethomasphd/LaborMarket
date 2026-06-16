@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/sources.schema.json",
+  "$id": "https://humancost.ai/schemas/sources.schema.json",
   "title": "Source Registry",
   "description": "Every source carries a reliability class that CAPS the tiers it can justify (seed.md §6). A source cannot push an event above the confidence its class warrants.",
   "type": "object",

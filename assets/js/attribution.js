@@ -1,13 +1,13 @@
-// attribution.js — the epistemics tab. The rubric in plain language, B-tier composition
-// over time, and the discrepancy panel: Challenger AI-cited vs our B1-verified, gap as its own series.
+// attribution.js — "How we verify." The two-question rubric in plain language, how the AI
+// claim breaks down over time, and the centerpiece: what's BLAMED on AI vs. what's CONFIRMED.
 
-import { el, fmtInt, fmtMonth, TIER_META, TIER_COLORS } from "./util.js";
+import { el, fmtInt, fmtMonth, plainTier, TIER_META, TIER_COLORS, AXIS } from "./util.js";
 import { stackedArea, discrepancyDivergence } from "./charts/charts.js";
 
-function rubricCards(tiers, axisClass) {
+function rubricCards(tiers) {
   return el("div", { class: "rubric" }, ...tiers.map((t) =>
-    el("div", { class: `card ${axisClass ? t : ""}` },
-      el("h4", {}, el("span", { class: `badge tier-${t}` }, t), "  ", TIER_META[t].name),
+    el("div", { class: `card ${t}` },
+      el("h4", {}, plainTier(t), el("span", { class: `badge tier-${t}` }, t)),
       el("p", {}, TIER_META[t].desc))));
 }
 
@@ -16,57 +16,58 @@ export function renderAttribution(state, mount) {
   const discrepancy = state.data.discrepancy;
 
   mount.append(el("div", { class: "view-head" },
-    el("h2", {}, "Attribution — the epistemics"),
-    el("p", {}, "“X jobs lost to AI” is a contested casualty count. It silently fuses task substitution, budget reallocation, narrative laundering, and genuine uncertainty. We never report it as one confident number — we report a claim, attributed and tiered.")));
+    el("h2", {}, "How we verify — claimed vs. confirmed"),
+    el("p", {}, "“X jobs lost to AI” is one of the shakiest numbers going around. It quietly blends four different things: AI literally doing the work, budgets shifting from people to AI, ordinary cuts dressed up as “AI”, and plain guesswork. So we never report it as one confident figure — we report a claim, and we say exactly how solid it is.")));
 
-  // The rubric
+  // The two questions
   mount.append(el("section", {},
-    el("h3", { class: "section-title" }, "Axis A — did the layoff happen?"),
-    rubricCards(["A1", "A2", "A3"], false)));
+    el("h3", { class: "section-title" }, `Question 1 — ${AXIS.A.label}`),
+    rubricCards(["A1", "A2", "A3"])));
   mount.append(el("section", {},
-    el("h3", { class: "section-title" }, "Axis B — is AI actually the cause?"),
-    rubricCards(["B1", "B2", "B3", "B0"], true)));
+    el("h3", { class: "section-title" }, `Question 2 — ${AXIS.B.label}`),
+    rubricCards(["B1", "B2", "B3", "B0"])));
 
-  // Money vs the job
+  // Why "because of AI" is slippery
   mount.append(el("section", {},
-    el("h3", { class: "section-title" }, "The money vs. the job"),
+    el("h3", { class: "section-title" }, "Why “because of AI” is slippery"),
     el("div", { class: "panel" },
-      el("p", {}, "Even where AI is not literally performing the role, the ", el("em", {}, "budget"),
-        " for the role is often redirected to AI capex. Direct task substitution (the job) and headcount-to-AI reallocation (the money) are different mechanisms. This is exactly why attribution must be tiered, not asserted: B1 is what the firm states; B2 is our labeled inference where the money moved but the firm did not say AI."))));
+      el("p", {}, "Often the AI isn't doing the job — the ", el("em", {}, "budget"),
+        " for the job is just being moved to AI. Losing your role because the company bought software is real, but it isn't the same as a robot doing your tasks. That's why we keep two labels: ",
+        el("b", {}, plainTier("B1")), " (the company said it) versus ", el("b", {}, plainTier("B2")),
+        " (we think it's likely, but they didn't say so). We never pass our guess off as their statement."))));
 
-  // B-tier composition over time
+  // Composition over time
   const months = (attribution?.months || []);
   if (months.length) {
     const c = el("canvas");
     mount.append(el("section", {},
-      el("h3", { class: "section-title" }, "AI-attribution composition over time (headcount)"),
+      el("h3", { class: "section-title" }, "The AI claim over time, by how solid it is"),
       el("div", { class: "panel" }, el("div", { class: "chart-box tall" }, c),
-        el("p", { class: "inline-disclaimer" }, "Stacked by tier. B1 (stated-by-firm) and B2 (inferred) are kept visually distinct from B3 (narrative-only) and B0 (not attributed). They are never summed into a single headline."))));
+        el("p", { class: "inline-disclaimer" }, "Stacked by strength of evidence. “Company blames AI” and “Likely AI-related” are kept separate from “Only headlines say AI” and “Not about AI.” They are never merged into a single number."))));
     const labels = months.map((m) => m.month);
-    const ds = (tier) => ({ label: `${tier} ${TIER_META[tier].name}`, data: months.map((m) => m.headcount[tier]),
-      borderColor: TIER_COLORS[tier], backgroundColor: TIER_COLORS[tier] + "55" });
+    const ds = (t) => ({ label: plainTier(t), data: months.map((m) => m.headcount[t]),
+      borderColor: TIER_COLORS[t], backgroundColor: TIER_COLORS[t] + "55" });
     queueMicrotask(() => stackedArea(c, labels, [ds("B1"), ds("B2"), ds("B3"), ds("B0")]));
   }
 
-  // Discrepancy panel (required)
+  // The discrepancy centerpiece
   const box = el("div", { class: "discrepancy panel" });
   box.append(
     el("div", { class: "legend" },
-      el("span", { class: "k" }, el("span", { class: "line", style: `background:${TIER_COLORS.muted}` }), "Challenger AI-cited (claim)"),
-      el("span", { class: "k" }, el("span", { class: "line", style: `background:${TIER_COLORS.B1}` }), "LaborMarket.ai B1-verified"),
-      el("span", { class: "k" }, el("span", { class: "line", style: `background:${TIER_COLORS.alert}` }), "The gap (own series)")),
+      el("span", { class: "k" }, el("span", { class: "line", style: `background:${TIER_COLORS.muted}` }), "Blamed on AI (claimed)"),
+      el("span", { class: "k" }, el("span", { class: "line", style: `background:${TIER_COLORS.B1}` }), "Confirmed by the company"),
+      el("span", { class: "k" }, el("span", { class: "line", style: `background:${TIER_COLORS.alert}` }), "The gap")),
     (() => { const d = el("div", { class: "chart-box" }); queueMicrotask(() => discrepancyDivergence(d, discrepancy?.months || [])); return d; })());
 
   const rows = (discrepancy?.months || []).filter((m) => m.challenger_ai_cited != null);
   const latest = rows[rows.length - 1];
   if (latest) {
     box.append(el("div", { class: "gap-callout" },
-      `${fmtMonth(latest.month)}: Challenger `, el("b", {}, fmtInt(latest.challenger_ai_cited)),
-      " AI-cited vs. our ", el("b", {}, fmtInt(latest.lm_b1_verified)), " B1-verified → gap ",
-      el("b", {}, fmtInt(latest.gap), " people"), ". The gap is the measurement, not an error to reconcile."));
+      `${fmtMonth(latest.month)}: `, el("b", {}, fmtInt(latest.challenger_ai_cited)), " jobs were blamed on AI; we could confirm the company itself said so for ",
+      el("b", {}, fmtInt(latest.lm_b1_verified)), ". The gap of ",
+      el("b", {}, fmtInt(latest.gap), " people"), " is the measurement — the distance between the story and the evidence, not an error to fix."));
   }
 
-  // Monthly table
   const trs = (discrepancy?.months || []).map((m) => el("tr", {},
     el("td", { class: "mono" }, fmtMonth(m.month)),
     el("td", { class: "num" }, m.challenger_ai_cited == null ? "—" : fmtInt(m.challenger_ai_cited)),
@@ -75,9 +76,9 @@ export function renderAttribution(state, mount) {
     el("td", { class: "num", style: `color:${TIER_COLORS.alert}` }, m.gap == null ? "—" : fmtInt(m.gap))));
 
   mount.append(el("section", {},
-    el("h3", { class: "section-title" }, "Discrepancy panel — claimed vs. corroborated"),
+    el("h3", { class: "section-title" }, "Blamed on AI vs. confirmed by the company"),
     box,
     el("div", { class: "table-wrap", style: "margin-top:1rem" }, el("table", {},
-      el("thead", {}, el("tr", {}, el("th", {}, "Month"), el("th", {}, "Challenger AI-cited"), el("th", {}, "B1-verified"), el("th", {}, "B1 events"), el("th", {}, "Gap"))),
+      el("thead", {}, el("tr", {}, el("th", {}, "Month"), el("th", {}, "Blamed on AI"), el("th", {}, "Confirmed"), el("th", {}, "Confirmed cases"), el("th", {}, "Gap"))),
       el("tbody", {}, ...trs)))));
 }

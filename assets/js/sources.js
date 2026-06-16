@@ -17,8 +17,8 @@ export function renderSources(state, mount) {
   const log = state.data.manifestLog?.manifests || [];
 
   mount.append(el("div", { class: "view-head" },
-    el("h2", {}, "Sources & methodology"),
-    el("p", {}, "Every datum names its source; no orphan numbers. Each source carries a reliability class that caps the tiers it can justify — a source cannot push an event above the confidence its class warrants.")));
+    el("h2", {}, "Sources & method"),
+    el("p", {}, "Every number here points to where it came from — no orphan figures. And not all sources count equally: a government filing can prove a layoff happened; an anonymous post can't. Each source has a class that limits how strong a claim it's allowed to support.")));
 
   // Ceilings
   mount.append(el("section", {},

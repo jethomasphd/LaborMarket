@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/derived-sector-rollup.schema.json",
+  "$id": "https://humancost.ai/schemas/derived-sector-rollup.schema.json",
   "title": "Derived — Sector Rollup",
   "description": "Auto-generated. Event counts and headcount by sector, broken out by B-tier (never collapsed).",
   "type": "object",

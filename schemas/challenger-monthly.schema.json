@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/challenger-monthly.schema.json",
+  "$id": "https://humancost.ai/schemas/challenger-monthly.schema.json",
   "title": "Challenger Monthly Job-Cut Announcements (narrative layer)",
   "description": "Announced/cited cuts — claims, not verified causation. ai_cited_cuts is Challenger's methodology; it feeds the discrepancy panel against our stricter B1-verified total.",
   "type": "object",

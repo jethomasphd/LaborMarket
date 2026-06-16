@@ -1,11 +1,14 @@
-# LaborMarket.ai
+# HumanCost.ai
 
-**A dual-agent labor-intelligence dashboard for the U.S. labor market in the age of the information flood.**
+**The human cost of the AI layoff story — separating what's *claimed* from what's *verified*.**
 
-> Holds the *measured* baseline (JOLTS) and the *claimed* AI-layoff narrative in one frame — and shows exactly where they diverge. Two orthogonal confidence axes, **never collapsed**.
+> Layoffs are real and rising, a genuine human cost. But the "AI did it" explanation is mostly
+> unverified. HumanCost.ai holds the official jobs data (JOLTS) and the contested AI-layoff narrative
+> in one frame, scores every layoff on two separate questions — *did it happen?* and *is AI the cause?* —
+> and charts the gap between what's claimed and what's confirmed.
 
-The information flood's only trick is making a **B3 headline feel like an A1 fact.** Every choice in this
-project exists to make that confusion impossible.
+The information flood's only trick is making an unproven headline feel like an established fact. Every
+choice in this project exists to make that confusion impossible.
 
 - **Scribe:** Jacob E. Thomas, PhD — Principal Investigator, LAMP Lab
 - **Lineage:** IranWar.ai (event-level dataset & dashboard) — *The Word against the Flood.*

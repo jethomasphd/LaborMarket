@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://labormarket.ai/schemas/jolts-series.schema.json",
+  "$id": "https://humancost.ai/schemas/jolts-series.schema.json",
   "title": "JOLTS Measured Baseline",
   "description": "BLS JOLTS, SA, total nonfarm, level (thousands). The honest denominator the narrative layer lacks. Series IDs verified against a live BLS call before shipping.",
   "type": "object",
