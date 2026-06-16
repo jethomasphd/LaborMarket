@@ -1,0 +1,9 @@
+{
+  "meta": { "description": "tiny known set for hand-computed rollup assertions" },
+  "events": [
+    { "event_id": "LM-0001", "date_announced": "2026-03-10", "company": "T1", "sector": "Technology", "headcount": 100, "headcount_basis": "company_statement", "event_confidence": "A1", "ai_attribution": "B1", "ai_attribution_rationale": "firm", "stated_reasons": [], "sources": [], "manifest_id": "M" },
+    { "event_id": "LM-0002", "date_announced": "2026-03-22", "company": "T2", "sector": "Technology", "headcount": 50, "headcount_basis": "company_statement", "event_confidence": "A1", "ai_attribution": "B0", "ai_attribution_rationale": null, "stated_reasons": [], "sources": [], "manifest_id": "M" },
+    { "event_id": "LM-0003", "date_announced": "2026-05-01", "company": "F1", "sector": "Finance", "headcount": 10, "headcount_basis": "company_statement", "event_confidence": "A1", "ai_attribution": "B1", "ai_attribution_rationale": "firm", "stated_reasons": [], "sources": [], "manifest_id": "M" },
+    { "event_id": "LM-0004", "date_announced": "2026-05-15", "company": "T3", "sector": "Technology", "headcount": 999, "headcount_basis": "press_estimate", "event_confidence": "A2", "ai_attribution": "B3", "ai_attribution_rationale": "headline", "stated_reasons": [], "sources": [], "manifest_id": "M" }
+  ]
+}

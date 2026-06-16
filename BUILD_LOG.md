@@ -61,9 +61,8 @@ Legend: ☐ not started · ◐ in progress · ☑ gate passed (evidence logged)
   - *Gate:* live pull ≥24 months for all six series + validates. — **PASSED:** keyless BLS v1 pull returned **52 months** for all six series, latest 2026-04, unit=thousands; file validates.
 - **☑ Step 3 — `validate.py` (full). [THE HARD GATE]** Enforces §5.2 rules 1–6 + §6 source-class ceilings + cross-file integrity + JOLTS poison.
   - *Gate:* malformed fixtures FAIL with clear messages + non-zero exit. — **PASSED:** `tests/fixtures/malformed-events` → `✗ VALIDATION FAILED — 3 error(s)` EXIT=1, refusing (a) B1-from-headline (“headline alone caps at B3”) and (b) averaged discrepancy (“headcount 1500 is the AVERAGE…”, “discrepancy_note is empty”). Locked as regression: `tests/test_validator.py` 9 passed.
-- **☐ Step 4 — `apply_manifest.py` + `build_rollups.py`.** Manifest ingestion, idempotency, hash logging, rollup regeneration.
-  - *Gate:* applying `manifests/2026-06-15.md` twice yields identical data and **one** log entry; rollups match a hand-computed expectation in `tests/`.
-  - *Deps:* Steps 1, 3.
+- **☑ Step 4 — `apply_manifest.py` + `build_rollups.py`.** Manifest parse (add/update ops), candidate-then-commit (all-or-nothing), idempotency guard, sha256 logging, deterministic rollups.
+  - *Gate:* apply twice = identical data + one log entry; rollups match hand-computed expectation. — **PASSED:** twice-applied `manifests/2026-06-15.md` → 10 events, one `MAN-2026-06-15` entry, byte-identical events file on re-run; `tests/` 17 passed (rollup hand-computed values, idempotency, A2→A1 upgrade, hash, malformed-manifest aborts with nothing applied). Committed `data/` kept at the clean 8-event pre-manifest state.
 - **☐ Step 5 — Dashboard shell + data loader (`app.js`).** Router, async JSON loading, empty/loading/error states.
   - *Gate:* all five tabs render from the JSON layer with **zero hardcoded figures**.
   - *Deps:* Step 1 (data + schemas).
