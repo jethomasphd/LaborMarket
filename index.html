@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LaborMarket.ai — the measured, the claimed, and the seam between them</title>
+  <meta name="description" content="A dual-agent labor-intelligence dashboard. Holds the measured baseline (JOLTS) and the contested AI-layoff narrative in one frame — and shows exactly where they diverge. Two orthogonal confidence axes, never collapsed." />
+
+  <!-- Fonts: Cormorant Garamond (display), IBM Plex Mono (data), IBM Plex Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/watchtower.css" />
+
+  <!-- Charts: Chart.js (time series + stacked) and D3 (discrepancy divergence).
+       Vendored locally for a fully self-contained site (no runtime CDN dependency). -->
+  <script defer src="assets/vendor/chart.umd.min.js"></script>
+  <script defer src="assets/vendor/d3.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#view">Skip to content</a>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand">
+        <h1>LaborMarket<span class="dot">.</span>ai</h1>
+        <p class="doctrine">Shows what is <em>measured</em>, what is <em>claimed</em>, and the distance between them.</p>
+      </div>
+      <div class="masthead-meta" id="masthead-meta" aria-live="polite"><!-- last-pull / counts injected --></div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="Primary views">
+      <a href="#/pulse"       data-view="pulse">Pulse</a>
+      <a href="#/ledger"      data-view="ledger">The Ledger</a>
+      <a href="#/jolts"       data-view="jolts">JOLTS</a>
+      <a href="#/attribution" data-view="attribution">Attribution</a>
+      <a href="#/sources"     data-view="sources">Sources</a>
+    </nav>
+  </header>
+
+  <main id="view" tabindex="-1"><!-- active view rendered here --></main>
+
+  <div id="loader" class="overlay" hidden><div class="spinner" aria-label="Loading data"></div><p>Loading the data layer…</p></div>
+  <div id="error" class="overlay" hidden role="alert"></div>
+
+  <footer class="colophon">
+    <p>
+      <strong>Epistemic posture.</strong> JOLTS is the rigorous, lagged denominator; it <em>cannot</em> attribute causation.
+      “AI-attributed” is a <em>claim</em> layer, tiered (A = did it happen · B = is AI the cause) and never collapsed.
+      Coverage skews to tech and large firms. We surface claims; we do not certify that AI caused any specific job loss.
+    </p>
+    <p class="repo">Data &amp; methodology are open. Corrections welcome via the repository. Built on the IranWar.ai lineage — <span class="word">The Word against the Flood.</span></p>
+  </footer>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "meta": { "description": "minimal registry for the malformed fixture" },
+  "sources": [
+    { "source_id": "SRC-HEADLINE", "name": "Some News Headline", "class": "WIRE_PRESS", "home_url": "https://example.com", "access": "manual_read" },
+    { "source_id": "SRC-CO-A", "name": "Company A statement", "class": "PRIMARY_FIRM", "home_url": "https://example.com", "access": "manual_read" },
+    { "source_id": "SRC-CO-B", "name": "Press B", "class": "WIRE_PRESS", "home_url": "https://example.com", "access": "manual_read" }
+  ]
+}

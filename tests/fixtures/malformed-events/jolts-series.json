@@ -1,0 +1,6 @@
+{
+  "meta": { "source": "test", "last_pull": "2026-06-15", "api": "test" },
+  "series": {
+    "job_openings": { "series_id": "JTS000000000000000JOL", "unit": "thousands", "observations": [ { "period": "2026-04", "value": 7618 } ] }
+  }
+}

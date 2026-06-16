@@ -1,0 +1,5 @@
+# Cloudflare Pages config (optional — the dashboard is plain static HTML/CSS/JS + JSON,
+# so no build step is required). The deployed artifact is the repository root as-is.
+name = "labormarket-ai"
+compatibility_date = "2026-06-15"
+pages_build_output_dir = "."

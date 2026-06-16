@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labormarket.ai/schemas/warn-notices.schema.json",
+  "title": "WARN Notices",
+  "description": "State WARN filings ingested as A1-eligible corroboration. Public record, threshold-limited, state-uneven.",
+  "type": "object",
+  "required": ["meta", "notices"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "source": { "type": "string" },
+        "last_update": { "type": ["string", "null"] },
+        "note": { "type": "string" }
+      }
+    },
+    "notices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["warn_id", "state", "company", "date_filed"],
+        "additionalProperties": false,
+        "properties": {
+          "warn_id": { "type": "string", "minLength": 1 },
+          "state": { "type": "string", "minLength": 2, "maxLength": 2 },
+          "company": { "type": "string", "minLength": 1 },
+          "date_filed": { "type": "string", "format": "date" },
+          "date_effective": { "type": ["string", "null"], "format": "date" },
+          "employees_affected": { "type": ["integer", "null"], "minimum": 0 },
+          "location": { "type": ["string", "null"] },
+          "source_url": { "type": ["string", "null"], "format": "uri" },
+          "linked_event_id": { "type": ["string", "null"], "pattern": "^LM-[0-9]{4,}$" },
+          "source_id": { "type": "string", "pattern": "^SRC-" },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

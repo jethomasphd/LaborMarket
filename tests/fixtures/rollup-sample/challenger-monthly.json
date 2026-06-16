@@ -1,0 +1,7 @@
+{
+  "meta": { "source": "test" },
+  "months": [
+    { "month": "2026-03", "total_cuts": 5000, "ai_cited_cuts": 1000, "ai_cited_share": 0.2 },
+    { "month": "2026-05", "total_cuts": 8000, "ai_cited_cuts": 2000, "ai_cited_share": 0.25 }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "description": "Source registry. Each source's CLASS caps the tiers it can justify (seed.md §6). A source cannot push an event above the confidence its class warrants.",
+    "schema_version": "1.0",
+    "last_update": "2026-06-15"
+  },
+  "sources": [
+    { "source_id": "SRC-BLS-JOLTS", "name": "BLS JOLTS (Public Data API v2)", "class": "GOV_LEGAL", "home_url": "https://www.bls.gov/jlt/", "access": "api", "notes": "Measured baseline. Rigorous, lagged ~2 months, causation-blind." },
+    { "source_id": "SRC-FRED", "name": "FRED (St. Louis Fed)", "class": "GOV_LEGAL", "home_url": "https://fred.stlouisfed.org/", "access": "api", "notes": "Mirrors JOLTS + macro baselines, recession shading, cross-checks." },
+    { "source_id": "SRC-SEC", "name": "SEC EDGAR", "class": "GOV_LEGAL", "home_url": "https://www.sec.gov/edgar.shtml", "access": "manual_read", "notes": "8-K / 10-Q disclosures with headcount. Can justify A1/B1." },
+    { "source_id": "SRC-WARN-CA", "name": "California EDD WARN portal", "class": "GOV_LEGAL", "home_url": "https://edd.ca.gov/en/jobs_and_training/layoff_services_warn/", "access": "manual_read", "notes": "State WARN filings. Public record; often precede announcements." },
+    { "source_id": "SRC-WARN-TX", "name": "Texas Workforce Commission WARN", "class": "GOV_LEGAL", "home_url": "https://www.twc.texas.gov/", "access": "manual_read", "notes": "State WARN filings." },
+    { "source_id": "SRC-SNAP-PR", "name": "Snap Inc. — official statement / earnings call", "class": "PRIMARY_FIRM", "home_url": "https://investor.snap.com/", "access": "manual_read", "notes": "Primary firm attribution. Can justify A1/B1." },
+    { "source_id": "SRC-CITI-PR", "name": "Citigroup — official statement", "class": "PRIMARY_FIRM", "home_url": "https://www.citigroup.com/global/news", "access": "manual_read", "notes": "Primary firm attribution." },
+    { "source_id": "SRC-DELL-PR", "name": "Dell Technologies — official statement / 10-Q", "class": "PRIMARY_FIRM", "home_url": "https://investors.delltechnologies.com/", "access": "manual_read", "notes": "Primary firm." },
+    { "source_id": "SRC-AMZN-PR", "name": "Amazon — official statement", "class": "PRIMARY_FIRM", "home_url": "https://www.aboutamazon.com/news", "access": "manual_read", "notes": "Primary firm." },
+    { "source_id": "SRC-META-PR", "name": "Meta — official statement", "class": "PRIMARY_FIRM", "home_url": "https://about.fb.com/news/", "access": "manual_read", "notes": "Primary firm." },
+    { "source_id": "SRC-KLARNA-PR", "name": "Klarna — CEO public statement", "class": "PRIMARY_FIRM", "home_url": "https://www.klarna.com/international/press/", "access": "manual_read", "notes": "Primary firm." },
+    { "source_id": "SRC-CHALLENGER", "name": "Challenger, Gray & Christmas — Job Cut Report", "class": "OUTPLACEMENT_ANALYTICS", "home_url": "https://www.challengergray.com/blog/", "access": "manual_read", "notes": "Announced/cited cuts. Tracks AI as a stated reason since 2023. A2; B-tier <= B2 unless quoting the firm. Enters via Phase-1 manifest (no clean API)." },
+    { "source_id": "SRC-LAYOFFSFYI", "name": "Layoffs.fyi (Roger Lee)", "class": "OUTPLACEMENT_ANALYTICS", "home_url": "https://layoffs.fyi/", "access": "manual_read", "notes": "Tech/startup aggregator. A2; B-tier <= B2. Free with attribution. Enters via Phase-1 manifest." },
+    { "source_id": "SRC-WIRE-REUT", "name": "Reuters", "class": "WIRE_PRESS", "home_url": "https://www.reuters.com/", "access": "manual_read", "notes": "A2; B-tier <= B3 unless quoting a primary attribution." },
+    { "source_id": "SRC-WIRE-BBG", "name": "Bloomberg", "class": "WIRE_PRESS", "home_url": "https://www.bloomberg.com/", "access": "manual_read", "notes": "A2; B-tier <= B3 unless quoting a primary attribution." },
+    { "source_id": "SRC-SOCIAL", "name": "Anonymous social post / unverified memo", "class": "SOCIAL_RUMOR", "home_url": null, "access": "manual_read", "notes": "A3; B3 only. Captured but heavily discounted." }
+  ]
+}

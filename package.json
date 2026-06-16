@@ -1,0 +1,15 @@
+{
+  "name": "labormarket-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dual-agent labor-intelligence dashboard. Test tooling only — the site itself is plain static HTML/CSS/JS + JSON with no build step.",
+  "scripts": {
+    "test:render": "node tests/dom_smoke.mjs",
+    "test:browser": "node tests/screenshots.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0",
+    "playwright": "^1.44.0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labormarket.ai/schemas/sources.schema.json",
+  "title": "Source Registry",
+  "description": "Every source carries a reliability class that CAPS the tiers it can justify (seed.md §6). A source cannot push an event above the confidence its class warrants.",
+  "type": "object",
+  "required": ["meta", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": { "type": "object", "additionalProperties": true },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "name", "class", "access"],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": { "type": "string", "pattern": "^SRC-" },
+          "name": { "type": "string", "minLength": 1 },
+          "class": {
+            "type": "string",
+            "enum": ["GOV_LEGAL", "PRIMARY_FIRM", "OUTPLACEMENT_ANALYTICS", "WIRE_PRESS", "SOCIAL_RUMOR"]
+          },
+          "home_url": { "type": ["string", "null"], "format": "uri" },
+          "access": { "type": "string", "enum": ["api", "scrape", "manual_read"] },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

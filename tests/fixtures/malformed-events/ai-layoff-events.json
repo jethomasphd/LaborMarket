@@ -1,0 +1,40 @@
+{
+  "meta": { "schema_version": "1.0", "description": "DELIBERATELY MALFORMED fixtures for the hard gate. validate.py MUST refuse these." },
+  "events": [
+    {
+      "event_id": "LM-9001",
+      "date_announced": "2026-05-01",
+      "company": "Headline-Only Corp",
+      "sector": "Technology",
+      "headcount": 500,
+      "headcount_basis": "press_estimate",
+      "event_confidence": "A2",
+      "ai_attribution": "B1",
+      "ai_attribution_rationale": "A news headline said the cuts were because of AI.",
+      "stated_reasons": ["AI/automation"],
+      "sources": [
+        { "source_id": "SRC-HEADLINE", "type": "headline", "url": "https://example.com/ai-took-the-jobs", "retrieved": "2026-05-02", "claim": "Headline frames cuts as AI-driven." }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-TEST"
+    },
+    {
+      "event_id": "LM-9002",
+      "date_announced": "2026-05-03",
+      "company": "Averaged Discrepancy Inc.",
+      "sector": "Technology",
+      "headcount": 1500,
+      "headcount_basis": "press_estimate",
+      "event_confidence": "A1",
+      "ai_attribution": "B0",
+      "ai_attribution_rationale": null,
+      "stated_reasons": ["restructuring"],
+      "sources": [
+        { "source_id": "SRC-CO-A", "type": "company_statement", "url": "https://example.com/a", "retrieved": "2026-05-03", "claim": "Company A figure", "headcount": 1000 },
+        { "source_id": "SRC-CO-B", "type": "wire", "url": "https://example.com/b", "retrieved": "2026-05-03", "claim": "Press B figure", "headcount": 2000 }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-TEST"
+    }
+  ]
+}
