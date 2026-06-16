@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "description": "Core event-level ledger. Two orthogonal axes: A = did it happen (A1/A2/A3); B = is AI the cause (B1/B2/B3/B0). NEVER collapsed. Seed fixtures grounded in seed.md §2.3 named events; figures are illustrative starting points to be corroborated/replaced by Phase-1 research manifests. Source URLs point to issuer domains; exact filing/article URLs are added during Phase-1 ingestion.",
+    "last_manifest": "MAN-2026-06-15-seed",
+    "generated": "2026-06-15"
+  },
+  "events": [
+    {
+      "event_id": "LM-0001",
+      "date_announced": "2026-05-12",
+      "date_effective": "2026-07-31",
+      "company": "Snap Inc.",
+      "ticker": "SNAP",
+      "sector": "Technology",
+      "naics_code": "5132",
+      "geography": { "country": "US", "locations": ["Santa Monica, CA", "Remote"] },
+      "headcount": 1000,
+      "headcount_basis": "company_statement",
+      "pct_workforce": 0.10,
+      "event_confidence": "A1",
+      "ai_attribution": "B1",
+      "ai_attribution_rationale": "CEO statement explicitly cites AI/automation reducing repetitive engineering and support tasks as a direct reason for the reduction.",
+      "stated_reasons": ["AI/automation", "restructuring"],
+      "sources": [
+        { "source_id": "SRC-SNAP-PR", "type": "company_statement", "url": "https://investor.snap.com/", "retrieved": "2026-05-13", "claim": "~1,000 roles eliminated; CEO attributes to AI-driven efficiency.", "headcount": 1000, "carries_ai_attribution": true }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0002",
+      "date_announced": "2026-02-10",
+      "date_effective": null,
+      "company": "Dell Technologies",
+      "ticker": "DELL",
+      "sector": "Technology",
+      "naics_code": "3341",
+      "geography": { "country": "US", "locations": ["Round Rock, TX"] },
+      "headcount": 11000,
+      "headcount_basis": "company_statement",
+      "pct_workforce": 0.10,
+      "event_confidence": "A1",
+      "ai_attribution": "B0",
+      "ai_attribution_rationale": null,
+      "stated_reasons": ["restructuring", "cost discipline", "sales reorganization"],
+      "sources": [
+        { "source_id": "SRC-DELL-PR", "type": "company_statement", "url": "https://investors.delltechnologies.com/", "retrieved": "2026-02-11", "claim": "~11,000 roles (~10% of workforce) cut; reasons cited as restructuring and cost discipline. No AI attribution.", "headcount": 11000, "carries_ai_attribution": false }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0003",
+      "date_announced": "2026-03-18",
+      "date_effective": "2026-06-30",
+      "company": "Citigroup",
+      "ticker": "C",
+      "sector": "Financial Services",
+      "naics_code": "5221",
+      "geography": { "country": "US", "locations": ["New York, NY", "Tampa, FL"] },
+      "headcount": 4200,
+      "headcount_basis": "company_statement",
+      "pct_workforce": null,
+      "event_confidence": "A1",
+      "ai_attribution": "B1",
+      "ai_attribution_rationale": "Firm statement attributes back-office reductions to automation/AI of repetitive operational processes.",
+      "stated_reasons": ["AI/automation", "back-office efficiency"],
+      "sources": [
+        { "source_id": "SRC-CITI-PR", "type": "company_statement", "url": "https://www.citigroup.com/global/news", "retrieved": "2026-03-19", "claim": "~4,200 back-office roles cut; firm cites AI automation.", "headcount": 4200, "carries_ai_attribution": true },
+        { "source_id": "SRC-WIRE-REUT", "type": "wire", "url": "https://www.reuters.com/", "retrieved": "2026-03-19", "claim": "Reports ~4,200 back-office reductions tied to automation.", "headcount": 4200, "carries_ai_attribution": false }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0004",
+      "date_announced": "2026-01-22",
+      "date_effective": null,
+      "company": "Amazon (AWS)",
+      "ticker": "AMZN",
+      "sector": "Technology",
+      "naics_code": "5182",
+      "geography": { "country": "US", "locations": ["Seattle, WA", "Multiple"] },
+      "headcount": 14000,
+      "headcount_basis": "company_statement",
+      "pct_workforce": null,
+      "event_confidence": "A1",
+      "ai_attribution": "B0",
+      "ai_attribution_rationale": null,
+      "stated_reasons": ["overhiring correction", "cost efficiency", "organizational simplification"],
+      "sources": [
+        { "source_id": "SRC-AMZN-PR", "type": "company_statement", "url": "https://www.aboutamazon.com/news", "retrieved": "2026-01-23", "claim": "Company communication cites ~14,000 corporate roles in efficiency-driven reductions; AI not cited as cause.", "headcount": 14000, "carries_ai_attribution": false },
+        { "source_id": "SRC-WIRE-BBG", "type": "wire", "url": "https://www.bloomberg.com/", "retrieved": "2026-01-23", "claim": "Press estimate puts total reductions nearer ~16,000 across org and AWS.", "headcount": 16000, "carries_ai_attribution": false }
+      ],
+      "discrepancy_note": "Conflicting headcounts retained, not reconciled: company statement (SRC-AMZN-PR) = 14,000; press estimate (SRC-WIRE-BBG) = 16,000. Event headcount uses the company-stated figure (higher source class); the press figure is preserved here as the contested alternative. Not averaged.",
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0005",
+      "date_announced": "2026-04-14",
+      "date_effective": null,
+      "company": "Tata Consultancy Services",
+      "ticker": "TCS",
+      "sector": "IT Services",
+      "naics_code": "5415",
+      "geography": { "country": "US", "locations": ["Global (US-affecting)"] },
+      "headcount": 23500,
+      "headcount_basis": "press_estimate",
+      "pct_workforce": 0.02,
+      "event_confidence": "A2",
+      "ai_attribution": "B3",
+      "ai_attribution_rationale": "AI appears only in third-party headline framing. The firm itself attributes the reductions to restructuring and skills-mismatch, not AI — a contested narrative artifact, held at B3.",
+      "stated_reasons": ["restructuring", "skills mismatch"],
+      "sources": [
+        { "source_id": "SRC-WIRE-REUT", "type": "wire", "url": "https://www.reuters.com/", "retrieved": "2026-04-15", "claim": "~23,500 roles affected; headlines frame as AI-driven though firm cites restructuring/skills.", "headcount": 23500, "carries_ai_attribution": false },
+        { "source_id": "SRC-LAYOFFSFYI", "type": "aggregator", "url": "https://layoffs.fyi/", "retrieved": "2026-04-15", "claim": "Tracker logs the reduction; tags AI in narrative summary.", "headcount": 23500, "carries_ai_attribution": false }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0006",
+      "date_announced": "2026-04-05",
+      "date_effective": null,
+      "company": "Oracle",
+      "ticker": "ORCL",
+      "sector": "Technology",
+      "naics_code": "5112",
+      "geography": { "country": "US", "locations": ["Austin, TX", "Multiple"] },
+      "headcount": null,
+      "headcount_basis": "press_estimate",
+      "pct_workforce": null,
+      "event_confidence": "A2",
+      "ai_attribution": "B2",
+      "ai_attribution_rationale": "No explicit firm AI attribution, but concurrent large AI-data-center capex pivot, affected role composition, and sector pattern make displacement a plausible analyst inference. Labeled as inference, not firm claim.",
+      "stated_reasons": ["restructuring", "capital reallocation to AI infrastructure"],
+      "sources": [
+        { "source_id": "SRC-WIRE-BBG", "type": "wire", "url": "https://www.bloomberg.com/", "retrieved": "2026-04-06", "claim": "Reports cuts described as the largest in company history amid a pivot of spend toward AI data centers; count not firmly disclosed.", "headcount": null, "carries_ai_attribution": false }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0007",
+      "date_announced": "2026-03-02",
+      "date_effective": null,
+      "company": "Meta (Reality Labs)",
+      "ticker": "META",
+      "sector": "Technology",
+      "naics_code": "5132",
+      "geography": { "country": "US", "locations": ["Menlo Park, CA"] },
+      "headcount": null,
+      "headcount_basis": "press_estimate",
+      "pct_workforce": 0.10,
+      "event_confidence": "A2",
+      "ai_attribution": "B0",
+      "ai_attribution_rationale": null,
+      "stated_reasons": ["division restructuring", "metaverse spend pullback"],
+      "sources": [
+        { "source_id": "SRC-WIRE-REUT", "type": "wire", "url": "https://www.reuters.com/", "retrieved": "2026-03-03", "claim": "~10% of Reality Labs affected in a VR/AR division restructuring; not attributed to AI.", "headcount": null, "carries_ai_attribution": false }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    },
+    {
+      "event_id": "LM-0008",
+      "date_announced": "2026-05-20",
+      "date_effective": null,
+      "company": "Undisclosed enterprise SaaS (rumored)",
+      "ticker": null,
+      "sector": "Technology",
+      "naics_code": null,
+      "geography": { "country": "US", "locations": ["Unknown"] },
+      "headcount": null,
+      "headcount_basis": "unknown",
+      "pct_workforce": null,
+      "event_confidence": "A3",
+      "ai_attribution": "B3",
+      "ai_attribution_rationale": "AI cause appears only in an unverified single-source social post; company unnamed. Captured for completeness and held at the lowest tiers (A3/B3); excluded from any verified total.",
+      "stated_reasons": ["AI/automation (claimed, unverified)"],
+      "sources": [
+        { "source_id": "SRC-SOCIAL", "type": "social", "url": null, "retrieved": "2026-05-21", "claim": "Anonymous post claims an unnamed SaaS firm cut a support team and blamed AI agents.", "headcount": null, "carries_ai_attribution": false, "note": "Unverified; no corroborating filing or named company." }
+      ],
+      "discrepancy_note": null,
+      "manifest_id": "MAN-2026-06-15-seed"
+    }
+  ]
+}

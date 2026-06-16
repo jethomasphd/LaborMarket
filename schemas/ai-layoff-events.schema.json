@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labormarket.ai/schemas/ai-layoff-events.schema.json",
+  "title": "AI Layoff Events Ledger",
+  "description": "Event-level ledger. Two orthogonal confidence axes (A = did it happen; B = is AI the cause), NEVER collapsed. Structural rules here; cross-record/source-ceiling rules live in scripts/validate.py.",
+  "type": "object",
+  "required": ["meta", "events"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "description": { "type": "string" },
+        "last_manifest": { "type": ["string", "null"] },
+        "generated": { "type": ["string", "null"] }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/event" }
+    }
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "required": [
+        "event_id", "date_announced", "company", "headcount_basis",
+        "event_confidence", "ai_attribution", "stated_reasons", "sources", "manifest_id"
+      ],
+      "additionalProperties": false,
+      "patternProperties": { "^extra_": {} },
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "pattern": "^LM-[0-9]{4,}$",
+          "description": "Sequential, immutable. Never reused."
+        },
+        "date_announced": { "type": "string", "format": "date" },
+        "date_effective": { "type": ["string", "null"], "format": "date" },
+        "company": { "type": "string", "minLength": 1 },
+        "ticker": { "type": ["string", "null"] },
+        "sector": { "type": ["string", "null"], "description": "NAICS-aligned label" },
+        "naics_code": { "type": ["string", "null"] },
+        "geography": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "country": { "type": "string" },
+            "locations": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "headcount": { "type": ["integer", "null"], "minimum": 0 },
+        "headcount_basis": {
+          "type": "string",
+          "enum": ["warn_filing", "sec_filing", "company_statement", "press_estimate", "aggregator", "unknown"]
+        },
+        "pct_workforce": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "event_confidence": { "type": "string", "enum": ["A1", "A2", "A3"] },
+        "ai_attribution": { "type": "string", "enum": ["B1", "B2", "B3", "B0"] },
+        "ai_attribution_rationale": { "type": ["string", "null"] },
+        "stated_reasons": { "type": "array", "items": { "type": "string" } },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_ref" }
+        },
+        "discrepancy_note": { "type": ["string", "null"] },
+        "manifest_id": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "description": "Rule 2: if ai_attribution != B0, ai_attribution_rationale must be a non-empty string.",
+          "if": {
+            "properties": { "ai_attribution": { "enum": ["B1", "B2", "B3"] } },
+            "required": ["ai_attribution"]
+          },
+          "then": {
+            "required": ["ai_attribution_rationale"],
+            "properties": { "ai_attribution_rationale": { "type": "string", "minLength": 1 } }
+          }
+        }
+      ]
+    },
+    "source_ref": {
+      "type": "object",
+      "required": ["source_id", "type", "retrieved", "claim"],
+      "additionalProperties": false,
+      "properties": {
+        "source_id": { "type": "string", "pattern": "^SRC-" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "sec_filing", "warn_filing", "company_statement", "earnings_call", "company_blog",
+            "internal_memo", "outplacement", "aggregator", "wire", "press", "headline",
+            "social", "rumor", "bls", "fred"
+          ]
+        },
+        "url": { "type": ["string", "null"], "format": "uri" },
+        "retrieved": { "type": "string", "format": "date" },
+        "claim": { "type": "string", "minLength": 1 },
+        "headcount": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "The headcount THIS source asserts. Enables discrepancy detection; never average across differing values."
+        },
+        "carries_ai_attribution": {
+          "type": "boolean",
+          "description": "True if this source itself asserts AI/automation as the cause (required somewhere for B1)."
+        },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

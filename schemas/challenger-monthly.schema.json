@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labormarket.ai/schemas/challenger-monthly.schema.json",
+  "title": "Challenger Monthly Job-Cut Announcements (narrative layer)",
+  "description": "Announced/cited cuts — claims, not verified causation. ai_cited_cuts is Challenger's methodology; it feeds the discrepancy panel against our stricter B1-verified total.",
+  "type": "object",
+  "required": ["meta", "months"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "source": { "type": "string" },
+        "source_id": { "type": "string" },
+        "last_update": { "type": ["string", "null"] },
+        "note": { "type": "string" }
+      }
+    },
+    "months": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["month", "total_cuts", "ai_cited_cuts"],
+        "additionalProperties": false,
+        "properties": {
+          "month": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}$" },
+          "total_cuts": { "type": ["integer", "null"], "minimum": 0 },
+          "ai_cited_cuts": { "type": ["integer", "null"], "minimum": 0 },
+          "ai_cited_share": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "top_reasons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["reason", "count"],
+              "additionalProperties": false,
+              "properties": {
+                "reason": { "type": "string" },
+                "count": { "type": ["integer", "null"], "minimum": 0 }
+              }
+            }
+          },
+          "source_ids": { "type": "array", "items": { "type": "string", "pattern": "^SRC-" } },
+          "manifest_id": { "type": "string" }
+        }
+      }
+    }
+  }
+}

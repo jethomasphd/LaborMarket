@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "description": "Provenance trail: every update, dated, with a content hash. Idempotent — re-applying a manifest never appends a duplicate entry.",
+    "schema_version": "1.0"
+  },
+  "manifests": [
+    {
+      "manifest_id": "MAN-2026-06-15-seed",
+      "file": "(initial seed fixtures)",
+      "applied_at": "2026-06-15T00:00:00Z",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "summary": "Initial seed fixtures: 8 events spanning A1/A2/A3 x B0/B1/B2/B3; sources registry; Challenger Jan-May; JOLTS baseline; 2 WARN notices.",
+      "analyst": "J.E. Thomas (seed)",
+      "ops": { "add": 8, "update": 0 },
+      "events_touched": ["LM-0001", "LM-0002", "LM-0003", "LM-0004", "LM-0005", "LM-0006", "LM-0007", "LM-0008"]
+    }
+  ]
+}

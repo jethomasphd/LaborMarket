@@ -46,8 +46,8 @@ Evidence gathered by running real checks in this remote sandbox:
 
 | # | Decision | Status |
 |---|---|---|
-| 1 | **Aggregator ingestion** — does the dashboard scrape Challenger / Layoffs.fyi / WARN live, or do they enter only via Phase-1 manifests (`seed.md` default)? Affects the scaffold (presence of scraper scripts). | **SURFACED — awaiting steer.** Building everything this does *not* affect under the seed.md default (manifest-only). |
-| 2 | **JOLTS series IDs / units** — verify against live API before trusting. | **RESOLVED by verification** (see findings above). Confirming scope (levels vs. +rates/+industry) with Jacob. |
+| 1 | **Aggregator ingestion** — scrape live vs. Phase-1 manifests only. | **DECIDED 2026-06-15 → Manifest-only (seed.md default).** No scrapers. Challenger/Layoffs.fyi/WARN enter via Update Manifests, validated like all data. |
+| 2 | **JOLTS series IDs / units / scope** — verify against live API; choose scope. | **DECIDED 2026-06-15 → Six SA national level series (seed.md §5.3).** IDs+units verified live (findings above). |
 
 ---
 
@@ -55,15 +55,12 @@ Evidence gathered by running real checks in this remote sandbox:
 
 Legend: ☐ not started · ◐ in progress · ☑ gate passed (evidence logged)
 
-- **☐ Step 1 — Scaffold + schemas.** Create tree; JSON Schemas for all data files; seed each data file with a tiny valid fixture (2–3 events spanning tiers).
-  - *Gate:* `python scripts/validate.py` passes on the fixtures.
-  - *Deps:* none.
-- **☐ Step 2 — `fetch_jolts.py`.** BLS v2 POST (`BLS_API_KEY`) with FRED fallback; write `jolts-series.json` with `meta.last_pull`.
-  - *Gate:* a live pull returns ≥24 months for all six series and validates.
-  - *Deps:* Step 1 (schema). Note: prod needs `BLS_API_KEY` for ≥24mo/20yr; keyless v1 returns ~16mo in this sandbox — will document.
-- **☐ Step 3 — `validate.py` (full). [THE HARD GATE]** Enforce all §5.2 rules + §6 source ceilings.
-  - *Gate:* deliberately malformed fixtures (B1 with only a headline source; averaged discrepancy) **FAIL with clear messages** and non-zero exit.
-  - *Deps:* Step 1.
+- **☑ Step 1 — Scaffold + schemas.** Tree created; 9 JSON Schemas (6 core + 3 derived); 8 seed events spanning A1/A2/A3 × B0/B1/B2/B3; sources registry; Challenger Jan–May; WARN ×2.
+  - *Gate:* `python scripts/validate.py` passes on the fixtures. — **PASSED:** `✓ VALIDATION PASSED — 9 schemas … 0 warning(s). EXIT=0`.
+- **☑ Step 2 — `fetch_jolts.py`.** v2(key)→v1(keyless)→FRED fallback chain; rate-vs-level poison guard; `meta.last_pull`.
+  - *Gate:* live pull ≥24 months for all six series + validates. — **PASSED:** keyless BLS v1 pull returned **52 months** for all six series, latest 2026-04, unit=thousands; file validates.
+- **☑ Step 3 — `validate.py` (full). [THE HARD GATE]** Enforces §5.2 rules 1–6 + §6 source-class ceilings + cross-file integrity + JOLTS poison.
+  - *Gate:* malformed fixtures FAIL with clear messages + non-zero exit. — **PASSED:** `tests/fixtures/malformed-events` → `✗ VALIDATION FAILED — 3 error(s)` EXIT=1, refusing (a) B1-from-headline (“headline alone caps at B3”) and (b) averaged discrepancy (“headcount 1500 is the AVERAGE…”, “discrepancy_note is empty”). Locked as regression: `tests/test_validator.py` 9 passed.
 - **☐ Step 4 — `apply_manifest.py` + `build_rollups.py`.** Manifest ingestion, idempotency, hash logging, rollup regeneration.
   - *Gate:* applying `manifests/2026-06-15.md` twice yields identical data and **one** log entry; rollups match a hand-computed expectation in `tests/`.
   - *Deps:* Steps 1, 3.
@@ -91,3 +88,5 @@ Legend: ☐ not started · ◐ in progress · ☑ gate passed (evidence logged)
 ## Change log (append-only)
 
 - **2026-06-15 — Step 0 (orientation).** Read `seed.md` in full; inventoried repo (only `seed.md` present, on branch `claude/confident-feynman-ceqyix`). Probed environment; ran live BLS round-trip verifying all six JOLTS series IDs + units (evidence above). Wrote this BUILD_LOG. Surfaced the two open decisions. Next: await steer on Decision 1, then Step 1 (scaffold + schemas).
+- **2026-06-15 — Decisions resolved.** Jacob chose Manifest-only (Decision 1) and Six SA level series (Decision 2) — both the seed.md defaults. No deviations. Proceeded to build.
+- **2026-06-16 — Steps 1–3 GREEN.** Built schemas + fixtures (Step 1 gate passed), `fetch_jolts.py` + real 52-month JOLTS pull (Step 2 gate passed), and full `validate.py` (Step 3 HARD GATE passed — refuses both canonical lies, non-zero exit). pytest `tests/test_validator.py`: 9 passed. requirements.txt + .gitignore added. Next: Step 4 (`apply_manifest.py` + `build_rollups.py`).

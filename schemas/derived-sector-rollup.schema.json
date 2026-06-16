@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labormarket.ai/schemas/derived-sector-rollup.schema.json",
+  "title": "Derived — Sector Rollup",
+  "description": "Auto-generated. Event counts and headcount by sector, broken out by B-tier (never collapsed).",
+  "type": "object",
+  "required": ["meta", "sectors"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": { "type": "object", "additionalProperties": true },
+    "sectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sector", "event_count", "total_headcount", "by_b_tier"],
+        "additionalProperties": false,
+        "properties": {
+          "sector": { "type": "string" },
+          "event_count": { "type": "integer", "minimum": 0 },
+          "total_headcount": { "type": "integer", "minimum": 0 },
+          "by_b_tier": {
+            "type": "object",
+            "required": ["B1", "B2", "B3", "B0"],
+            "additionalProperties": false,
+            "properties": {
+              "B1": { "type": "integer", "minimum": 0 },
+              "B2": { "type": "integer", "minimum": 0 },
+              "B3": { "type": "integer", "minimum": 0 },
+              "B0": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

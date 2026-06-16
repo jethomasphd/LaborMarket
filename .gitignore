@@ -1,0 +1,16 @@
+# Secrets — never commit keys (seed.md §11)
+.env
+.env.*
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+*.swp
+node_modules/
