@@ -13,9 +13,10 @@
 
   <link rel="stylesheet" href="assets/css/watchtower.css" />
 
-  <!-- Charts: Chart.js (time series + stacked) and D3 (discrepancy divergence). Pinned, deferred. -->
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+  <!-- Charts: Chart.js (time series + stacked) and D3 (discrepancy divergence).
+       Vendored locally for a fully self-contained site (no runtime CDN dependency). -->
+  <script defer src="assets/vendor/chart.umd.min.js"></script>
+  <script defer src="assets/vendor/d3.min.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#view">Skip to content</a>

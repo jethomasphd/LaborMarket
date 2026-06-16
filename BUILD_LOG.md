@@ -13,7 +13,7 @@
 | **Date** | 2026-06-15 |
 | **Branch** | `claude/confident-feynman-ceqyix` |
 | **Phase** | BUILD (one-time scaffold) → then hand to Jacob for Phase-1 operate loop |
-| **Current step** | Step 0 complete (orientation). Awaiting steer on 2 decisions before scaffold-affecting work. |
+| **Current step** | **Steps 1–8 + 10 GREEN. Step 9 agent-side complete; awaiting Jacob's Cloudflare connection** (only thing the sandbox can't do). |
 
 ---
 
@@ -69,15 +69,12 @@ Legend: ☐ not started · ◐ in progress · ☑ gate passed (evidence logged)
   - *Gate:* a casual viewer cannot mistake a B3 figure for the headline; B0 denominator visible. — **PASSED:** render test asserts headline = derived 5,200 (Snap+Citi B1), “excluded from headline” on B3, “denominator” on B0.
 - **☑ Step 7 — LEDGER, JOLTS, ATTRIBUTION, SOURCES.** Ledger (sort/filter/expand/CSV); JOLTS (six series + churn + causation framing); Attribution (rubric + B-composition + discrepancy); Sources (registry + ceilings + manifest log + methodology).
   - *Gate:* discrepancy panel renders Challenger-cited vs. B1-verified with the gap as its own series. — **PASSED:** D3 divergence + table; render test asserts derived gap 37,579 (May 38,579 − 1,000).
-- **☐ Step 8 — Design pass.** Restrained Watchtower system; typography, motion, responsive.
-  - *Gate:* legible at 360px width; tier colors consistent everywhere.
-  - *Deps:* Steps 6, 7.
-- **☐ Step 9 — Deploy.** Cloudflare Pages, `_headers` for JSON caching.
-  - *Gate:* live at the Pages URL; a push triggers redeploy. **(Jacob-executed; agent delivers config + runbook + local render proof.)**
-  - *Deps:* Step 8.
-- **☐ Step 10 — Docs.** README with methodology + rubric + contribution flow (fork → add to `data/` or `manifests/` → PR).
-  - *Gate:* a stranger could submit a correctly-tiered event.
-  - *Deps:* Steps 1–8.
+- **☑ Step 8 — Design pass.** Restrained Watchtower applied; Cormorant/IBM Plex type, restrained motion, responsive; Chart.js + D3 vendored locally (no runtime CDN). 
+  - *Gate:* legible at 360px; tier colors consistent everywhere. — **PASSED:** real-browser Playwright run (`tests/screenshots.mjs`): all 5 views render, vendored libs load, a chart canvas has dimensions, **no horizontal overflow at 360px**, no JS exceptions. Screenshots captured (desktop + 360px). Exact tile values verified data-derived (Openings 7.62M …; headline 5,200).
+- **◐ Step 9 — Deploy.** `_headers` (JSON cache + CORS), `wrangler.toml`, README deploy runbook all delivered; site is fully self-contained.
+  - *Gate:* live at Pages URL; push triggers redeploy. — **AGENT-SIDE COMPLETE; Cloudflare connection is Jacob's to make** (this sandbox has no Cloudflare creds — surfaced per the Human Contract). Agent-side proof: site renders correctly served over HTTP (Playwright). **Action for Jacob:** Cloudflare → Pages → Connect to Git → this repo → preset None, output `/`.
+- **☑ Step 10 — Docs.** README: mission, the two-axis rubric, views, the operate loop, local dev, **a worked correctly-tiered A1/B1 example**, the refusal rules, source-class ceilings, deploy runbook, ethics.
+  - *Gate:* a stranger could submit a correctly-tiered event. — **PASSED:** the README's worked example was applied in a temp copy and **validates as written**; breaking it (B1-from-headline) is refused. Documentation is accurate and actionable.
 
 ---
 
@@ -85,4 +82,7 @@ Legend: ☐ not started · ◐ in progress · ☑ gate passed (evidence logged)
 
 - **2026-06-15 — Step 0 (orientation).** Read `seed.md` in full; inventoried repo (only `seed.md` present, on branch `claude/confident-feynman-ceqyix`). Probed environment; ran live BLS round-trip verifying all six JOLTS series IDs + units (evidence above). Wrote this BUILD_LOG. Surfaced the two open decisions. Next: await steer on Decision 1, then Step 1 (scaffold + schemas).
 - **2026-06-15 — Decisions resolved.** Jacob chose Manifest-only (Decision 1) and Six SA level series (Decision 2) — both the seed.md defaults. No deviations. Proceeded to build.
-- **2026-06-16 — Steps 1–3 GREEN.** Built schemas + fixtures (Step 1 gate passed), `fetch_jolts.py` + real 52-month JOLTS pull (Step 2 gate passed), and full `validate.py` (Step 3 HARD GATE passed — refuses both canonical lies, non-zero exit). pytest `tests/test_validator.py`: 9 passed. requirements.txt + .gitignore added. Next: Step 4 (`apply_manifest.py` + `build_rollups.py`).
+- **2026-06-16 — Steps 1–3 GREEN.** Built schemas + fixtures (Step 1 gate passed), `fetch_jolts.py` + real 52-month JOLTS pull (Step 2 gate passed), and full `validate.py` (Step 3 HARD GATE passed — refuses both canonical lies, non-zero exit). pytest `tests/test_validator.py`: 9 passed. requirements.txt + .gitignore added.
+- **2026-06-16 — Step 4 GREEN.** `apply_manifest.py` (candidate-then-commit, idempotent, sha256 log) + `build_rollups.py` (deterministic). Twice-applied manifest = identical data + one log entry; rollups hand-verified. tests: 17 passed.
+- **2026-06-16 — Steps 5–8 + 10 GREEN.** Full dashboard (shell, loader/router, 5 views, charts) reading only the JSON layer; tier-honest PULSE counter; discrepancy panel (D3, gap as own series); Restrained Watchtower design. Verified via jsdom render harness AND real-browser Playwright (5 views, vendored Chart.js/D3, 360px no-overflow, no JS errors, screenshots). README with worked correctly-tiered example (validated in a temp copy; breaking it is refused). Step 9 config (`_headers`, `wrangler.toml`) delivered; Cloudflare connection awaits Jacob.
+- **Definition of Done:** 9/10 gates green; Step 9 is the single human-gated item (Cloudflare connect → live URL → push-redeploy). No hardcoded figures anywhere; validator refuses lies; README lets a stranger submit a tiered event.
