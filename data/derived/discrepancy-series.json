@@ -7,38 +7,38 @@
   "months": [
     {
       "month": "2026-01",
-      "challenger_ai_cited": 3486,
-      "lm_b1_verified": 0,
-      "lm_b1_event_count": 0,
-      "gap": 3486
+      "challenger_ai_cited": 7624,
+      "lm_b1_verified": 780,
+      "lm_b1_event_count": 1,
+      "gap": 6844
     },
     {
       "month": "2026-02",
-      "challenger_ai_cited": 6208,
-      "lm_b1_verified": 0,
-      "lm_b1_event_count": 0,
-      "gap": 6208
+      "challenger_ai_cited": 4680,
+      "lm_b1_verified": 4000,
+      "lm_b1_event_count": 1,
+      "gap": 680
     },
     {
       "month": "2026-03",
-      "challenger_ai_cited": 19750,
-      "lm_b1_verified": 4200,
+      "challenger_ai_cited": 15341,
+      "lm_b1_verified": 1600,
       "lm_b1_event_count": 1,
-      "gap": 15550
+      "gap": 13741
     },
     {
       "month": "2026-04",
-      "challenger_ai_cited": 19691,
-      "lm_b1_verified": 0,
-      "lm_b1_event_count": 0,
-      "gap": 19691
+      "challenger_ai_cited": 21490,
+      "lm_b1_verified": 1000,
+      "lm_b1_event_count": 1,
+      "gap": 20490
     },
     {
       "month": "2026-05",
       "challenger_ai_cited": 38579,
-      "lm_b1_verified": 1000,
-      "lm_b1_event_count": 1,
-      "gap": 37579
+      "lm_b1_verified": 2700,
+      "lm_b1_event_count": 3,
+      "gap": 35879
     }
   ]
 }

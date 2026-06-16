@@ -7,9 +7,18 @@
 **Audit date:** 2026-06-16 · **Auditor:** Phase-2 agent · **Method:** live BLS API call + live reads of
 the Challenger reports on challengergray.com (see Sources).
 
+> ## ✅ RESOLVED 2026-06-16 — first real research pass applied (`manifests/2026-06-16.md`)
+> The illustrative seed was replaced wholesale. Challenger Jan–May corrected to the actual published
+> figures (YTD reconciles exactly: 397,755 total / 87,714 AI). **19 real, primary-sourced 2026 events**
+> tiered conservatively (B1:7 firm-cited-AI · B2:5 inference · B3:1 headlines-only · B0:6 not-AI), via 3
+> parallel research agents with seam-verification of the flagship B1s (Snap, Cloudflare re-fetched).
+> `provenance` flipped to `researched`; the UI seed banner cleared. **B-tiers are a Phase-1 draft flagged
+> for Jacob's review** (see the manifest's Provenance section). The audit below is retained as the record
+> of *why* the pass was needed.
+
 ---
 
-## Verdict in one line
+## Verdict (pre-pass, 2026-06-16) — now resolved above
 **JOLTS is real and current. The claim layer (Challenger) is reconstructed and materially wrong. The
 event ledger is an illustrative seed, not researched data.** Until the first real Phase-1 pass runs, the
 dashboard's flagship "confirmed by the company" number is a placeholder and must be labeled as such.

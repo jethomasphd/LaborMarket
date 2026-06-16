@@ -1,36 +1,9 @@
 {
   "meta": {
-    "source": "State WARN portals (aggregated via Phase-1 manifests)",
-    "last_update": "2026-06-15",
-    "provenance": "seed_illustrative",
-    "note": "WARN = Worker Adjustment and Retraining Notification Act. Employers with 100+ employees must give 60 days' notice for mass layoffs (50+). A1-eligible corroboration. Threshold-limited, state-uneven, timing-variable — NOT a count of all layoffs."
+    "source": "State WARN portals",
+    "last_update": "2026-06-16",
+    "provenance": "researched",
+    "note": "WARN corroboration not yet ingested in this pass; sweep weekly."
   },
-  "notices": [
-    {
-      "warn_id": "CA-2026-04812",
-      "state": "CA",
-      "company": "Snap Inc.",
-      "date_filed": "2026-05-10",
-      "date_effective": "2026-07-31",
-      "employees_affected": 1000,
-      "location": "Santa Monica, CA",
-      "source_url": "https://edd.ca.gov/en/jobs_and_training/layoff_services_warn/",
-      "linked_event_id": "LM-0001",
-      "source_id": "SRC-WARN-CA",
-      "notes": "Corroborates LM-0001 headcount."
-    },
-    {
-      "warn_id": "TX-2026-01190",
-      "state": "TX",
-      "company": "Dell Technologies",
-      "date_filed": "2026-02-05",
-      "date_effective": "2026-04-06",
-      "employees_affected": 3200,
-      "location": "Round Rock, TX",
-      "source_url": "https://www.twc.texas.gov/",
-      "linked_event_id": "LM-0002",
-      "source_id": "SRC-WARN-TX",
-      "notes": "Partial TX-only corroboration of the broader LM-0002 reduction (national total larger)."
-    }
-  ]
+  "notices": []
 }

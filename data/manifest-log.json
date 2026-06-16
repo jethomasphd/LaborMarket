@@ -1,18 +1,56 @@
 {
   "meta": {
-    "description": "Provenance trail: every update, dated, with a content hash. Idempotent — re-applying a manifest never appends a duplicate entry.",
+    "description": "Provenance trail.",
     "schema_version": "1.0"
   },
   "manifests": [
     {
       "manifest_id": "MAN-2026-06-15-seed",
-      "file": "(initial seed fixtures)",
+      "file": "(initial ILLUSTRATIVE seed — replaced 2026-06-16 by the first real research pass)",
       "applied_at": "2026-06-15T00:00:00Z",
       "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-      "summary": "Initial seed fixtures: 8 events spanning A1/A2/A3 x B0/B1/B2/B3; sources registry; Challenger Jan-May; JOLTS baseline; 2 WARN notices.",
+      "summary": "Illustrative seed fixtures; since fully replaced.",
       "analyst": "J.E. Thomas (seed)",
-      "ops": { "add": 8, "update": 0 },
-      "events_touched": ["LM-0001", "LM-0002", "LM-0003", "LM-0004", "LM-0005", "LM-0006", "LM-0007", "LM-0008"]
+      "ops": {
+        "add": 0,
+        "update": 0
+      },
+      "events_touched": []
+    },
+    {
+      "manifest_id": "MAN-2026-06-16",
+      "file": "manifests/2026-06-16.md",
+      "applied_at": "2026-06-16T12:27:28Z",
+      "sha256": "e36221fdddaf79191f567a79490af9b7772481d01b8f7ed10bf79f58f2fba9f7",
+      "summary": "FIRST REAL RESEARCH PASS — replaces the illustrative seed entirely. Corrects the Challenger claim layer with the actual published Jan-May 2026 figures (YTD reconciles exactly: 397,755 total / 87,714 AI). Adds 19 real, primary-sourced 2026 layoff events tiered conservatively: 7 B1 (firm itself cited AI; 5 clean + 2 mixed-cause), 5 B2 (structural inference), 1 B3 (headlines-only), 6 B0 (not AI). Flips data provenance to 'researched'. Every B-tier is flagged for human review; see Provenance.",
+      "analyst": "Phase-1 agent (Claude), 3 parallel research agents + seam-verification of flagship B1s.",
+      "ops": {
+        "add": 19,
+        "update": 0,
+        "challenger_upsert": 5,
+        "source_add": 16
+      },
+      "events_touched": [
+        "LM-0001",
+        "LM-0002",
+        "LM-0003",
+        "LM-0004",
+        "LM-0005",
+        "LM-0006",
+        "LM-0007",
+        "LM-0008",
+        "LM-0009",
+        "LM-0010",
+        "LM-0011",
+        "LM-0012",
+        "LM-0013",
+        "LM-0014",
+        "LM-0015",
+        "LM-0016",
+        "LM-0017",
+        "LM-0018",
+        "LM-0019"
+      ]
     }
   ]
 }

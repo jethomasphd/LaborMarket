@@ -1,0 +1,10 @@
+{
+  "meta": { "schema_version": "1.0", "description": "fixture base", "provenance": "researched" },
+  "events": [
+    { "event_id": "LM-0001", "date_announced": "2026-01-10", "company": "Base Co", "sector": "Technology",
+      "headcount": 100, "headcount_basis": "company_statement", "event_confidence": "A1", "ai_attribution": "B0",
+      "ai_attribution_rationale": null, "stated_reasons": ["restructuring"],
+      "sources": [ { "source_id": "SRC-CO", "type": "company_statement", "url": "https://e.com", "retrieved": "2026-01-10", "claim": "100 roles", "headcount": 100 } ],
+      "discrepancy_note": null, "manifest_id": "MAN-BASE" }
+  ]
+}
