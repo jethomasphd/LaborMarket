@@ -3,7 +3,8 @@
     "schema_version": "1.0",
     "description": "Core event-level ledger. Two orthogonal axes: A = did it happen (A1/A2/A3); B = is AI the cause (B1/B2/B3/B0). NEVER collapsed. Seed fixtures grounded in seed.md §2.3 named events; figures are illustrative starting points to be corroborated/replaced by Phase-1 research manifests. Source URLs point to issuer domains; exact filing/article URLs are added during Phase-1 ingestion.",
     "last_manifest": "MAN-2026-06-15-seed",
-    "generated": "2026-06-15"
+    "generated": "2026-06-15",
+    "provenance": "seed_illustrative"
   },
   "events": [
     {

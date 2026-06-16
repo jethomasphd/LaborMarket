@@ -3,7 +3,8 @@
     "source": "Challenger, Gray & Christmas — Job Cut Announcement Report",
     "source_id": "SRC-CHALLENGER",
     "last_update": "2026-06-15",
-    "note": "Narrative layer: ANNOUNCED/CITED cuts (claims, not verified causation). Monthly splits reconstructed to match seed.md §2.2 published anchors (May AI-cited ≈ 38,579; YTD-through-May AI-cited ≈ 87,714; AI-cited share trajectory 7% → 10% → 25% → 26% → 40%). To be replaced by Phase-1 ingestion of the actual Challenger releases. ai_cited_cuts feeds the discrepancy panel against our stricter B1-verified total — the GAP is the measurement, not an error."
+    "provenance": "seed_illustrative",
+    "note": "Narrative layer: ANNOUNCED/CITED cuts (claims, not verified causation). Monthly splits RECONSTRUCTED to seed.md anchors and shown to MATERIALLY DIFFER from the actual published figures (see ops/DATA_AUDIT.md). To be replaced by Phase-1 ingestion of the real Challenger releases via challenger_upsert ops. ai_cited_cuts feeds the discrepancy panel against our stricter confirmed-by-company total — the GAP is the measurement, not an error."
   },
   "months": [
     { "month": "2026-01", "total_cuts": 49795, "ai_cited_cuts": 3486, "ai_cited_share": 0.07, "top_reasons": [ { "reason": "Cost-Cutting", "count": 16800 }, { "reason": "Market/Demand Conditions", "count": 11200 }, { "reason": "AI/Technological Update", "count": 3486 }, { "reason": "Restructuring", "count": 9000 } ], "source_ids": ["SRC-CHALLENGER"], "manifest_id": "MAN-2026-06-15-seed" },

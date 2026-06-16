@@ -2,6 +2,7 @@
   "meta": {
     "source": "State WARN portals (aggregated via Phase-1 manifests)",
     "last_update": "2026-06-15",
+    "provenance": "seed_illustrative",
     "note": "WARN = Worker Adjustment and Retraining Notification Act. Employers with 100+ employees must give 60 days' notice for mass layoffs (50+). A1-eligible corroboration. Threshold-limited, state-uneven, timing-variable — NOT a count of all layoffs."
   },
   "notices": [

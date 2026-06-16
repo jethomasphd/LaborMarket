@@ -56,7 +56,47 @@ def test_log_records_hash(tmp_path):
     apply_manifest.run(MANIFEST, data, SCHEMAS)
     entry = [m for m in _log(data) if m["manifest_id"] == "MAN-2026-06-15"][0]
     assert len(entry["sha256"]) == 64
-    assert entry["ops"] == {"add": 2, "update": 1}
+    assert entry["ops"]["add"] == 2 and entry["ops"]["update"] == 1
+
+
+WEEKLY_MANIFEST = '''# Update Manifest — 2026-06-22
+## Summary
+Weekly manifest exercising challenger_upsert + source_add + event add.
+## Challenger
+```json
+[ {"op":"challenger_upsert","month":"2026-02","total_cuts":48307,"ai_cited_cuts":4831,"ai_cited_share":0.10,"source_ids":["SRC-CHALLENGER"]} ]
+```
+## Sources
+```json
+[ {"op":"source_add","source":{"source_id":"SRC-TEST-PR","name":"Test Co PR","class":"PRIMARY_FIRM","home_url":"https://e.com","access":"manual_read"}} ]
+```
+## New Events
+```json
+[ {"op":"add","event":{"event_id":"LM-0011","date_announced":"2026-06-20","company":"Test Co","sector":"Technology","headcount":100,"headcount_basis":"company_statement","event_confidence":"A1","ai_attribution":"B0","ai_attribution_rationale":null,"stated_reasons":["restructuring"],"sources":[{"source_id":"SRC-TEST-PR","type":"company_statement","url":"https://e.com","retrieved":"2026-06-20","claim":"100 roles","headcount":100}],"discrepancy_note":null}} ]
+```
+## Provenance
+- Analyst: test
+'''
+
+
+def test_weekly_ops_apply_and_idempotent(tmp_path):
+    data = _seed_data(tmp_path)
+    man = tmp_path / "2026-06-22.md"
+    man.write_text(WEEKLY_MANIFEST)
+
+    assert apply_manifest.run(str(man), data, SCHEMAS) == 0
+    ch = json.load(open(pathlib.Path(data) / "challenger-monthly.json"))["months"]
+    feb = [m for m in ch if m["month"] == "2026-02"][0]
+    assert feb["total_cuts"] == 48307 and feb["ai_cited_cuts"] == 4831      # challenger corrected
+    srcs = {s["source_id"] for s in json.load(open(pathlib.Path(data) / "sources.json"))["sources"]}
+    assert "SRC-TEST-PR" in srcs                                            # source registered
+    assert "LM-0011" in [e["event_id"] for e in _events(data)]             # event added
+
+    # idempotent re-apply: identical data + one log entry
+    before = pathlib.Path(data, "challenger-monthly.json").read_text()
+    assert apply_manifest.run(str(man), data, SCHEMAS) == 0
+    assert pathlib.Path(data, "challenger-monthly.json").read_text() == before
+    assert [m["manifest_id"] for m in _log(data)].count("MAN-2026-06-22") == 1
 
 
 def test_malformed_manifest_applies_nothing(tmp_path):
