@@ -6,20 +6,20 @@
   },
   "sectors": [
     {
-      "sector": "Technology",
-      "event_count": 6,
-      "total_headcount": 26000,
+      "sector": "Logistics — transport",
+      "event_count": 1,
+      "total_headcount": 30000,
       "by_b_tier": {
-        "B1": 1,
-        "B2": 1,
-        "B3": 1,
-        "B0": 3
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
       }
     },
     {
-      "sector": "IT Services",
+      "sector": "Technology — e-commerce/cloud",
       "event_count": 1,
-      "total_headcount": 23500,
+      "total_headcount": 16000,
       "by_b_tier": {
         "B1": 0,
         "B2": 0,
@@ -28,12 +28,166 @@
       }
     },
     {
-      "sector": "Financial Services",
+      "sector": "Retail — consumer/beauty",
       "event_count": 1,
-      "total_headcount": 4200,
+      "total_headcount": 9000,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — social media",
+      "event_count": 2,
+      "total_headcount": 9000,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Manufacturing — chemicals",
+      "event_count": 1,
+      "total_headcount": 4500,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — fintech/payments",
+      "event_count": 1,
+      "total_headcount": 4000,
       "by_b_tier": {
         "B1": 1,
         "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — semiconductors",
+      "event_count": 1,
+      "total_headcount": 3800,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — enterprise software",
+      "event_count": 2,
+      "total_headcount": 2600,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Manufacturing — automotive",
+      "event_count": 1,
+      "total_headcount": 1740,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Retail — apparel",
+      "event_count": 1,
+      "total_headcount": 1400,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Media — entertainment",
+      "event_count": 1,
+      "total_headcount": 1000,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — internet infrastructure",
+      "event_count": 1,
+      "total_headcount": 1000,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — web/SaaS",
+      "event_count": 1,
+      "total_headcount": 1000,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — social/advertising",
+      "event_count": 1,
+      "total_headcount": 780,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — crypto/fintech",
+      "event_count": 1,
+      "total_headcount": 700,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Media — news",
+      "event_count": 1,
+      "total_headcount": 300,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — software/cloud",
+      "event_count": 1,
+      "total_headcount": 0,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 1,
         "B3": 0,
         "B0": 0
       }

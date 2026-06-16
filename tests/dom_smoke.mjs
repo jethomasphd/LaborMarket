@@ -41,14 +41,24 @@ async function renderView(rel, fnName) {
   return mount;
 }
 
+const fmt = (n) => n.toLocaleString("en-US");
+// Expected values computed FROM the data, so this stays valid as the data changes weekly.
+const dmonths = state.data.discrepancy.months.filter((m) => m.challenger_ai_cited != null);
+const lastM = dmonths[dmonths.length - 1];
+const b1total = state.data.events.events
+  .filter((e) => e.ai_attribution === "B1" && e.event_confidence !== "A3")
+  .reduce((s, e) => s + (e.headcount || 0), 0);
+const companies = state.data.events.events.map((e) => e.company);
+const nEvents = state.data.events.events.length;
+
 const run = async () => {
-  // PULSE — story-first: claimed (38,579) vs confirmed (5,200 in ledger), gap derived, plain labels
+  // PULSE — story-first: claimed vs confirmed gap + B1 breakdown, all derived from data
   const pulse = await renderView("pulse.js", "renderPulse");
   const pt = pulse.textContent;
   check("pulse renders", pulse.children.length > 0);
-  check("pulse hero shows claimed number", pt.includes("38,579"), "latest challenger_ai_cited from data");
-  check("pulse hero shows derived gap 37,579", pt.includes("37,579"));
-  check("pulse breakdown headline = derived confirmed B1 total 5,200", pt.includes("5,200"), "B1 confirmed headcount from events");
+  check("pulse hero shows derived claimed number", pt.includes(fmt(lastM.challenger_ai_cited)), `${fmt(lastM.challenger_ai_cited)} from data`);
+  check("pulse hero shows derived gap", pt.includes(fmt(lastM.gap)), `gap ${fmt(lastM.gap)}`);
+  check("pulse breakdown headline = derived B1 total", pt.includes(fmt(b1total)), `B1 total ${fmt(b1total)}`);
   check("pulse marks unproven claims as never added", /never added to this number/i.test(pt));
   check("pulse shows the non-AI baseline", /baseline/i.test(pt));
   check("pulse uses plain tier label 'Not about AI'", /Not about AI/i.test(pt));
@@ -56,9 +66,9 @@ const run = async () => {
   // LEDGER — events from data, count, companies
   const ledger = await renderView("ledger.js", "renderLedger");
   const lt = ledger.textContent;
-  check("ledger lists Snap", lt.includes("Snap Inc."));
-  check("ledger lists Citigroup", lt.includes("Citigroup"));
-  check("ledger shows 8-event count", /of 8 events/.test(lt));
+  check("ledger lists first event company", lt.includes(companies[0]), companies[0]);
+  check("ledger lists another event company", lt.includes(companies[1]), companies[1]);
+  check("ledger shows full event count", lt.includes(`of ${nEvents} events`), `${nEvents} events`);
   check("ledger has tier badges", ledger.querySelectorAll(".badge").length > 0);
 
   // JOLTS — measured baseline, openings present, causation framing
@@ -72,7 +82,7 @@ const run = async () => {
   const attr = await renderView("attribution.js", "renderAttribution");
   const at = attr.textContent;
   check("attribution uses plain label 'Company blames AI'", at.includes("Company blames AI"));
-  check("attribution discrepancy gap = derived 37,579", at.includes("37,579"), "gap must be claimed - confirmed");
+  check("attribution discrepancy gap = derived", at.includes(fmt(lastM.gap)), `gap ${fmt(lastM.gap)}`);
   check("attribution has the rubric cards", attr.querySelectorAll(".rubric .card").length >= 7);
 
   // SOURCES — registry + manifest log + ceilings

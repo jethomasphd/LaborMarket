@@ -79,6 +79,18 @@ em { font-style: italic; color: var(--ink); }
 }
 .masthead-meta b { color: var(--ink); font-weight: 600; }
 
+/* Data-status banner — radical transparency when data is an illustrative seed */
+#status-banner {
+  max-width: var(--maxw); margin: .8rem auto 0; padding: .55rem .9rem;
+  background: var(--bg-elev); border: 1px solid var(--hairline); border-left: 3px solid var(--ember);
+  border-radius: 6px; font-size: .8rem; color: var(--ink-muted); line-height: 1.5;
+}
+#status-banner .sb-tag {
+  font-family: var(--mono); font-size: .66rem; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--ember); margin-right: .45rem;
+}
+#status-banner b { color: var(--ink); font-weight: 600; }
+
 /* ---------- Tabs ---------- */
 .tabs {
   max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem;

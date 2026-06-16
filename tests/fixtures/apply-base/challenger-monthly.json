@@ -1,0 +1,2 @@
+{ "meta": { "source": "Challenger", "provenance": "researched" },
+  "months": [ { "month": "2026-01", "total_cuts": 1000, "ai_cited_cuts": 100, "ai_cited_share": 0.10, "source_ids": ["SRC-CHALLENGER"] } ] }

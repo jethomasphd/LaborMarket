@@ -67,10 +67,19 @@ def parse_manifest(path):
             "summary": summary, "analyst": analyst, "ops": ops}
 
 
-def apply_ops(events, ops, manifest_id):
-    """Apply ops to a list of events (mutating a copy). Returns (events, touched, counts)."""
+def apply_ops(docs, ops, manifest_id):
+    """Apply ops to the candidate data docs (mutating in place). Returns (touched, counts).
+
+    docs = {"events": [...], "challenger": [...months], "sources": [...]}
+    Op types: add / update (events) · challenger_upsert (a month) · source_add (registry row).
+    All ops are idempotent so re-applying the same manifest is a no-op.
+    """
+    events, challenger, sources = docs["events"], docs["challenger"], docs["sources"]
     by_id = {e["event_id"]: e for e in events}
-    touched, counts = [], {"add": 0, "update": 0}
+    src_ids = {s["source_id"] for s in sources}
+    ch_by_month = {m["month"]: m for m in challenger}
+    touched = []
+    counts = {"add": 0, "update": 0, "challenger_upsert": 0, "source_add": 0}
 
     for op in ops:
         kind = op.get("op")
@@ -103,9 +112,29 @@ def apply_ops(events, ops, manifest_id):
             counts["update"] += 1
             if eid not in touched:
                 touched.append(eid)
+        elif kind == "source_add":
+            s = json.loads(json.dumps(op["source"]))
+            if s["source_id"] in src_ids:
+                continue  # idempotent — registry is append-only; existing rows are left as-is
+            sources.append(s)
+            src_ids.add(s["source_id"])
+            counts["source_add"] += 1
+        elif kind == "challenger_upsert":
+            row = json.loads(json.dumps({k: v for k, v in op.items() if k != "op"}))
+            month = row["month"]
+            row["manifest_id"] = manifest_id
+            if month in ch_by_month:
+                ch_by_month[month].update(row)
+            else:
+                challenger.append(row)
+                ch_by_month[month] = row
+            counts["challenger_upsert"] += 1
         else:
-            raise SystemExit(f"FATAL: unknown op '{kind}' (expected add|update).")
-    return events, touched, counts
+            raise SystemExit(f"FATAL: unknown op '{kind}' "
+                             f"(expected add|update|challenger_upsert|source_add).")
+
+    challenger.sort(key=lambda m: m["month"])
+    return touched, counts
 
 
 def run(manifest, data_dir="data", schema_dir="schemas"):
@@ -133,9 +162,20 @@ def run(manifest, data_dir="data", schema_dir="schemas"):
     shutil.copytree(data_dir, work)
     try:
         events_doc = _load(os.path.join(work, "ai-layoff-events.json"))
-        events_doc["events"], touched, counts = apply_ops(events_doc["events"], man["ops"], man["manifest_id"])
+        challenger_doc = _load(os.path.join(work, "challenger-monthly.json"))
+        sources_doc = _load(os.path.join(work, "sources.json"))
+        docs = {"events": events_doc["events"], "challenger": challenger_doc["months"],
+                "sources": sources_doc["sources"]}
+
+        touched, counts = apply_ops(docs, man["ops"], man["manifest_id"])
+
+        events_doc["events"] = docs["events"]
         events_doc.setdefault("meta", {})["last_manifest"] = man["manifest_id"]
+        challenger_doc["months"] = docs["challenger"]
+        sources_doc["sources"] = docs["sources"]
         _dump(os.path.join(work, "ai-layoff-events.json"), events_doc)
+        _dump(os.path.join(work, "challenger-monthly.json"), challenger_doc)
+        _dump(os.path.join(work, "sources.json"), sources_doc)
 
         build_rollups.write_rollups(work)
 
@@ -171,7 +211,9 @@ def run(manifest, data_dir="data", schema_dir="schemas"):
         shutil.rmtree(tmp, ignore_errors=True)
 
     print(f"[apply_manifest] ✓ applied {man['manifest_id']}: "
-          f"{counts['add']} add, {counts['update']} update → {touched}. "
+          f"{counts['add']} add, {counts['update']} update, "
+          f"{counts['challenger_upsert']} challenger, {counts['source_add']} source"
+          f"{' → ' + str(touched) if touched else ''}. "
           f"Rollups rebuilt, log appended, validation passed.")
     return 0
 

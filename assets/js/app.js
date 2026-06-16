@@ -1,7 +1,7 @@
 // app.js — view router + data loader. The dashboard reads the JSON layer at runtime.
 // NO figures are hardcoded here or in any view; every number is derived from STATE.
 
-import { el, fmtInt, fmtDate } from "./util.js";
+import { el, fmtInt, fmtDate, fmtMonth } from "./util.js";
 import { renderPulse } from "./pulse.js";
 import { renderLedger } from "./ledger.js";
 import { renderJolts } from "./jolts.js";
@@ -60,6 +60,24 @@ function renderMasthead() {
   );
 }
 
+// Radical transparency: if any data layer is still an illustrative seed, say so plainly.
+function renderStatusBanner() {
+  const evP = STATE.data.events?.meta?.provenance;
+  const chP = STATE.data.challenger?.meta?.provenance;
+  const illustrative = (evP && evP !== "researched") || (chP && chP !== "researched");
+  document.getElementById("status-banner")?.remove();
+  if (!illustrative) return;
+  const obs = STATE.data.jolts?.series?.job_openings?.observations || [];
+  const latest = obs.length ? obs[obs.length - 1].period : null;
+  const banner = el("div", { id: "status-banner", role: "note" },
+    el("span", { class: "sb-tag" }, "Data status"),
+    el("span", {}, " JOLTS is live (BLS, through ", el("b", {}, latest ? fmtMonth(latest) : "—"),
+      "). The layoff ledger and AI-cited figures are an ", el("b", {}, "illustrative seed"),
+      " pending the first research pass — shown to demonstrate the instrument, not yet independently verified. ",
+      el("a", { href: "#/sources" }, "Method →")));
+  document.querySelector(".masthead").after(banner);
+}
+
 function setActiveTab(name) {
   document.querySelectorAll("#tabs a").forEach((a) =>
     a.classList.toggle("active", a.dataset.view === name));
@@ -100,6 +118,7 @@ async function boot() {
   try {
     await loadData();
     renderMasthead();
+    renderStatusBanner();
     window.addEventListener("hashchange", route);
     route();
   } catch (err) {

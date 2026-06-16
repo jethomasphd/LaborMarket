@@ -2,14 +2,158 @@
   "meta": {
     "source": "Challenger, Gray & Christmas — Job Cut Announcement Report",
     "source_id": "SRC-CHALLENGER",
-    "last_update": "2026-06-15",
-    "note": "Narrative layer: ANNOUNCED/CITED cuts (claims, not verified causation). Monthly splits reconstructed to match seed.md §2.2 published anchors (May AI-cited ≈ 38,579; YTD-through-May AI-cited ≈ 87,714; AI-cited share trajectory 7% → 10% → 25% → 26% → 40%). To be replaced by Phase-1 ingestion of the actual Challenger releases. ai_cited_cuts feeds the discrepancy panel against our stricter B1-verified total — the GAP is the measurement, not an error."
+    "last_update": "2026-06-16",
+    "provenance": "researched",
+    "note": "Real published monthly figures (Jan-May 2026), cross-verified; YTD reconciles exactly from the months (total 397,755; AI 87,714). ai_cited_cuts feeds the discrepancy panel vs our stricter confirmed-by-company total."
   },
   "months": [
-    { "month": "2026-01", "total_cuts": 49795, "ai_cited_cuts": 3486, "ai_cited_share": 0.07, "top_reasons": [ { "reason": "Cost-Cutting", "count": 16800 }, { "reason": "Market/Demand Conditions", "count": 11200 }, { "reason": "AI/Technological Update", "count": 3486 }, { "reason": "Restructuring", "count": 9000 } ], "source_ids": ["SRC-CHALLENGER"], "manifest_id": "MAN-2026-06-15-seed" },
-    { "month": "2026-02", "total_cuts": 62075, "ai_cited_cuts": 6208, "ai_cited_share": 0.1, "top_reasons": [ { "reason": "Cost-Cutting", "count": 20100 }, { "reason": "Restructuring", "count": 14500 }, { "reason": "AI/Technological Update", "count": 6208 }, { "reason": "Tariffs/Trade", "count": 5200 } ], "source_ids": ["SRC-CHALLENGER"], "manifest_id": "MAN-2026-06-15-seed" },
-    { "month": "2026-03", "total_cuts": 79000, "ai_cited_cuts": 19750, "ai_cited_share": 0.25, "top_reasons": [ { "reason": "AI/Technological Update", "count": 19750 }, { "reason": "Cost-Cutting", "count": 22000 }, { "reason": "Restructuring", "count": 15000 }, { "reason": "Tariffs/Trade", "count": 8000 } ], "source_ids": ["SRC-CHALLENGER"], "manifest_id": "MAN-2026-06-15-seed" },
-    { "month": "2026-04", "total_cuts": 75650, "ai_cited_cuts": 19691, "ai_cited_share": 0.26, "top_reasons": [ { "reason": "AI/Technological Update", "count": 19691 }, { "reason": "Cost-Cutting", "count": 18500 }, { "reason": "Market/Demand Conditions", "count": 14000 }, { "reason": "Geopolitical (US-Iran)", "count": 6500 } ], "source_ids": ["SRC-CHALLENGER"], "manifest_id": "MAN-2026-06-15-seed" },
-    { "month": "2026-05", "total_cuts": 96448, "ai_cited_cuts": 38579, "ai_cited_share": 0.4, "top_reasons": [ { "reason": "AI/Technological Update", "count": 38579 }, { "reason": "Cost-Cutting", "count": 21000 }, { "reason": "Restructuring", "count": 17800 }, { "reason": "Tariffs/Trade", "count": 9200 } ], "source_ids": ["SRC-CHALLENGER"], "manifest_id": "MAN-2026-06-15-seed" }
+    {
+      "month": "2026-01",
+      "total_cuts": 108435,
+      "ai_cited_cuts": 7624,
+      "ai_cited_share": 0.07,
+      "top_reasons": [
+        {
+          "reason": "Contract Loss (UPS-Amazon)",
+          "count": 30784
+        },
+        {
+          "reason": "Market/Economic",
+          "count": 28392
+        },
+        {
+          "reason": "Restructuring",
+          "count": 20044
+        },
+        {
+          "reason": "Closings",
+          "count": 12738
+        },
+        {
+          "reason": "AI/Technological Update",
+          "count": 7624
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-06-16"
+    },
+    {
+      "month": "2026-02",
+      "total_cuts": 48307,
+      "ai_cited_cuts": 4680,
+      "ai_cited_share": 0.097,
+      "top_reasons": [
+        {
+          "reason": "Closings",
+          "count": 10736
+        },
+        {
+          "reason": "Market/Economic",
+          "count": 10114
+        },
+        {
+          "reason": "Restructuring",
+          "count": 9146
+        },
+        {
+          "reason": "Cost-Cutting",
+          "count": 5636
+        },
+        {
+          "reason": "AI/Technological Update",
+          "count": 4680
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-06-16"
+    },
+    {
+      "month": "2026-03",
+      "total_cuts": 60620,
+      "ai_cited_cuts": 15341,
+      "ai_cited_share": 0.253,
+      "top_reasons": [
+        {
+          "reason": "AI/Technological Update",
+          "count": 15341
+        },
+        {
+          "reason": "Closings",
+          "count": 13931
+        },
+        {
+          "reason": "Restructuring",
+          "count": 8726
+        },
+        {
+          "reason": "Market/Economic",
+          "count": 6597
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-06-16"
+    },
+    {
+      "month": "2026-04",
+      "total_cuts": 83387,
+      "ai_cited_cuts": 21490,
+      "ai_cited_share": 0.258,
+      "top_reasons": [
+        {
+          "reason": "AI/Technological Update",
+          "count": 21490
+        },
+        {
+          "reason": "Closings",
+          "count": 14782
+        },
+        {
+          "reason": "Cost-Cutting",
+          "count": 12912
+        },
+        {
+          "reason": "Voluntary Severance/Buyouts",
+          "count": 9295
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-06-16"
+    },
+    {
+      "month": "2026-05",
+      "total_cuts": 97006,
+      "ai_cited_cuts": 38579,
+      "ai_cited_share": 0.398,
+      "top_reasons": [
+        {
+          "reason": "AI/Technological Update",
+          "count": 38579
+        },
+        {
+          "reason": "Closings",
+          "count": 14546
+        },
+        {
+          "reason": "Restructuring",
+          "count": 9942
+        },
+        {
+          "reason": "Bankruptcy",
+          "count": 5637
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-06-16"
+    }
   ]
 }

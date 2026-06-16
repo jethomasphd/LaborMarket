@@ -77,6 +77,12 @@ tests/                      pytest (validator refusal, rollups, idempotency) + h
 
 ---
 
+## Operating it weekly — see [`ops/`](ops/)
+
+This is a machine run weekly, not a static page. The recurring prompts live in **`ops/`**:
+`phase-1-research.md` (research → manifest), `phase-2-apply.md` (validate + apply + push),
+`manifest-template.md`, and `DATA_AUDIT.md` (standing data-provenance audit). Start there.
+
 ## How it operates — the dual-agent loop
 
 The dashboard is a static publication target; the intelligence comes from a recurring human-in-the-loop loop.

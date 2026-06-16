@@ -1,0 +1,9 @@
+{
+  "meta": { "description": "self-contained fixture registry for apply_manifest tests" },
+  "sources": [
+    { "source_id": "SRC-CO", "name": "Co statement", "class": "PRIMARY_FIRM", "home_url": "https://e.com", "access": "manual_read" },
+    { "source_id": "SRC-WARN-CA", "name": "CA WARN", "class": "GOV_LEGAL", "home_url": "https://e.com", "access": "manual_read" },
+    { "source_id": "SRC-WIRE", "name": "Wire", "class": "WIRE_PRESS", "home_url": "https://e.com", "access": "manual_read" },
+    { "source_id": "SRC-CHALLENGER", "name": "Challenger", "class": "OUTPLACEMENT_ANALYTICS", "home_url": "https://e.com", "access": "manual_read" }
+  ]
+}
