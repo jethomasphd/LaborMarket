@@ -3,55 +3,673 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HumanCost.ai — the human cost of the AI layoff story: claimed vs. verified</title>
-  <meta name="description" content="How many U.S. jobs are really being lost to AI? Layoffs are real and rising, but most 'AI did it' claims are unverified. HumanCost.ai separates what companies claim from what's independently confirmed — and shows the gap." />
+  <title>HumanCost.ai — How many jobs is AI really taking?</title>
+  <meta name="description" content="Every month more layoffs are blamed on AI. We checked which companies actually said so, on the record. The gap between the claim and the record — month by month, company by company." />
+  <meta property="og:title" content="HumanCost.ai — How many jobs is AI really taking?" />
+  <meta property="og:description" content="Layoffs blamed on AI vs. layoffs where the company itself said AI. The gap is the story." />
+  <meta name="theme-color" content="#0a0e14" />
 
-  <!-- Fonts: Cormorant Garamond (display), IBM Plex Mono (data), IBM Plex Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/watchtower.css" />
+  <!-- DATA -->
+  <!-- ^ scripts/build_standalone.py replaces that marker with the three data files inlined,
+       producing a single HTML file that opens from disk. The live site fetches data/ instead. -->
 
-  <!-- Charts: Chart.js (time series + stacked) and D3 (discrepancy divergence).
-       Vendored locally for a fully self-contained site (no runtime CDN dependency). -->
-  <script defer src="assets/vendor/chart.umd.min.js"></script>
-  <script defer src="assets/vendor/d3.min.js"></script>
+  <style>
+    /* ------------------------------------------------------------------
+       HumanCost.ai — one page, one idea.
+       Gold = confirmed (the company itself said AI). Grey = unverified.
+       Everything else recedes. Ink carries the words.
+       ------------------------------------------------------------------ */
+    :root {
+      --bg: #0a0e14; --bg2: #10151d; --panel: #141a24; --line: #222a37;
+      --ink: #e8eaed; --ink2: #a2abb8; --ink3: #6f7a89;
+      --gold: #c9a227;          /* text accent: kicker, links, the verdict figure */
+      --gold-mark: #c98500;     /* data marks: bars, swatches (validated for the dark surface) */
+      --grey: #8a93a3;          /* unverified / blamed — deliberately desaturated */
+      --slate: #4f5866;         /* the whole-economy baseline */
+      --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --maxw: 900px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(201,162,39,.35); }
+    a:hover { border-bottom-color: var(--gold); }
+    b, strong { font-weight: 600; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--gold); color: #000; padding: .5rem .75rem; z-index: 100; }
+    .skip:focus { left: .5rem; top: .5rem; }
+
+    /* ---- masthead ---- */
+    .mast { border-bottom: 1px solid var(--line); }
+    .mast .wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1rem; padding-bottom: .9rem; }
+    .brand { font: 600 1.5rem/1 var(--serif); color: var(--ink); border: 0; letter-spacing: .01em; }
+    .brand i { font-style: italic; font-weight: 500; }
+    .brand span { font: 500 .6em var(--mono); color: var(--gold); vertical-align: super; margin-left: .1em; }
+    .stamp { margin: 0; font: .7rem/1.6 var(--mono); color: var(--ink3); }
+
+    /* ---- hero ---- */
+    .hero { padding: 4.2rem 0 3rem; }
+    .kicker { font: 500 .72rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin: 0 0 1.2rem; }
+    h1 { font: 600 clamp(2.5rem, 6.4vw, 4.4rem)/1.02 var(--serif); margin: 0 0 1.2rem; letter-spacing: -.01em; max-width: 15ch; }
+    h1 em { font-style: italic; font-weight: 500; color: var(--gold); }
+    .lede { font-size: 1.15rem; color: var(--ink2); max-width: 56ch; margin: 0 0 2.4rem; }
+    .lede b { color: var(--ink); }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 3rem; margin: 0 0 2.2rem; }
+    .fig .num { font: 600 clamp(2.9rem, 8.5vw, 5.6rem)/1 var(--mono); letter-spacing: -.035em; }
+    .fig .key { height: 6px; width: 72px; border-radius: 3px; margin: 1rem 0 .85rem; }
+    .fig.claimed .key { background: var(--grey); }
+    .fig.confirmed .key { background: var(--gold-mark); }
+    .fig .lab { font-weight: 600; font-size: 1.05rem; line-height: 1.35; }
+    .fig .sub { color: var(--ink2); font-size: .86rem; margin-top: .3rem; line-height: 1.5; }
+    .verdict { border-left: 2px solid var(--gold); padding: .3rem 0 .3rem 1.2rem; margin: 0; font-size: 1.28rem; line-height: 1.45; max-width: 60ch; }
+    .verdict .pct { font: 600 1.55em/1 var(--mono); color: var(--gold); letter-spacing: -.02em; }
+    .verdict .fine { display: block; font-size: .9rem; color: var(--ink2); margin-top: .45rem; }
+    .ytd { margin: 1.6rem 0 0; font: .74rem/1.7 var(--mono); color: var(--ink3); }
+    .ytd b { color: var(--ink2); font-weight: 500; }
+
+    /* ---- sections ---- */
+    .block { padding: 3.6rem 0; border-top: 1px solid var(--line); }
+    h2 { font: 600 clamp(1.75rem, 3.8vw, 2.5rem)/1.12 var(--serif); margin: 0 0 .6rem; max-width: 24ch; }
+    h3 { font: 600 1.35rem/1.2 var(--serif); margin: 0 0 .6rem; }
+    .sub { color: var(--ink2); margin: 0 0 1.8rem; max-width: 64ch; }
+    .sub b { color: var(--ink); }
+
+    /* ---- the chart ---- */
+    .chart { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.1rem .9rem; position: relative; }
+    .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; font: .76rem/1.5 var(--mono); color: var(--ink2); margin: 0 0 .5rem; }
+    .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -2px; margin-right: .45rem; }
+    .legend .g i { background: var(--gold-mark); } .legend .u i { background: var(--grey); }
+    .plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .grid { stroke: var(--line); stroke-width: 1; }
+    .axis { stroke: #2c3544; stroke-width: 1; }
+    .tick { fill: var(--ink3); font: 10.5px var(--mono); }
+    .lbl { fill: var(--ink2); font: 11px var(--mono); }
+    .lbl.strong { fill: var(--ink); font-weight: 500; }
+    .col-gap { fill: var(--grey); } .col-conf { fill: var(--gold-mark); }
+    .hit { fill: transparent; cursor: pointer; }
+    .band:hover .col-gap, .band:focus .col-gap { filter: brightness(1.18); }
+    .band:hover .col-conf, .band:focus .col-conf { filter: brightness(1.12); }
+    .band:focus { outline: none; }
+    .band:focus-visible .hit { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 0; }
+    .tip { position: absolute; pointer-events: none; background: #0b0f16; border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem; font: .78rem/1.55 var(--mono); color: var(--ink); min-width: 210px; max-width: 280px; box-shadow: 0 10px 28px rgba(0,0,0,.5); z-index: 5; }
+    .tip[hidden] { display: none; }
+    .tip .t { color: var(--ink2); margin-bottom: .3rem; }
+    .tip .v { display: flex; justify-content: space-between; gap: 1rem; }
+    .tip .v b { font-weight: 600; }
+    .tip .v span { color: var(--ink2); }
+    .tip .v i { display: inline-block; width: 10px; height: 2px; vertical-align: middle; margin-right: .4rem; }
+    .tip .cos { color: var(--ink2); margin-top: .35rem; border-top: 1px solid var(--line); padding-top: .35rem; white-space: normal; }
+    figcaption { font-size: .78rem; color: var(--ink3); margin: .75rem 0 0; font-style: italic; line-height: 1.5; }
+    .tablev { margin-top: .9rem; }
+    .tablev summary { cursor: pointer; color: var(--ink2); font: .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .tablev summary:hover { color: var(--ink); }
+    table { border-collapse: collapse; width: 100%; margin-top: .6rem; font-size: .84rem; }
+    th, td { padding: .45rem .6rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+    th:first-child, td:first-child { text-align: left; }
+    th { font-weight: 500; color: var(--ink2); font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; }
+    .twrap { overflow-x: auto; }
+
+    /* ---- the receipts ---- */
+    .group { margin: 0 0 2.4rem; }
+    .ghead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: .55rem; margin-bottom: .35rem; }
+    .ghead h3 { margin: 0; display: flex; align-items: center; gap: .65rem; }
+    .ghead h3 i { width: 11px; height: 11px; border-radius: 2px; background: var(--grey); flex: none; }
+    .group.conf .ghead h3 i { background: var(--gold-mark); }
+    .ghead .tot { font: .74rem var(--mono); color: var(--ink2); white-space: nowrap; }
+    .gblurb { color: var(--ink2); font-size: .9rem; margin: .15rem 0 .8rem; max-width: 66ch; }
+    .row { border-bottom: 1px solid var(--line); }
+    .rline { display: grid; grid-template-columns: minmax(130px, 1.15fr) 4.6rem 5.6rem 3fr auto; gap: .4rem 1rem; align-items: baseline; padding: .7rem 0; cursor: pointer; }
+    .rline:hover .co { color: var(--gold); }
+    .co { font: 600 1rem var(--sans); color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
+    .co::before { content: "▸ "; color: var(--ink3); font-size: .8em; }
+    .row.open .co::before { content: "▾ "; }
+    .pp { font: .86rem var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+    .dt { font: .74rem var(--mono); color: var(--ink3); }
+    .cl { color: var(--ink2); font-size: .9rem; line-height: 1.45; }
+    .src { font: .7rem var(--mono); color: var(--ink2); white-space: nowrap; border-bottom-color: transparent; }
+    .src:hover { color: var(--gold); }
+    .rdet { display: none; padding: 0 0 1rem; font-size: .88rem; color: var(--ink2); max-width: 74ch; line-height: 1.55; }
+    .row.open .rdet { display: block; }
+    .rdet p { margin: .15rem 0 .4rem; }
+    .rdet .lab { font: .66rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink3); display: block; margin-top: .55rem; }
+    .tag { font: .62rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); border: 1px solid var(--line); border-radius: 3px; padding: .2rem .35rem; margin-left: .45rem; vertical-align: middle; white-space: nowrap; }
+    @media (max-width: 720px) {
+      .rline { grid-template-columns: 1fr auto; grid-template-areas: "co pp" "cl cl" "dt src"; gap: .25rem .8rem; }
+      .co { grid-area: co; } .pp { grid-area: pp; } .cl { grid-area: cl; } .dt { grid-area: dt; } .src { grid-area: src; justify-self: end; }
+    }
+
+    /* ---- scale ---- */
+    .bars { display: grid; gap: 1.15rem; margin: 0 0 1.8rem; }
+    .bar { display: grid; grid-template-columns: 220px 1fr; gap: .2rem 1.2rem; align-items: center; }
+    .bar .bl { font-weight: 600; font-size: .95rem; line-height: 1.3; }
+    .bar .bl small { display: block; font: .72rem var(--mono); color: var(--ink3); font-weight: 400; margin-top: .15rem; }
+    .bar .track { position: relative; height: 24px; }
+    .bar .fill { position: absolute; left: 0; top: 3px; height: 18px; border-radius: 0 4px 4px 0; min-width: 2px; }
+    .f-all { background: var(--slate); } .f-blamed { background: var(--grey); } .f-conf { background: var(--gold-mark); }
+    .bar .val { position: absolute; top: 0; line-height: 24px; font: .84rem var(--mono); color: var(--ink); white-space: nowrap; padding-left: 8px; }
+    .bar .val.in { right: 10px; padding: 0; }
+    .bar .val small { color: var(--ink2); font-size: .8em; margin-left: .3rem; }
+    @media (max-width: 720px) { .bar { grid-template-columns: 1fr; gap: .3rem; } }
+    .per { font: 500 1.2rem/1.5 var(--serif); margin: 0; max-width: 60ch; }
+    .per b { font: 600 1.1em var(--mono); color: var(--gold); }
+    .per .fine { display: block; font: 400 .88rem/1.5 var(--sans); color: var(--ink2); margin-top: .35rem; }
+
+    /* ---- method ---- */
+    .method dl { display: grid; gap: 1.15rem; margin: 0 0 2.4rem; }
+    .method dt { font-weight: 600; display: flex; align-items: center; gap: .6rem; }
+    .method dt i { width: 10px; height: 10px; border-radius: 2px; flex: none; background: var(--slate); }
+    .method dt i.g { background: var(--gold-mark); } .method dt i.u { background: var(--grey); }
+    .method dd { margin: .3rem 0 0; color: var(--ink2); font-size: .92rem; max-width: 68ch; }
+    .method ul { color: var(--ink2); font-size: .92rem; padding-left: 1.15rem; max-width: 68ch; margin: 0; }
+    .method li { margin: .4rem 0; }
+    .method li b { color: var(--ink); }
+
+    /* ---- footer / error ---- */
+    footer { border-top: 1px solid var(--line); padding: 2.2rem 0 3.6rem; color: var(--ink3); font-size: .82rem; line-height: 1.65; }
+    footer p { margin: 0 0 .6rem; max-width: 70ch; }
+    footer .word { font: italic 500 1.05rem var(--serif); color: var(--gold); }
+    #err { margin: 3rem auto; max-width: 560px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 8px; padding: 1.1rem 1.3rem; font-size: .9rem; color: var(--ink2); }
+    #err[hidden] { display: none; }
+    #err code { font-family: var(--mono); color: var(--ink); }
+
+    /* ---- motion: restrained, and none if the reader asked for none ---- */
+    /* Sections settle in as you scroll — from a visible resting state, so a still frame
+       (a thumbnail, a print, a skim) always shows the whole page. */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: .45; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
+      .reveal.in { opacity: 1; transform: none; }
+    }
+    @media (max-width: 720px) {
+      .hero { padding-top: 3rem; }
+      .pair { grid-template-columns: 1fr; gap: 1.8rem; }
+      .verdict { font-size: 1.12rem; }
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#view">Skip to content</a>
+  <a class="skip" href="#main">Skip to content</a>
 
-  <header class="masthead">
-    <div class="masthead-inner">
-      <div class="brand">
-        <h1>Human<span class="thin">Cost</span><span class="tld">.ai</span></h1>
-        <p class="doctrine">How much is AI really costing workers? We separate what's <em>claimed</em> from what's <em>verified</em>.</p>
-      </div>
-      <div class="masthead-meta" id="masthead-meta" aria-live="polite"><!-- last-pull / counts injected --></div>
+  <header class="mast">
+    <div class="wrap">
+      <a class="brand" href="#top">Human<i>Cost</i><span>.ai</span></a>
+      <p class="stamp" id="stamp">Loading the record…</p>
     </div>
-    <nav class="tabs" id="tabs" aria-label="Primary views">
-      <a href="#/pulse"       data-view="pulse">Pulse</a>
-      <a href="#/ledger"      data-view="ledger">The Ledger</a>
-      <a href="#/jolts"       data-view="jolts">JOLTS</a>
-      <a href="#/attribution" data-view="attribution">Attribution</a>
-      <a href="#/sources"     data-view="sources">Sources</a>
-    </nav>
   </header>
 
-  <main id="view" tabindex="-1"><!-- active view rendered here --></main>
+  <main id="main" class="wrap">
+    <div id="err" hidden>
+      <b>The data didn't load.</b> <span id="err-msg"></span><br />
+      This page reads its numbers from <code>data/</code> when it opens. If you opened it from disk (<code>file://</code>),
+      serve it over HTTP — <code>python -m http.server</code> — or build the standalone copy with
+      <code>python scripts/build_standalone.py</code>.
+    </div>
 
-  <div id="loader" class="overlay" hidden><div class="spinner" aria-label="Loading data"></div><p>Loading the data layer…</p></div>
-  <div id="error" class="overlay" hidden role="alert"></div>
+    <!-- 1 · THE QUESTION AND THE TWO NUMBERS -->
+    <section class="hero" id="top">
+      <p class="kicker">The AI layoff story, checked against the record</p>
+      <h1>How many jobs is AI <em>really</em> taking?</h1>
+      <p class="lede">Every month, more layoffs are blamed on AI. We went looking for the companies that actually said so — on the record, with a headcount. In <b id="hero-month">…</b>:</p>
 
-  <footer class="colophon">
-    <p>
-      <strong>How to trust this.</strong> The official jobs data (JOLTS) measures how many jobs end, but never <em>why</em>.
-      “Caused by AI” is a <em>claim</em> — so we tag every layoff on two separate questions (did it happen · is it AI) and
-      never blur them. Coverage skews to tech and large firms. We surface claims; we do not certify that AI caused any specific job loss.
-    </p>
-    <p class="repo">Data &amp; methodology are open — corrections welcome via the repository. Built on the IranWar.ai lineage — <span class="word">The Word against the Flood.</span></p>
+      <div class="pair">
+        <div class="fig claimed">
+          <div class="num" id="hero-claimed">—</div>
+          <div class="key"></div>
+          <div class="lab">jobs blamed on AI</div>
+          <div class="sub">announced U.S. job cuts citing AI · Challenger, Gray &amp; Christmas</div>
+        </div>
+        <div class="fig confirmed">
+          <div class="num" id="hero-confirmed">—</div>
+          <div class="key"></div>
+          <div class="lab">where the company itself said AI</div>
+          <div class="sub" id="hero-companies">on the record — a filing, a memo, a statement</div>
+        </div>
+      </div>
+
+      <p class="verdict"><span class="pct" id="hero-pct">—</span> of the AI blame is <b>unverified</b> — no company has put its name to it.
+        <span class="fine">Unverified isn't the same as false. It means nobody has said it on the record, and the record is the only thing we count.</span></p>
+      <p class="ytd" id="ytd"></p>
+    </section>
+
+    <!-- 2 · THE GAP, MONTH BY MONTH -->
+    <section class="block reveal" id="trend">
+      <h2>The blame is soaring. The confirmations aren't.</h2>
+      <p class="sub">Announced U.S. job cuts citing AI, month by month — and the part of each the company itself put on the record. Under each month: AI's share of <b>all</b> announced cuts, which is why the story keeps getting louder.</p>
+      <figure class="chart">
+        <div class="legend" aria-hidden="true">
+          <span class="g"><i></i>Company said AI — confirmed</span>
+          <span class="u"><i></i>Unverified — blamed on AI, no company on record</span>
+        </div>
+        <div class="plot" id="plot"></div>
+        <div class="tip" id="tip" hidden></div>
+        <figcaption>Each column is the month's announced cuts citing AI (Challenger, Gray &amp; Christmas); the percentage beneath is AI's share of all announced cuts that month. The gold base is what we could trace to a company's own words. Hover or tap a column for the companies.</figcaption>
+      </figure>
+      <details class="tablev"><summary>View as a table</summary><div class="twrap"><table id="chart-table"></table></div></details>
+    </section>
+
+    <!-- 3 · THE RECEIPTS -->
+    <section class="block reveal" id="receipts">
+      <h2>The receipts.</h2>
+      <p class="sub">Every major 2026 layoff we've checked — <b id="n-events">…</b> so far — grouped by how much of the “AI” is actually on the record. Click a row for the reasoning. Every source is linked; open them yourself.</p>
+      <div id="groups"></div>
+    </section>
+
+    <!-- 4 · ZOOM OUT -->
+    <section class="block reveal" id="scale">
+      <h2>Zoom out. All of it is a sliver.</h2>
+      <p class="sub">Set against every layoff in the country, the entire AI story — claimed and confirmed alike — is small. That doesn't make it unimportant. It makes the proportion the point.</p>
+      <div class="bars" id="scale-bars"></div>
+      <p class="per" id="scale-line"></p>
+    </section>
+
+    <!-- 5 · HOW WE COUNT -->
+    <section class="block method reveal" id="method">
+      <h2>How we count.</h2>
+      <dl>
+        <div><dt><i class="u"></i>Blamed on AI</dt>
+          <dd>Challenger, Gray &amp; Christmas tallies announced U.S. job cuts every month and records the reason employers give. This is their “AI / technological update” figure. It counts announcements and stated reasons — it does not measure what AI actually did.</dd></div>
+        <div><dt><i class="g"></i>Company said AI</dt>
+          <dd>A layoff joins this count only when the company itself — in an SEC filing, a public memo, or an official statement — named AI as a reason, and the headcount is documented. We link the source on every row. Even this is a claim; it is simply the strongest one available.</dd></div>
+        <div><dt><i class="u"></i>Unverified</dt>
+          <dd>Blamed minus confirmed. Not “false”: it is blame nobody has put their name to. Some of it is real and undocumented; some is ordinary cuts dressed up as AI; some is headlines. We can't tell which from here — so we don't pretend to.</dd></div>
+        <div><dt><i></i>All layoffs</dt>
+          <dd>The Bureau of Labor Statistics' JOLTS survey: layoffs and discharges, seasonally adjusted. It counts how many jobs end each month. It never says why.</dd></div>
+      </dl>
+      <h3>What this can't tell you</h3>
+      <ul>
+        <li><b>Our ledger is hand-researched, not exhaustive.</b> It covers major, named layoffs and skews toward tech and large firms. Part of the gap is coverage we haven't reached yet.</li>
+        <li><b>Two different yardsticks.</b> Challenger counts announcements; JOLTS counts separations. We show them side by side for scale and never add them together.</li>
+        <li><b>A company saying “AI” is still a claim.</b> Firms have reasons to say it — and reasons not to. We record what they said, not what is true.</li>
+        <li><b>The layoffs are real either way.</b> Whatever the cause, every number on this page is people.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Every figure on this page is computed from the open data files when it loads — nothing is typed in by hand. Data, method and corrections: <a href="https://github.com/jethomasphd/LaborMarket" rel="noopener">github.com/jethomasphd/LaborMarket</a>.</p>
+      <p>Built by Jacob E. Thomas, PhD · LAMP Lab. Lineage: IranWar.ai. <span class="word">The Word against the Flood.</span></p>
+    </div>
   </footer>
 
-  <script type="module" src="assets/js/app.js"></script>
+  <script>
+  (() => {
+    "use strict";
+    // ------------------------------------------------------------------
+    // Everything on the page is computed here, from the three data files.
+    // No figure is typed into the markup. Rule for "confirmed": the company
+    // itself said AI (tier B1) AND the event is verified/reported (A1/A2) —
+    // the same rule scripts/build_rollups.py uses for the discrepancy series.
+    // ------------------------------------------------------------------
+    const FILES = {
+      challenger: "data/challenger-monthly.json",
+      events: "data/ai-layoff-events.json",
+      jolts: "data/jolts-series.json",
+    };
+    const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const fmt = (n) => (n == null || Number.isNaN(n)) ? "—" : Math.round(n).toLocaleString("en-US");
+    const fmtM = (iso) => { const [y, m] = iso.split("-"); return `${MON[+m - 1]} ${y}`; };
+    const fmtMs = (iso) => { const [y, m] = iso.split("-"); return `${MON[+m - 1]} ’${y.slice(2)}`; };
+    const fmtD = (iso) => { const [y, m, d] = iso.split("-"); return `${+d} ${MON[+m - 1]} ${y}`; };
+    const pct = (x) => (x == null ? "—" : Math.round(x * 100) + "%");
+    const compact = (v) => v >= 1e6 ? (v / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : v >= 1e3 ? (v / 1e3).toFixed(0) + "K" : String(v);
+    const $ = (s, r = document) => r.querySelector(s);
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Tiny DOM helper. Text goes in as text (textContent semantics) — never HTML.
+    const h = (tag, attrs = {}, ...kids) => {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (v == null || v === false) continue;
+        if (k === "class") n.className = v;
+        else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
+        else n.setAttribute(k, v);
+      }
+      for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
+      return n;
+    };
+    const svg = (tag, attrs = {}) => {
+      const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      for (const [k, v] of Object.entries(attrs)) if (v != null) n.setAttribute(k, v);
+      return n;
+    };
+    const text = (x, y, s, cls, anchor) => { const t = svg("text", { x, y, class: cls, "text-anchor": anchor || "start" }); t.textContent = s; return t; };
+
+    // ---------------- data ----------------
+    async function load() {
+      if (window.HUMANCOST_DATA) return window.HUMANCOST_DATA;          // standalone build
+      const out = {};
+      await Promise.all(Object.entries(FILES).map(async ([k, p]) => {
+        const r = await fetch(p, { cache: "no-cache" });
+        if (!r.ok) throw new Error(`${p} → HTTP ${r.status}`);
+        out[k] = await r.json();
+      }));
+      return out;
+    }
+
+    const CONFIRMED = (e) => e.ai_attribution === "B1" && (e.event_confidence === "A1" || e.event_confidence === "A2");
+
+    function compute(d) {
+      const events = (d.events?.events || []).slice().sort((a, b) => (b.headcount || 0) - (a.headcount || 0) || a.date_announced.localeCompare(b.date_announced));
+      const byMonth = {};
+      for (const e of events) {
+        if (!CONFIRMED(e)) continue;
+        const m = (e.date_announced || "").slice(0, 7);
+        (byMonth[m] ||= { hc: 0, events: [] });
+        byMonth[m].hc += e.headcount || 0;
+        byMonth[m].events.push(e);
+      }
+      const rows = (d.challenger?.months || []).slice()
+        .filter((c) => c.ai_cited_cuts != null)
+        .sort((a, b) => a.month.localeCompare(b.month))
+        .map((c) => {
+          const confirmed = byMonth[c.month]?.hc || 0;
+          return { month: c.month, claimed: c.ai_cited_cuts, total: c.total_cuts, share: c.ai_cited_share,
+            confirmed, gap: c.ai_cited_cuts - confirmed,
+            unverified: c.ai_cited_cuts ? 1 - confirmed / c.ai_cited_cuts : null,
+            companies: byMonth[c.month]?.events || [] };
+        });
+      const latest = rows[rows.length - 1];
+      const sum = (k) => rows.reduce((s, r) => s + (r[k] || 0), 0);
+      const ytd = { claimed: sum("claimed"), confirmed: sum("confirmed") };
+      ytd.gap = ytd.claimed - ytd.confirmed;
+      ytd.unverified = ytd.claimed ? 1 - ytd.confirmed / ytd.claimed : null;
+
+      // Scale: the latest JOLTS month that also has a Challenger row (JOLTS lags ~2 months).
+      const lay = (d.jolts?.series?.layoffs_discharges?.observations || []).filter((o) => o.value != null);
+      let scale = null;
+      for (let i = lay.length - 1; i >= 0 && !scale; i--) {
+        const r = rows.find((x) => x.month === lay[i].period);
+        if (r) scale = { month: lay[i].period, all: lay[i].value * 1000, blamed: r.claimed, confirmed: r.confirmed };
+      }
+      const groups = ["B1", "B2", "B3", "B0"].map((key) => ({ key, events: events.filter((e) => e.ai_attribution === key) }));
+      const stamp = {
+        updated: d.events?.meta?.generated || d.challenger?.meta?.last_update || d.jolts?.meta?.last_pull,
+        chalTo: latest?.month, joltsTo: lay[lay.length - 1]?.period,
+      };
+      return { rows, latest, ytd, scale, groups, events, stamp };
+    }
+
+    // ---------------- hero ----------------
+    function countUp(node, value, format) {
+      if (reduced || !value) { node.textContent = format(value); return; }
+      const t0 = performance.now(), dur = 1200;
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        node.textContent = format(value * e);
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    function paintHero(S) {
+      const L = S.latest;
+      if (!L) return;
+      $("#hero-month").textContent = fmtM(L.month);
+      countUp($("#hero-claimed"), L.claimed, fmt);
+      countUp($("#hero-confirmed"), L.confirmed, fmt);
+      countUp($("#hero-pct"), L.unverified, pct);
+      const names = L.companies.map((e) => e.company);
+      const sub = $("#hero-companies");
+      sub.replaceChildren(
+        names.length ? `${names.join(" · ")} — ` : "on the record — a filing, a memo, a statement · ",
+        h("a", { href: "#receipts" }, "see the receipts"));
+      $("#ytd").replaceChildren(
+        `${L.month.slice(0, 4)} to date · `,
+        h("b", {}, fmt(S.ytd.claimed)), " blamed on AI · ",
+        h("b", {}, fmt(S.ytd.confirmed)), " company-confirmed · ",
+        h("b", {}, pct(S.ytd.unverified)), " unverified");
+    }
+
+    // ---------------- the chart ----------------
+    function niceStep(raw) {
+      const p = Math.pow(10, Math.floor(Math.log10(raw)));
+      const f = raw / p;
+      return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+    }
+    // A column with a rounded cap and a square baseline.
+    function capPath(x, y, w, hgt, r) {
+      r = Math.min(r, w / 2, hgt);
+      return `M${x},${y + hgt} V${y + r} Q${x},${y} ${x + r},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + hgt} Z`;
+    }
+
+    function renderChart(rows, plot) {
+      plot.replaceChildren();
+      if (!rows.length) return;
+      const W = Math.max(320, plot.clientWidth || 720);
+      const wide = W >= 600;
+      const m = { top: 30, right: wide ? 72 : 10, bottom: 58, left: 46 };
+      const H = wide ? 360 : 300;
+      const iw = W - m.left - m.right, ih = H - m.top - m.bottom;
+      const maxV = Math.max(1, ...rows.map((r) => r.claimed));
+      const step = niceStep(maxV / 4), top = Math.ceil(maxV / step) * step;
+      const y = (v) => m.top + ih - (v / top) * ih;
+      const base = y(0);
+      const band = iw / rows.length;
+      const bw = Math.min(wide ? 44 : 28, band * 0.55);
+
+      const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img",
+        "aria-label": `Job cuts blamed on AI versus cuts the company itself attributed to AI, ${fmtM(rows[0].month)} to ${fmtM(rows[rows.length - 1].month)}. Table below.` });
+
+      for (let v = 0; v <= top + 1e-9; v += step) {
+        root.append(svg("line", { x1: m.left, x2: m.left + iw, y1: y(v), y2: y(v), class: "grid" }));
+        root.append(text(m.left - 8, y(v) + 4, compact(v), "tick", "end"));
+      }
+
+      rows.forEach((r, i) => {
+        const bx = m.left + band * i, cx = bx + band / 2, x0 = cx - bw / 2;
+        const yc = y(r.claimed), yv = y(r.confirmed);
+        const g = svg("g", { class: "band", tabindex: "0", role: "group",
+          "aria-label": `${fmtM(r.month)}: ${fmt(r.claimed)} blamed on AI, ${fmt(r.confirmed)} confirmed by the company, ${pct(r.unverified)} unverified.` });
+        g.append(svg("rect", { x: bx, y: m.top, width: band, height: ih, class: "hit" }));
+        // Grey = unverified. Sits on top of the gold, separated by a 2px surface gap.
+        const gapBottom = r.confirmed > 0 ? yv - 2 : base;
+        if (gapBottom - yc > 0.5) g.append(svg("path", { d: capPath(x0, yc, bw, gapBottom - yc, 4), class: "col-gap" }));
+        // Gold = confirmed. Square at the baseline.
+        if (r.confirmed > 0) g.append(svg("rect", { x: x0, y: yv, width: bw, height: base - yv, class: "col-conf" }));
+        // Labels: the claimed total on the cap; the confirmed figure beside the gold (when there's room).
+        g.append(text(cx, yc - 8, fmt(r.claimed), "lbl strong", "middle"));
+        if (r.confirmed > 0) {
+          if (wide) g.append(text(x0 + bw + 7, yv + 4, fmt(r.confirmed), "lbl", "start"));
+          else if (base - yv >= 18) { const t = text(cx, base - 5, fmt(r.confirmed), "lbl", "middle"); t.style.fill = "#0a0e14"; t.style.fontSize = "9.5px"; g.append(t); }
+        }
+        g.append(text(cx, base + 18, fmtMs(r.month), "lbl", "middle"));
+        if (r.share != null) g.append(text(cx, base + 34, pct(r.share) + (band >= 110 ? " of all cuts" : ""), "tick", "middle"));
+
+        const show = (ev) => showTip(r, ev, g);
+        g.addEventListener("pointerenter", show);
+        g.addEventListener("pointermove", show);
+        g.addEventListener("pointerleave", hideTip);
+        g.addEventListener("focus", () => showTip(r, null, g));
+        g.addEventListener("blur", hideTip);
+        root.append(g);
+      });
+      root.append(svg("line", { x1: m.left, x2: m.left + iw, y1: base, y2: base, class: "axis" }));
+      plot.append(root);
+    }
+
+    function showTip(r, ev, g) {
+      const tip = $("#tip"), fig = tip.parentElement;
+      const row = (label, value, color) => h("div", { class: "v" },
+        h("span", {}, color ? h("i", { style: `background:${color}` }) : null, label), h("b", {}, value));
+      tip.replaceChildren(
+        h("div", { class: "t" }, fmtM(r.month)),
+        row("blamed on AI", fmt(r.claimed), "#8a93a3"),
+        row("company said AI", fmt(r.confirmed), "#c98500"),
+        row("unverified", `${fmt(r.gap)} · ${pct(r.unverified)}`),
+        row("AI share of all cuts", pct(r.share)),
+        h("div", { class: "cos" }, r.companies.length
+          ? r.companies.map((e) => `${e.company} ${fmt(e.headcount)}`).join(" · ")
+          : "No company put its name to AI this month."));
+      tip.hidden = false;
+      const fr = fig.getBoundingClientRect();
+      let left, topPx;
+      if (ev) { left = ev.clientX - fr.left + 16; topPx = ev.clientY - fr.top + 16; }
+      else { const gr = g.getBoundingClientRect(); left = gr.left - fr.left + gr.width / 2; topPx = gr.top - fr.top + 24; }
+      const tw = tip.offsetWidth, th = tip.offsetHeight;
+      if (left + tw > fr.width - 8) left = Math.max(8, left - tw - 24);
+      if (topPx + th > fr.height - 8) topPx = Math.max(8, topPx - th - 24);
+      tip.style.left = left + "px"; tip.style.top = topPx + "px";
+    }
+    function hideTip() { $("#tip").hidden = true; }
+
+    function renderTable(rows, table) {
+      const th = (s) => h("th", {}, s), td = (s) => h("td", {}, s);
+      table.replaceChildren(
+        h("thead", {}, h("tr", {}, th("Month"), th("Blamed on AI"), th("Company said AI"), th("Unverified"), th("Unverified %"), th("AI share of all cuts"))),
+        h("tbody", {}, ...rows.map((r) => h("tr", {}, td(fmtM(r.month)), td(fmt(r.claimed)), td(fmt(r.confirmed)), td(fmt(r.gap)), td(pct(r.unverified)), td(pct(r.share))))));
+    }
+
+    // ---------------- the receipts ----------------
+    const GROUP = {
+      B1: { title: "The company itself said AI", conf: true,
+        blurb: "A filing, a memo, or an official statement names AI as a reason, and the headcount is documented. This is the only group we count as confirmed." },
+      B2: { title: "Probably AI — but the company never said so",
+        blurb: "The roles cut, the AI spending and the timing all point one way. That is our inference, not their statement, so it isn't counted." },
+      B3: { title: "Only the headlines said AI",
+        blurb: "The company gave other reasons. “AI” was added by the coverage. Not counted." },
+      B0: { title: "Not about AI",
+        blurb: "Nobody — not the company, not the press — claims AI played a part. Most layoffs look like this. It is the baseline the AI story sits inside." },
+    };
+    const SRC = { sec_filing: "SEC filing", company_statement: "company statement", company_blog: "company blog", internal_memo: "internal memo",
+      warn_filing: "WARN filing", wire: "wire report", press: "press", aggregator: "tracker" };
+    const srcLabel = (t) => SRC[t] || (t || "source").replace(/_/g, " ");
+    const primarySource = (e) => (e.sources || []).find((s) => s.carries_ai_attribution) || (e.sources || [])[0];
+
+    function eventRow(e, conf) {
+      const ps = primarySource(e);
+      const mixed = /mixed-cause/i.test(e.ai_attribution_rationale || "");
+      const shaky = conf && e.event_confidence === "A3";
+      const det = h("div", { class: "rdet" },
+        e.ai_attribution_rationale ? [h("span", { class: "lab" }, "Why it's in this group"), h("p", {}, e.ai_attribution_rationale)] : null,
+        h("span", { class: "lab" }, "Reasons the company gave"),
+        h("p", {}, (e.stated_reasons || []).join(" · ") || "—"),
+        e.discrepancy_note ? [h("span", { class: "lab" }, "Disputed figure — both kept, never averaged"), h("p", {}, e.discrepancy_note)] : null,
+        h("span", { class: "lab" }, `Sources (${(e.sources || []).length})`),
+        ...(e.sources || []).map((s) => h("p", {},
+          s.url ? h("a", { href: s.url, target: "_blank", rel: "noopener" }, srcLabel(s.type)) : srcLabel(s.type),
+          " — ", s.claim || "")));
+      const btn = h("button", { class: "co", type: "button", "aria-expanded": "false" }, e.company, (mixed || shaky) ? " " : null,
+        mixed ? h("span", { class: "tag", title: "The company named AI alongside another, co-equal reason." }, "mixed cause") : null,
+        shaky ? h("span", { class: "tag", title: "Count not yet confirmed — excluded from the confirmed total." }, "unconfirmed count") : null);
+      const line = h("div", { class: "rline" }, btn,
+        h("span", { class: "pp", title: e.headcount ? "people" : "headcount not disclosed" }, e.headcount ? fmt(e.headcount) : "n/d"),
+        h("span", { class: "dt" }, fmtD(e.date_announced)),
+        h("span", { class: "cl" }, ps?.claim || ""),
+        ps?.url ? h("a", { class: "src", href: ps.url, target: "_blank", rel: "noopener", title: "Open the source" }, srcLabel(ps.type) + " ↗")
+                : h("span", { class: "src" }, ps ? srcLabel(ps.type) : ""));
+      const row = h("div", { class: "row" }, line, det);
+      const toggle = () => { const open = row.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); };
+      btn.addEventListener("click", (ev) => { ev.stopPropagation(); toggle(); });
+      line.addEventListener("click", (ev) => { if (ev.target.closest("a")) return; toggle(); });
+      return row;
+    }
+
+    function renderGroups(groups, mount) {
+      mount.replaceChildren();
+      for (const g of groups) {
+        if (!g.events.length) continue;
+        const meta = GROUP[g.key];
+        const people = g.events.reduce((s, e) => s + (e.headcount || 0), 0);
+        mount.append(h("div", { class: "group" + (meta.conf ? " conf" : "") },
+          h("div", { class: "ghead" },
+            h("h3", {}, h("i"), meta.title),
+            h("span", { class: "tot" }, `${g.events.length} layoff${g.events.length === 1 ? "" : "s"} · ${fmt(people)} people`)),
+          h("p", { class: "gblurb" }, meta.blurb),
+          ...g.events.map((e) => eventRow(e, meta.conf))));
+      }
+    }
+
+    // ---------------- zoom out ----------------
+    function renderScale(scale, mount, line) {
+      mount.replaceChildren();
+      if (!scale) { line.textContent = ""; return; }
+      const items = [
+        { lab: "All layoffs & discharges", sub: `U.S. employers, ${fmtM(scale.month)} · BLS JOLTS`, v: scale.all, cls: "f-all" },
+        { lab: "Blamed on AI", sub: "announced cuts citing AI · Challenger", v: scale.blamed, cls: "f-blamed" },
+        { lab: "Company said AI", sub: "on the record · our ledger", v: scale.confirmed, cls: "f-conf" },
+      ];
+      for (const it of items) {
+        const w = (it.v / scale.all) * 100, inside = w > 60, wv = Math.max(w, 0.25);
+        const share = w >= 10 ? Math.round(w) + "%" : w >= 1 ? w.toFixed(1) + "%" : w.toFixed(2) + "%";
+        mount.append(h("div", { class: "bar" },
+          h("div", { class: "bl" }, it.lab, h("small", {}, it.sub)),
+          h("div", { class: "track" },
+            h("div", { class: "fill " + it.cls, style: `width:${wv}%` }),
+            h("span", { class: "val" + (inside ? " in" : ""), style: inside ? null : `left:${wv}%` }, fmt(it.v), h("small", {}, share)))));
+      }
+      const per = (v) => (v / scale.all) * 1000;
+      const pb = per(scale.blamed), pc = per(scale.confirmed);
+      const said = pc < 1 ? ["Fewer than ", h("b", {}, "1"), " had the company say so."]
+                          : [h("b", {}, Math.round(pc)), ` had the company say so.`];
+      line.replaceChildren(
+        `For every 1,000 people laid off in ${fmtM(scale.month)}, `, h("b", {}, Math.round(pb)), " were blamed on AI. ", ...said,
+        h("span", { class: "fine" }, "Two different yardsticks (announcements vs. measured separations), shown together only for scale — never added."));
+    }
+
+    // ---------------- boot ----------------
+    function paintStamp(st) {
+      const bits = [];
+      if (st.updated) bits.push(`Updated ${fmtD(st.updated)}`);
+      if (st.chalTo) bits.push(`Challenger through ${fmtM(st.chalTo)}`);
+      if (st.joltsTo) bits.push(`JOLTS through ${fmtM(st.joltsTo)}`);
+      $("#stamp").textContent = bits.join(" · ");
+    }
+
+    // Scroll-reveal is decoration; content must never be stuck invisible. So: reveal on
+    // intersection, but also on print, and unconditionally a few seconds after load —
+    // a full-page capture or a screen reader never waits for an observer.
+    function reveal() {
+      const els = document.querySelectorAll(".reveal");
+      const all = () => els.forEach((e) => e.classList.add("in"));
+      if (reduced || !("IntersectionObserver" in window)) { all(); return; }
+      const io = new IntersectionObserver((entries) => {
+        for (const en of entries) if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach((e) => io.observe(e));
+      window.addEventListener("beforeprint", all);
+      setTimeout(all, 3000);
+    }
+
+    async function boot() {
+      let S;
+      try {
+        S = compute(await load());
+      } catch (err) {
+        console.error(err);
+        $("#err-msg").textContent = String(err.message || err);
+        $("#err").hidden = false;
+        $("#stamp").textContent = "";
+        document.querySelectorAll(".reveal").forEach((e) => e.classList.add("in"));
+        return;
+      }
+      paintStamp(S.stamp);
+      paintHero(S);
+      const plot = $("#plot");
+      renderChart(S.rows, plot);
+      renderTable(S.rows, $("#chart-table"));
+      $("#n-events").textContent = String(S.events.length);
+      renderGroups(S.groups, $("#groups"));
+      renderScale(S.scale, $("#scale-bars"), $("#scale-line"));
+      reveal();
+      // Redraw the chart when the container changes width (orientation, resize).
+      if ("ResizeObserver" in window) {
+        let last = plot.clientWidth, t;
+        new ResizeObserver(() => {
+          const w = plot.clientWidth;
+          if (Math.abs(w - last) < 4) return;
+          last = w; clearTimeout(t); t = setTimeout(() => { hideTip(); renderChart(S.rows, plot); }, 120);
+        }).observe(plot);
+      }
+      window.__HUMANCOST = S;   // exposed for the browser check in tests/site_check.mjs
+    }
+    boot();
+  })();
+  </script>
 </body>
 </html>

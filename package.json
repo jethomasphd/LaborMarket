@@ -1,15 +1,15 @@
 {
   "name": "humancost-ai",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "Dual-agent labor-intelligence dashboard. Test tooling only — the site itself is plain static HTML/CSS/JS + JSON with no build step.",
+  "description": "HumanCost.ai — one-page dashboard: layoffs blamed on AI vs. layoffs where the company itself said AI. Plain static HTML + JSON, no build step; Node is for the browser check only.",
   "scripts": {
-    "test:render": "node tests/dom_smoke.mjs",
-    "test:browser": "node tests/screenshots.mjs"
+    "check": "node tests/site_check.mjs",
+    "serve": "python3 -m http.server 8000",
+    "standalone": "python3 scripts/build_standalone.py"
   },
   "devDependencies": {
-    "jsdom": "^24.1.0",
     "playwright": "^1.44.0"
   }
 }

@@ -26,8 +26,10 @@ STEPS
                     # commits to data/ if clean. Idempotent: re-running is a no-op.
 4. Validate:        python scripts/validate.py          # must print VALIDATION PASSED (exit 0)
 5. Test:            python -m pytest tests/ -q           # must be all-green
-6. (Optional) render-check the dashboard:
-                    python -m http.server 8000   # open http://localhost:8000, click the 5 tabs
+6. Render-check the dashboard (one page — no tabs):
+                    node tests/site_check.mjs    # real-browser check: hero figures == data, receipts, 360px
+                    # or eyeball it: python -m http.server 8000 → http://localhost:8000
+                    python scripts/build_standalone.py   # optional: dist/humancost.html, opens from disk
 7. Commit + push:   git add -A
                     git commit -m "Apply manifest <WEEK_ENDING>: <one-line summary>"
                     git push origin main
