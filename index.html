@@ -4,189 +4,278 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HumanCost.ai — How many jobs is AI really taking?</title>
-  <meta name="description" content="Every month more layoffs are blamed on AI. We checked which companies actually said so, on the record. The gap between the claim and the record — month by month, company by company." />
+  <meta name="description" content="Every month more layoffs are blamed on AI. We checked which companies actually said so, on the record. The gap between the claim and the record — month by month, company by company — and what happens to the number when you move the evidentiary bar." />
   <meta property="og:title" content="HumanCost.ai — How many jobs is AI really taking?" />
-  <meta property="og:description" content="Layoffs blamed on AI vs. layoffs where the company itself said AI. The gap is the story." />
-  <meta name="theme-color" content="#0a0e14" />
+  <meta property="og:description" content="Layoffs blamed on AI vs. layoffs where the company itself said AI. The seam between the story and the record." />
+  <meta name="theme-color" content="#07090d" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- DATA -->
-  <!-- ^ scripts/build_standalone.py replaces that marker with the three data files inlined,
+  <!-- ^ scripts/build_standalone.py replaces that marker with the data files inlined,
        producing a single HTML file that opens from disk. The live site fetches data/ instead. -->
 
   <style>
-    /* ------------------------------------------------------------------
-       HumanCost.ai — one page, one idea.
-       Gold = confirmed (the company itself said AI). Grey = unverified.
-       Everything else recedes. Ink carries the words.
-       ------------------------------------------------------------------ */
+    /* ==================================================================
+       HumanCost.ai — "The Instrument"
+       One page, one idea: the seam between what is claimed and what is on
+       the record. Gold = the record (confirmed). Grey = the flood (unverified).
+       Ivory ink on slate. Ember accent, spent in one place at a time.
+       ================================================================== */
     :root {
-      --bg: #0a0e14; --bg2: #10151d; --panel: #141a24; --line: #222a37;
-      --ink: #e8eaed; --ink2: #a2abb8; --ink3: #6f7a89;
-      --gold: #c9a227;          /* text accent: kicker, links, the verdict figure */
-      --gold-mark: #c98500;     /* data marks: bars, swatches (validated for the dark surface) */
-      --grey: #8a93a3;          /* unverified / blamed — deliberately desaturated */
-      --slate: #4f5866;         /* the whole-economy baseline */
+      --ground: #07090d; --ground-2: #0b0e14; --panel: #0e1218; --panel-2: #121721; --line: #1f2530; --line-2: #2a3140;
+      --ink: #ebe6d8; --ink-2: #a8a496; --ink-3: #6d6e68;
+      --gold: #c9a227;           /* accent for words: kicker, links, the verdict figure */
+      --gold-mark: #c98500;      /* marks: bars, swatches — stepped for the dark surface */
+      --gold-dim: rgba(201,162,39,.32);
+      --grey: #8a93a3;           /* the flood: blamed / unverified */
+      --slate: #4a5262;          /* the measured baseline */
       --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
       --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      --maxw: 900px;
+      --col: 880px; --rail: 132px;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
-    a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(201,162,39,.35); }
+    body {
+      margin: 0; color: var(--ink); font: 16px/1.62 var(--sans); -webkit-font-smoothing: antialiased;
+      background: radial-gradient(1100px 520px at 50% -8%, rgba(201,162,39,.075), transparent 62%), var(--ground);
+    }
+    /* film grain — a whisper of texture so the slate reads as material, not a void */
+    body::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 40; opacity: .035; mix-blend-mode: soft-light;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-dim); }
     a:hover { border-bottom-color: var(--gold); }
     b, strong { font-weight: 600; }
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .wrap { max-width: calc(var(--col) + var(--rail) + 48px); margin: 0 auto; padding-inline: 20px; }
     .skip { position: absolute; left: -999px; top: 0; background: var(--gold); color: #000; padding: .5rem .75rem; z-index: 100; }
     .skip:focus { left: .5rem; top: .5rem; }
 
     /* ---- masthead ---- */
-    .mast { border-bottom: 1px solid var(--line); }
-    .mast .wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1rem; padding-bottom: .9rem; }
-    .brand { font: 600 1.5rem/1 var(--serif); color: var(--ink); border: 0; letter-spacing: .01em; }
-    .brand i { font-style: italic; font-weight: 500; }
-    .brand span { font: 500 .6em var(--mono); color: var(--gold); vertical-align: super; margin-left: .1em; }
-    .stamp { margin: 0; font: .7rem/1.6 var(--mono); color: var(--ink3); }
+    .mast { border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(255,255,255,.015), transparent); }
+    .mast .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: .9rem; }
+    .brand { display: flex; align-items: center; gap: .7rem; color: var(--ink); border: 0; }
+    .brand .sig { flex: none; }
+    .brand .name { font: 600 1.45rem/1 var(--serif); letter-spacing: .01em; }
+    .brand .name i { font-style: italic; font-weight: 500; }
+    .brand .name span { font: 500 .58em var(--mono); color: var(--gold); vertical-align: super; margin-left: .12em; }
+    .brand .doc { display: block; font: .72rem/1.3 var(--mono); color: var(--ink-3); margin-top: .25rem; letter-spacing: .02em; }
+    .brand .doc em { font-style: normal; color: var(--ink-2); }
+    .stamp { margin: 0; font: .68rem/1.7 var(--mono); color: var(--ink-3); text-align: right; }
+    .stamp b { color: var(--ink-2); font-weight: 500; }
+    @media (max-width: 640px) { .stamp { text-align: left; } }
 
-    /* ---- hero ---- */
-    .hero { padding: 4.2rem 0 3rem; }
-    .kicker { font: 500 .72rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin: 0 0 1.2rem; }
-    h1 { font: 600 clamp(2.5rem, 6.4vw, 4.4rem)/1.02 var(--serif); margin: 0 0 1.2rem; letter-spacing: -.01em; max-width: 15ch; }
+    /* ---- sections with a margin rail ---- */
+    .sec { display: grid; grid-template-columns: minmax(0, 1fr); gap: .6rem 2.4rem; padding-block: 3.4rem; border-top: 1px solid var(--line); }
+    .sec.hero { border-top: 0; padding-block: 3.6rem 3rem; }
+    .rail { font: 500 .68rem/1.5 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); display: flex; gap: .7rem; align-items: baseline; }
+    .rail .n { color: var(--gold); font-weight: 600; }
+    .body { min-width: 0; }
+    @media (min-width: 1080px) {
+      .sec { grid-template-columns: var(--rail) minmax(0, var(--col)); }
+      .rail { flex-direction: column; gap: .25rem; position: sticky; top: 1.4rem; align-self: start; padding-top: .35rem; }
+      .rail .n { font: 600 1.6rem/1 var(--serif); letter-spacing: 0; text-transform: none; }
+      .rail::after { content: ""; display: block; width: 28px; height: 1px; background: var(--gold-dim); margin-top: .6rem; }
+    }
+    h1 { font: 600 clamp(2.6rem, 6.6vw, 4.6rem)/1.0 var(--serif); margin: 0 0 1.2rem; letter-spacing: -.012em; max-width: 15ch; text-wrap: balance; }
     h1 em { font-style: italic; font-weight: 500; color: var(--gold); }
-    .lede { font-size: 1.15rem; color: var(--ink2); max-width: 56ch; margin: 0 0 2.4rem; }
+    h2 { font: 600 clamp(1.85rem, 4vw, 2.7rem)/1.1 var(--serif); margin: 0 0 .55rem; max-width: 24ch; text-wrap: balance; }
+    h3 { font: 600 1.35rem/1.2 var(--serif); margin: 0 0 .55rem; }
+    .kicker { font: 500 .7rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin: 0 0 1.15rem; }
+    .lede { font-size: 1.16rem; color: var(--ink-2); max-width: 58ch; margin: 0 0 2.3rem; }
     .lede b { color: var(--ink); }
-    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 3rem; margin: 0 0 2.2rem; }
-    .fig .num { font: 600 clamp(2.9rem, 8.5vw, 5.6rem)/1 var(--mono); letter-spacing: -.035em; }
+    .sub { color: var(--ink-2); margin: 0 0 1.7rem; max-width: 64ch; }
+    .sub b { color: var(--ink); }
+    .fine { font-size: .8rem; color: var(--ink-3); line-height: 1.55; }
+
+    /* ---- the two figures ---- */
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 3rem; margin: 0 0 2rem; }
+    .fig .num { font: 600 clamp(2.9rem, 8.5vw, 5.6rem)/1 var(--mono); letter-spacing: -.04em; transition: color .3s; }
     .fig .key { height: 6px; width: 72px; border-radius: 3px; margin: 1rem 0 .85rem; }
     .fig.claimed .key { background: var(--grey); }
     .fig.confirmed .key { background: var(--gold-mark); }
     .fig .lab { font-weight: 600; font-size: 1.05rem; line-height: 1.35; }
-    .fig .sub { color: var(--ink2); font-size: .86rem; margin-top: .3rem; line-height: 1.5; }
+    .fig .sub2 { color: var(--ink-2); font-size: .86rem; margin-top: .3rem; line-height: 1.5; }
     .verdict { border-left: 2px solid var(--gold); padding: .3rem 0 .3rem 1.2rem; margin: 0; font-size: 1.28rem; line-height: 1.45; max-width: 60ch; }
     .verdict .pct { font: 600 1.55em/1 var(--mono); color: var(--gold); letter-spacing: -.02em; }
-    .verdict .fine { display: block; font-size: .9rem; color: var(--ink2); margin-top: .45rem; }
-    .ytd { margin: 1.6rem 0 0; font: .74rem/1.7 var(--mono); color: var(--ink3); }
-    .ytd b { color: var(--ink2); font-weight: 500; }
+    .verdict .fineline { display: block; font-size: .9rem; color: var(--ink-2); margin-top: .45rem; }
+    .ytd { margin: 1.5rem 0 0; font: .74rem/1.7 var(--mono); color: var(--ink-3); }
+    .ytd b { color: var(--ink-2); font-weight: 500; }
 
-    /* ---- sections ---- */
-    .block { padding: 3.6rem 0; border-top: 1px solid var(--line); }
-    h2 { font: 600 clamp(1.75rem, 3.8vw, 2.5rem)/1.12 var(--serif); margin: 0 0 .6rem; max-width: 24ch; }
-    h3 { font: 600 1.35rem/1.2 var(--serif); margin: 0 0 .6rem; }
-    .sub { color: var(--ink2); margin: 0 0 1.8rem; max-width: 64ch; }
-    .sub b { color: var(--ink); }
+    /* ---- the bar: where do you set the evidentiary standard? ---- */
+    .bar { margin: 2.4rem 0 0; padding: 1.1rem 1.2rem 1rem; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+    .bar-q { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; margin: 0 0 .75rem; }
+    .bar-q b { font: 600 1.25rem/1.2 var(--serif); }
+    .bar-q span { font: .72rem var(--mono); color: var(--ink-3); letter-spacing: .04em; }
+    .bar-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .bar-opts button {
+      flex: 1 1 200px; text-align: left; cursor: pointer; background: var(--ground-2); color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 8px;
+      padding: .6rem .8rem; font: .86rem/1.35 var(--sans); transition: border-color .15s, background .15s, color .15s;
+    }
+    .bar-opts button small { display: block; font: .68rem var(--mono); color: var(--ink-3); margin-top: .2rem; letter-spacing: .03em; }
+    .bar-opts button:hover { border-color: var(--grey); color: var(--ink); }
+    .bar-opts button[aria-checked="true"] { border-color: var(--gold); background: rgba(201,162,39,.08); color: var(--ink); }
+    .bar-opts button[aria-checked="true"] small { color: var(--gold); }
+    .bar-note { margin: .8rem 0 0; font-size: .86rem; color: var(--ink-2); max-width: 66ch; }
 
-    /* ---- the chart ---- */
-    .chart { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.1rem .9rem; position: relative; }
-    .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; font: .76rem/1.5 var(--mono); color: var(--ink2); margin: 0 0 .5rem; }
+    /* ---- charts ---- */
+    .chart { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.1rem .9rem; position: relative; }
+    .chart + .chart { margin-top: 1rem; }
+    .chart h4 { margin: 0 0 .15rem; font: 600 1.2rem/1.2 var(--serif); }
+    .chart .lead { margin: 0 0 .7rem; font-size: .84rem; color: var(--ink-2); }
+    .legend { display: flex; flex-wrap: wrap; gap: .35rem 1.4rem; font: .74rem/1.5 var(--mono); color: var(--ink-2); margin: 0 0 .5rem; }
     .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -2px; margin-right: .45rem; }
     .legend .g i { background: var(--gold-mark); } .legend .u i { background: var(--grey); }
+    .legend .l i { height: 2px; vertical-align: 3px; border-radius: 1px; }
+    .legend .l.g i { background: var(--gold-mark); } .legend .l.u i { background: var(--grey); } .legend .l.k i { background: var(--ink); }
     .plot svg { display: block; width: 100%; height: auto; overflow: visible; }
     .grid { stroke: var(--line); stroke-width: 1; }
-    .axis { stroke: #2c3544; stroke-width: 1; }
-    .tick { fill: var(--ink3); font: 10.5px var(--mono); }
-    .lbl { fill: var(--ink2); font: 11px var(--mono); }
+    .axis { stroke: var(--line-2); stroke-width: 1; }
+    .tick { fill: var(--ink-3); font: 10.5px var(--mono); }
+    .lbl { fill: var(--ink-2); font: 11px var(--mono); }
     .lbl.strong { fill: var(--ink); font-weight: 500; }
+    .lbl.gold { fill: var(--gold); font-weight: 500; }
     .col-gap { fill: var(--grey); } .col-conf { fill: var(--gold-mark); }
+    .col-over { fill: none; stroke: var(--gold-mark); stroke-width: 1.5; stroke-dasharray: 3 3; }
     .hit { fill: transparent; cursor: pointer; }
     .band:hover .col-gap, .band:focus .col-gap { filter: brightness(1.18); }
     .band:hover .col-conf, .band:focus .col-conf { filter: brightness(1.12); }
     .band:focus { outline: none; }
-    .band:focus-visible .hit { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 0; }
-    .tip { position: absolute; pointer-events: none; background: #0b0f16; border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem; font: .78rem/1.55 var(--mono); color: var(--ink); min-width: 210px; max-width: 280px; box-shadow: 0 10px 28px rgba(0,0,0,.5); z-index: 5; }
+    .band:focus-visible .hit { stroke: var(--gold); stroke-width: 1; }
+    .grow .col-gap, .grow .col-conf, .grow .col-over { transform-box: fill-box; transform-origin: bottom; transform: scaleY(1); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+    .grow.pre .col-gap, .grow.pre .col-conf, .grow.pre .col-over { transform: scaleY(.001); }
+    .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    .ln.u { stroke: var(--grey); } .ln.g { stroke: var(--gold-mark); } .ln.k { stroke: var(--ink); }
+    .area-u { fill: var(--grey); fill-opacity: .13; } .area-k { fill: var(--ink); fill-opacity: .06; }
+    .xhair { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0; }
+    .dot { stroke: var(--panel); stroke-width: 2; }
+    .dot.g { fill: var(--gold-mark); } .dot.u { fill: var(--grey); } .dot.k { fill: var(--ink); }
+    .draw .ln { transition: stroke-dashoffset 1.4s ease; } .draw .area-u, .draw .area-k { transition: fill-opacity 1s ease .6s; }
+    .draw.pre .area-u, .draw.pre .area-k { fill-opacity: 0; }
+    .tip { position: absolute; pointer-events: none; background: #090c11; border: 1px solid var(--line-2); border-radius: 8px; padding: .6rem .8rem; font: .76rem/1.55 var(--mono); color: var(--ink); min-width: 200px; max-width: 290px; box-shadow: 0 12px 30px rgba(0,0,0,.55); z-index: 5; }
     .tip[hidden] { display: none; }
-    .tip .t { color: var(--ink2); margin-bottom: .3rem; }
+    .tip .t { color: var(--ink-2); margin-bottom: .3rem; }
     .tip .v { display: flex; justify-content: space-between; gap: 1rem; }
     .tip .v b { font-weight: 600; }
-    .tip .v span { color: var(--ink2); }
+    .tip .v span { color: var(--ink-2); }
     .tip .v i { display: inline-block; width: 10px; height: 2px; vertical-align: middle; margin-right: .4rem; }
-    .tip .cos { color: var(--ink2); margin-top: .35rem; border-top: 1px solid var(--line); padding-top: .35rem; white-space: normal; }
-    figcaption { font-size: .78rem; color: var(--ink3); margin: .75rem 0 0; font-style: italic; line-height: 1.5; }
+    .tip .cos { color: var(--ink-2); margin-top: .35rem; border-top: 1px solid var(--line); padding-top: .35rem; white-space: normal; }
+    figcaption { font-size: .78rem; color: var(--ink-3); margin: .7rem 0 0; font-style: italic; line-height: 1.5; }
     .tablev { margin-top: .9rem; }
-    .tablev summary { cursor: pointer; color: var(--ink2); font: .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .tablev summary { cursor: pointer; color: var(--ink-2); font: .7rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
     .tablev summary:hover { color: var(--ink); }
-    table { border-collapse: collapse; width: 100%; margin-top: .6rem; font-size: .84rem; }
-    th, td { padding: .45rem .6rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+    table { border-collapse: collapse; width: 100%; margin-top: .6rem; font-size: .82rem; }
+    th, td { padding: .42rem .55rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); white-space: nowrap; }
     th:first-child, td:first-child { text-align: left; }
-    th { font-weight: 500; color: var(--ink2); font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; }
+    th { font-weight: 500; color: var(--ink-2); font-size: .66rem; letter-spacing: .05em; text-transform: uppercase; }
     .twrap { overflow-x: auto; }
 
-    /* ---- the receipts ---- */
-    .group { margin: 0 0 2.4rem; }
-    .ghead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: .55rem; margin-bottom: .35rem; }
+    /* ---- the telephone game: one layoff, several numbers ---- */
+    .dispute { display: grid; grid-template-columns: minmax(150px, 1fr) 3fr; gap: .4rem 1.4rem; padding: 1rem 0; border-bottom: 1px solid var(--line); align-items: start; }
+    .dispute .who b { display: block; font-size: 1.02rem; }
+    .dispute .who span { font: .7rem var(--mono); color: var(--ink-3); }
+    .dispute .track { position: relative; height: 58px; margin: .2rem 0 .6rem; }
+    .dispute .track::before { content: ""; position: absolute; left: 0; right: 0; top: 34px; height: 1px; background: var(--line-2); }
+    .dispute .pt { position: absolute; top: 34px; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: 50%; background: var(--grey); border: 2px solid var(--panel); }
+    .dispute .pt.used { background: var(--gold-mark); width: 14px; height: 14px; box-shadow: 0 0 0 2px var(--gold-dim); }
+    .dispute .pl { position: absolute; transform: translateX(-50%); font: .7rem/1.25 var(--mono); color: var(--ink-2); text-align: center; white-space: nowrap; }
+    .dispute .pl b { display: block; color: var(--ink); font-weight: 500; font-size: .8rem; }
+    .dispute .pl.used b { color: var(--gold); }
+    .dispute .pl.up { top: 0; } .dispute .pl.down { top: 42px; }
+    .dispute .pl .ln2 { display: none; }
+    @media (max-width: 720px) { .dispute .pl .lw { display: none; } .dispute .pl .ln2 { display: inline; } }
+    .dispute .why { grid-column: 1 / -1; font-size: .84rem; color: var(--ink-2); max-width: 78ch; margin: .1rem 0 0; }
+    @media (max-width: 720px) { .dispute { grid-template-columns: 1fr; } }
+
+    /* ---- the receipts (a ledger) ---- */
+    .group { margin: 0 0 2.3rem; }
+    .ghead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid var(--line-2); padding-bottom: .55rem; margin-bottom: .35rem; }
     .ghead h3 { margin: 0; display: flex; align-items: center; gap: .65rem; }
-    .ghead h3 i { width: 11px; height: 11px; border-radius: 2px; background: var(--grey); flex: none; }
-    .group.conf .ghead h3 i { background: var(--gold-mark); }
-    .ghead .tot { font: .74rem var(--mono); color: var(--ink2); white-space: nowrap; }
-    .gblurb { color: var(--ink2); font-size: .9rem; margin: .15rem 0 .8rem; max-width: 66ch; }
+    .ghead h3 i { width: 11px; height: 11px; border-radius: 2px; background: var(--grey); flex: none; transition: background .3s; }
+    .group.counted .ghead h3 i { background: var(--gold-mark); }
+    .ghead .tot { font: .72rem var(--mono); color: var(--ink-2); white-space: nowrap; display: flex; gap: .7rem; align-items: center; }
+    .chip { font: 500 .62rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: .28rem .45rem; border-radius: 4px; border: 1px solid var(--line-2); color: var(--ink-3); }
+    .group.counted .chip { color: var(--gold); border-color: var(--gold-dim); }
+    .gblurb { color: var(--ink-2); font-size: .9rem; margin: .15rem 0 .8rem; max-width: 66ch; }
     .row { border-bottom: 1px solid var(--line); }
     .rline { display: grid; grid-template-columns: minmax(130px, 1.15fr) 4.6rem 5.6rem 3fr auto; gap: .4rem 1rem; align-items: baseline; padding: .7rem 0; cursor: pointer; }
     .rline:hover .co { color: var(--gold); }
     .co { font: 600 1rem var(--sans); color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
-    .co::before { content: "▸ "; color: var(--ink3); font-size: .8em; }
+    .co::before { content: "▸ "; color: var(--ink-3); font-size: .8em; }
     .row.open .co::before { content: "▾ "; }
     .pp { font: .86rem var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
-    .dt { font: .74rem var(--mono); color: var(--ink3); }
-    .cl { color: var(--ink2); font-size: .9rem; line-height: 1.45; }
-    .src { font: .7rem var(--mono); color: var(--ink2); white-space: nowrap; border-bottom-color: transparent; }
+    .dt { font: .74rem var(--mono); color: var(--ink-3); }
+    .cl { color: var(--ink-2); font-size: .9rem; line-height: 1.45; }
+    .src { font: .7rem var(--mono); color: var(--ink-2); white-space: nowrap; border-bottom-color: transparent; }
     .src:hover { color: var(--gold); }
-    .rdet { display: none; padding: 0 0 1rem; font-size: .88rem; color: var(--ink2); max-width: 74ch; line-height: 1.55; }
+    .rdet { display: none; padding: 0 0 1rem; font-size: .88rem; color: var(--ink-2); max-width: 74ch; line-height: 1.55; }
     .row.open .rdet { display: block; }
     .rdet p { margin: .15rem 0 .4rem; }
-    .rdet .lab { font: .66rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink3); display: block; margin-top: .55rem; }
-    .tag { font: .62rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); border: 1px solid var(--line); border-radius: 3px; padding: .2rem .35rem; margin-left: .45rem; vertical-align: middle; white-space: nowrap; }
+    .rdet .lab { font: .66rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); display: block; margin-top: .55rem; }
+    .tag { font: .6rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 3px; padding: .2rem .35rem; margin-left: .45rem; vertical-align: middle; white-space: nowrap; }
+    .tag.new { color: var(--gold); border-color: var(--gold-dim); }
     @media (max-width: 720px) {
       .rline { grid-template-columns: 1fr auto; grid-template-areas: "co pp" "cl cl" "dt src"; gap: .25rem .8rem; }
       .co { grid-area: co; } .pp { grid-area: pp; } .cl { grid-area: cl; } .dt { grid-area: dt; } .src { grid-area: src; justify-self: end; }
     }
 
-    /* ---- scale ---- */
-    .bars { display: grid; gap: 1.15rem; margin: 0 0 1.8rem; }
-    .bar { display: grid; grid-template-columns: 220px 1fr; gap: .2rem 1.2rem; align-items: center; }
-    .bar .bl { font-weight: 600; font-size: .95rem; line-height: 1.3; }
-    .bar .bl small { display: block; font: .72rem var(--mono); color: var(--ink3); font-weight: 400; margin-top: .15rem; }
-    .bar .track { position: relative; height: 24px; }
-    .bar .fill { position: absolute; left: 0; top: 3px; height: 18px; border-radius: 0 4px 4px 0; min-width: 2px; }
+    /* ---- the baseline ---- */
+    .bars { display: grid; gap: 1.1rem; margin: 1.6rem 0 1.6rem; }
+    .barrow { display: grid; grid-template-columns: 220px 1fr; gap: .2rem 1.2rem; align-items: center; }
+    .barrow .bl { font-weight: 600; font-size: .95rem; line-height: 1.3; }
+    .barrow .bl small { display: block; font: .72rem var(--mono); color: var(--ink-3); font-weight: 400; margin-top: .15rem; }
+    .barrow .track { position: relative; height: 24px; }
+    .barrow .fill { position: absolute; left: 0; top: 3px; height: 18px; border-radius: 0 4px 4px 0; min-width: 2px; }
     .f-all { background: var(--slate); } .f-blamed { background: var(--grey); } .f-conf { background: var(--gold-mark); }
-    .bar .val { position: absolute; top: 0; line-height: 24px; font: .84rem var(--mono); color: var(--ink); white-space: nowrap; padding-left: 8px; }
-    .bar .val.in { right: 10px; padding: 0; }
-    .bar .val small { color: var(--ink2); font-size: .8em; margin-left: .3rem; }
-    @media (max-width: 720px) { .bar { grid-template-columns: 1fr; gap: .3rem; } }
-    .per { font: 500 1.2rem/1.5 var(--serif); margin: 0; max-width: 60ch; }
-    .per b { font: 600 1.1em var(--mono); color: var(--gold); }
-    .per .fine { display: block; font: 400 .88rem/1.5 var(--sans); color: var(--ink2); margin-top: .35rem; }
+    .barrow .val { position: absolute; top: 0; line-height: 24px; font: .84rem var(--mono); color: var(--ink); white-space: nowrap; padding-left: 8px; }
+    .barrow .val.in { right: 10px; padding: 0; }
+    .barrow .val small { color: var(--ink-2); font-size: .8em; margin-left: .3rem; }
+    @media (max-width: 720px) { .barrow { grid-template-columns: 1fr; gap: .3rem; } }
+    .per { font: 500 1.22rem/1.5 var(--serif); margin: 0; max-width: 60ch; }
+    .per b { font: 600 1.1em/1 var(--mono); color: var(--gold); }
+    .per .fineline { display: block; font: 400 .86rem/1.5 var(--sans); color: var(--ink-2); margin-top: .35rem; }
+    .note-line { margin: .8rem 0 0; font-size: 1rem; color: var(--ink-2); max-width: 66ch; }
+    .note-line b { color: var(--ink); font-family: var(--mono); font-weight: 500; }
 
     /* ---- method ---- */
-    .method dl { display: grid; gap: 1.15rem; margin: 0 0 2.4rem; }
+    .method dl { display: grid; gap: 1.1rem; margin: 0 0 2.2rem; }
     .method dt { font-weight: 600; display: flex; align-items: center; gap: .6rem; }
     .method dt i { width: 10px; height: 10px; border-radius: 2px; flex: none; background: var(--slate); }
     .method dt i.g { background: var(--gold-mark); } .method dt i.u { background: var(--grey); }
-    .method dd { margin: .3rem 0 0; color: var(--ink2); font-size: .92rem; max-width: 68ch; }
-    .method ul { color: var(--ink2); font-size: .92rem; padding-left: 1.15rem; max-width: 68ch; margin: 0; }
+    .method dd { margin: .3rem 0 0; color: var(--ink-2); font-size: .92rem; max-width: 68ch; }
+    .method ul { color: var(--ink-2); font-size: .92rem; padding-left: 1.15rem; max-width: 68ch; margin: 0 0 2rem; }
     .method li { margin: .4rem 0; }
     .method li b { color: var(--ink); }
+    .changes { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 8px; padding: .9rem 1.1rem; font-size: .88rem; color: var(--ink-2); max-width: 74ch; }
+    .changes b { color: var(--ink); }
+    .changes .when { font: .68rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: .3rem; }
 
-    /* ---- footer / error ---- */
-    footer { border-top: 1px solid var(--line); padding: 2.2rem 0 3.6rem; color: var(--ink3); font-size: .82rem; line-height: 1.65; }
-    footer p { margin: 0 0 .6rem; max-width: 70ch; }
-    footer .word { font: italic 500 1.05rem var(--serif); color: var(--gold); }
-    #err { margin: 3rem auto; max-width: 560px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 8px; padding: 1.1rem 1.3rem; font-size: .9rem; color: var(--ink2); }
+    /* ---- colophon / error ---- */
+    footer { border-top: 1px solid var(--line); padding-block: 2.2rem 3.6rem; color: var(--ink-3); font-size: .82rem; line-height: 1.65; }
+    footer p { margin: 0 0 .6rem; max-width: 72ch; }
+    footer .word { font: italic 500 1.08rem var(--serif); color: var(--gold); }
+    #err { margin: 3rem auto; max-width: 560px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 8px; padding: 1.1rem 1.3rem; font-size: .9rem; color: var(--ink-2); }
     #err[hidden] { display: none; }
     #err code { font-family: var(--mono); color: var(--ink); }
 
-    /* ---- motion: restrained, and none if the reader asked for none ---- */
-    /* Sections settle in as you scroll — from a visible resting state, so a still frame
-       (a thumbnail, a print, a skim) always shows the whole page. */
+    /* ---- motion: from a visible resting state; none if the reader asked for none ---- */
     @media (prefers-reduced-motion: no-preference) {
       .reveal { opacity: .45; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
       .reveal.in { opacity: 1; transform: none; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      .grow .col-gap, .grow .col-conf, .grow .col-over, .draw .ln, .draw .area-u, .draw .area-k { transition: none !important; }
+      .grow.pre .col-gap, .grow.pre .col-conf, .grow.pre .col-over { transform: none; }
+      .draw.pre .area-u, .draw.pre .area-k { fill-opacity: inherit; }
+    }
     @media (max-width: 720px) {
-      .hero { padding-top: 3rem; }
+      .sec.hero { padding-top: 2.8rem; }
       .pair { grid-template-columns: 1fr; gap: 1.8rem; }
       .verdict { font-size: 1.12rem; }
     }
@@ -197,7 +286,17 @@
 
   <header class="mast">
     <div class="wrap">
-      <a class="brand" href="#top">Human<i>Cost</i><span>.ai</span></a>
+      <a class="brand" href="#top" aria-label="HumanCost.ai — top of page">
+        <svg class="sig" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+          <circle cx="15" cy="15" r="12.5" fill="none" stroke="#6d6e68" stroke-width="1"/>
+          <line x1="15" y1="1" x2="15" y2="29" stroke="#c9a227" stroke-width="1"/>
+          <circle cx="15" cy="15" r="2.2" fill="#c9a227"/>
+        </svg>
+        <span>
+          <span class="name">Human<i>Cost</i><span>.ai</span></span>
+          <span class="doc">What is <em>measured</em>. What is <em>claimed</em>. The distance between.</span>
+        </span>
+      </a>
       <p class="stamp" id="stamp">Loading the record…</p>
     </div>
   </header>
@@ -210,83 +309,132 @@
       <code>python scripts/build_standalone.py</code>.
     </div>
 
-    <!-- 1 · THE QUESTION AND THE TWO NUMBERS -->
-    <section class="hero" id="top">
-      <p class="kicker">The AI layoff story, checked against the record</p>
-      <h1>How many jobs is AI <em>really</em> taking?</h1>
-      <p class="lede">Every month, more layoffs are blamed on AI. We went looking for the companies that actually said so — on the record, with a headcount. In <b id="hero-month">…</b>:</p>
+    <!-- I · THE NUMBERS -->
+    <section class="sec hero" id="top">
+      <div class="rail"><span class="n">I</span><span>The numbers</span></div>
+      <div class="body">
+        <p class="kicker">The AI layoff story, checked against the record</p>
+        <h1>How many jobs is AI <em>really</em> taking?</h1>
+        <p class="lede">Every month, more layoffs are blamed on AI. We went looking for the companies that actually said so — on the record, with a headcount. In <b id="hero-month">…</b>:</p>
 
-      <div class="pair">
-        <div class="fig claimed">
-          <div class="num" id="hero-claimed">—</div>
-          <div class="key"></div>
-          <div class="lab">jobs blamed on AI</div>
-          <div class="sub">announced U.S. job cuts citing AI · Challenger, Gray &amp; Christmas</div>
+        <div class="pair">
+          <div class="fig claimed">
+            <div class="num" id="hero-claimed">—</div>
+            <div class="key"></div>
+            <div class="lab">jobs blamed on AI</div>
+            <div class="sub2">announced U.S. job cuts citing AI · Challenger, Gray &amp; Christmas</div>
+          </div>
+          <div class="fig confirmed">
+            <div class="num" id="hero-confirmed">—</div>
+            <div class="key"></div>
+            <div class="lab" id="hero-conf-label">where the company itself said AI</div>
+            <div class="sub2" id="hero-companies">on the record — a filing, a memo, a statement</div>
+          </div>
         </div>
-        <div class="fig confirmed">
-          <div class="num" id="hero-confirmed">—</div>
-          <div class="key"></div>
-          <div class="lab">where the company itself said AI</div>
-          <div class="sub" id="hero-companies">on the record — a filing, a memo, a statement</div>
+
+        <p class="verdict" id="verdict"></p>
+        <p class="ytd" id="ytd"></p>
+
+        <div class="bar" id="bar">
+          <div class="bar-q"><b>Where do you set the bar?</b><span>every gold number on this page obeys it</span></div>
+          <div class="bar-opts" role="radiogroup" aria-label="Evidentiary standard" id="bar-opts"></div>
+          <p class="bar-note" id="bar-note"></p>
         </div>
       </div>
-
-      <p class="verdict"><span class="pct" id="hero-pct">—</span> of the AI blame is <b>unverified</b> — no company has put its name to it.
-        <span class="fine">Unverified isn't the same as false. It means nobody has said it on the record, and the record is the only thing we count.</span></p>
-      <p class="ytd" id="ytd"></p>
     </section>
 
-    <!-- 2 · THE GAP, MONTH BY MONTH -->
-    <section class="block reveal" id="trend">
-      <h2>The blame is soaring. The confirmations aren't.</h2>
-      <p class="sub">Announced U.S. job cuts citing AI, month by month — and the part of each the company itself put on the record. Under each month: AI's share of <b>all</b> announced cuts, which is why the story keeps getting louder.</p>
-      <figure class="chart">
-        <div class="legend" aria-hidden="true">
-          <span class="g"><i></i>Company said AI — confirmed</span>
-          <span class="u"><i></i>Unverified — blamed on AI, no company on record</span>
-        </div>
-        <div class="plot" id="plot"></div>
-        <div class="tip" id="tip" hidden></div>
-        <figcaption>Each column is the month's announced cuts citing AI (Challenger, Gray &amp; Christmas); the percentage beneath is AI's share of all announced cuts that month. The gold base is what we could trace to a company's own words. Hover or tap a column for the companies.</figcaption>
-      </figure>
-      <details class="tablev"><summary>View as a table</summary><div class="twrap"><table id="chart-table"></table></div></details>
+    <!-- II · THE SEAM -->
+    <section class="sec reveal" id="seam-sec">
+      <div class="rail"><span class="n">II</span><span>The seam</span></div>
+      <div class="body">
+        <h2>The story surged. The record never followed.</h2>
+        <p class="sub">Announced U.S. job cuts citing AI, month by month — and the part of each that meets the bar. Under each month: AI's share of <b>all</b> announced cuts. <span id="arc"></span></p>
+        <figure class="chart" id="fig-monthly">
+          <div class="legend" aria-hidden="true">
+            <span class="g"><i></i>Meets the bar</span>
+            <span class="u"><i></i>Unverified — blamed on AI, nothing on the record</span>
+          </div>
+          <div class="plot" id="plot"></div>
+          <div class="tip" hidden></div>
+          <figcaption>Each column is the month's announced cuts citing AI (Challenger, Gray &amp; Christmas); the percentage beneath is AI's share of all announced cuts that month. The gold base is what we could trace to the record. Hover or tap a column for the companies.</figcaption>
+        </figure>
+        <figure class="chart" id="fig-seam">
+          <h4>The seam, accumulated</h4>
+          <p class="lead">Running totals for the year. The space between the lines is the distance between the story and the record.</p>
+          <div class="legend" aria-hidden="true">
+            <span class="l u"><i></i>Blamed on AI, cumulative</span>
+            <span class="l g"><i></i>Meets the bar, cumulative</span>
+          </div>
+          <div class="plot" id="seam"></div>
+          <div class="tip" hidden></div>
+          <figcaption>Hover, or tab to the chart and use the arrow keys.</figcaption>
+        </figure>
+        <details class="tablev"><summary>View as a table</summary><div class="twrap"><table id="chart-table"></table></div></details>
+      </div>
     </section>
 
-    <!-- 3 · THE RECEIPTS -->
-    <section class="block reveal" id="receipts">
-      <h2>The receipts.</h2>
-      <p class="sub">Every major 2026 layoff we've checked — <b id="n-events">…</b> so far — grouped by how much of the “AI” is actually on the record. Click a row for the reasoning. Every source is linked; open them yourself.</p>
-      <div id="groups"></div>
+    <!-- III · THE TELEPHONE GAME -->
+    <section class="sec reveal" id="telephone">
+      <div class="rail"><span class="n">III</span><span>The telephone game</span></div>
+      <div class="body">
+        <h2>One layoff. Several numbers.</h2>
+        <p class="sub">A figure changes as it travels — from filing to memo to tracker to headline. When our sources disagree we keep <b>every</b> figure and say which one we use. Nothing is averaged, because an average of two claims is a third claim nobody made.</p>
+        <div id="disputes"></div>
+      </div>
     </section>
 
-    <!-- 4 · ZOOM OUT -->
-    <section class="block reveal" id="scale">
-      <h2>Zoom out. All of it is a sliver.</h2>
-      <p class="sub">Set against every layoff in the country, the entire AI story — claimed and confirmed alike — is small. That doesn't make it unimportant. It makes the proportion the point.</p>
-      <div class="bars" id="scale-bars"></div>
-      <p class="per" id="scale-line"></p>
+    <!-- IV · THE RECEIPTS -->
+    <section class="sec reveal" id="receipts">
+      <div class="rail"><span class="n">IV</span><span>The receipts</span></div>
+      <div class="body">
+        <h2>Who actually said it.</h2>
+        <p class="sub">Every major 2026 layoff we've checked — <b id="n-events">…</b> so far — grouped by how much of the “AI” is actually on the record. Click a row for the reasoning. Every source is linked; open them yourself.</p>
+        <div id="groups"></div>
+      </div>
     </section>
 
-    <!-- 5 · HOW WE COUNT -->
-    <section class="block method reveal" id="method">
-      <h2>How we count.</h2>
-      <dl>
-        <div><dt><i class="u"></i>Blamed on AI</dt>
-          <dd>Challenger, Gray &amp; Christmas tallies announced U.S. job cuts every month and records the reason employers give. This is their “AI / technological update” figure. It counts announcements and stated reasons — it does not measure what AI actually did.</dd></div>
-        <div><dt><i class="g"></i>Company said AI</dt>
-          <dd>A layoff joins this count only when the company itself — in an SEC filing, a public memo, or an official statement — named AI as a reason, and the headcount is documented. We link the source on every row. Even this is a claim; it is simply the strongest one available.</dd></div>
-        <div><dt><i class="u"></i>Unverified</dt>
-          <dd>Blamed minus confirmed. Not “false”: it is blame nobody has put their name to. Some of it is real and undocumented; some is ordinary cuts dressed up as AI; some is headlines. We can't tell which from here — so we don't pretend to.</dd></div>
-        <div><dt><i></i>All layoffs</dt>
-          <dd>The Bureau of Labor Statistics' JOLTS survey: layoffs and discharges, seasonally adjusted. It counts how many jobs end each month. It never says why.</dd></div>
-      </dl>
-      <h3>What this can't tell you</h3>
-      <ul>
-        <li><b>Our ledger is hand-researched, not exhaustive.</b> It covers major, named layoffs and skews toward tech and large firms. Part of the gap is coverage we haven't reached yet.</li>
-        <li><b>Two different yardsticks.</b> Challenger counts announcements; JOLTS counts separations. We show them side by side for scale and never add them together.</li>
-        <li><b>A company saying “AI” is still a claim.</b> Firms have reasons to say it — and reasons not to. We record what they said, not what is true.</li>
-        <li><b>The layoffs are real either way.</b> Whatever the cause, every number on this page is people.</li>
-      </ul>
+    <!-- V · THE BASELINE -->
+    <section class="sec reveal" id="baseline">
+      <div class="rail"><span class="n">V</span><span>The baseline</span></div>
+      <div class="body">
+        <h2>Zoom out. What the government actually counts.</h2>
+        <p class="sub">The Bureau of Labor Statistics measures how many people are laid off or discharged every month, across the whole economy. It never says why. It is the yardstick the AI story sits inside.</p>
+        <figure class="chart" id="fig-jolts">
+          <h4>Layoffs &amp; discharges, every month since 2022</h4>
+          <p class="lead">Seasonally adjusted, all U.S. nonfarm employers · BLS JOLTS.</p>
+          <div class="plot" id="jolts-line"></div>
+          <div class="tip" hidden></div>
+        </figure>
+        <p class="note-line" id="jolts-note"></p>
+        <div class="bars" id="scale-bars"></div>
+        <p class="per" id="scale-line"></p>
+      </div>
+    </section>
+
+    <!-- VI · THE METHOD -->
+    <section class="sec method reveal" id="method">
+      <div class="rail"><span class="n">VI</span><span>The method</span></div>
+      <div class="body">
+        <h2>How we count.</h2>
+        <dl>
+          <div><dt><i class="u"></i>Blamed on AI</dt>
+            <dd>Challenger, Gray &amp; Christmas tallies announced U.S. job cuts every month and records the reason employers give. This is their “artificial intelligence” figure. It counts announcements and stated reasons — it does not measure what AI actually did.</dd></div>
+          <div><dt><i class="g"></i>Meets the bar</dt>
+            <dd>At the strictest setting — the number we publish — a layoff counts only when the company itself, in an SEC filing, a public memo, or an official statement, named AI as a reason, and the headcount is documented. Loosening the bar adds our inferences, then the headlines, so you can watch the number inflate. Even the strictest figure is a claim; it is simply the strongest one available.</dd></div>
+          <div><dt><i class="u"></i>Unverified</dt>
+            <dd>Blamed minus what meets the bar. Not “false”: it is blame nobody has put their name to. Some of it is real and undocumented; some is ordinary cuts dressed up as AI; some is headlines. We can't tell which from here — so we don't pretend to.</dd></div>
+          <div><dt><i></i>All layoffs</dt>
+            <dd>The Bureau of Labor Statistics' JOLTS survey: layoffs and discharges, seasonally adjusted. It counts how many jobs end each month. It never says why.</dd></div>
+        </dl>
+        <h3>What this can't tell you</h3>
+        <ul>
+          <li><b>Our ledger is hand-researched, not exhaustive.</b> It covers major, named layoffs and skews toward tech and large firms. Part of the gap is coverage we haven't reached yet.</li>
+          <li><b>Two different yardsticks.</b> Challenger counts announcements; JOLTS counts separations. We show them side by side for scale and never add them together.</li>
+          <li><b>A company saying “AI” is still a claim.</b> Firms have reasons to say it — and reasons not to. We record what they said, not what is true.</li>
+          <li><b>The layoffs are real either way.</b> Whatever the cause, every number on this page is people.</li>
+        </ul>
+        <div class="changes" id="changes"></div>
+      </div>
     </section>
   </main>
 
@@ -301,15 +449,17 @@
   (() => {
     "use strict";
     // ------------------------------------------------------------------
-    // Everything on the page is computed here, from the three data files.
-    // No figure is typed into the markup. Rule for "confirmed": the company
-    // itself said AI (tier B1) AND the event is verified/reported (A1/A2) —
-    // the same rule scripts/build_rollups.py uses for the discrepancy series.
+    // Everything on the page is computed here, from the data files. No figure
+    // is typed into the markup. "Meets the bar" at the strictest setting is
+    // exactly the rule scripts/build_rollups.py uses: tier B1 (the company
+    // itself said AI) AND event confidence A1/A2. Looser settings add B2, then B3.
+    // A3 (unconfirmed) events never count at any setting.
     // ------------------------------------------------------------------
     const FILES = {
       challenger: "data/challenger-monthly.json",
       events: "data/ai-layoff-events.json",
       jolts: "data/jolts-series.json",
+      log: "data/manifest-log.json",
     };
     const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const fmt = (n) => (n == null || Number.isNaN(n)) ? "—" : Math.round(n).toLocaleString("en-US");
@@ -317,11 +467,11 @@
     const fmtMs = (iso) => { const [y, m] = iso.split("-"); return `${MON[+m - 1]} ’${y.slice(2)}`; };
     const fmtD = (iso) => { const [y, m, d] = iso.split("-"); return `${+d} ${MON[+m - 1]} ${y}`; };
     const pct = (x) => (x == null ? "—" : Math.round(x * 100) + "%");
-    const compact = (v) => v >= 1e6 ? (v / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : v >= 1e3 ? (v / 1e3).toFixed(0) + "K" : String(v);
+    const compact = (v) => v >= 1e6 ? (v / 1e6).toFixed(v >= 1e7 ? 0 : 1).replace(/\.0$/, "") + "M" : v >= 1e3 ? (v / 1e3).toFixed(0) + "K" : String(v);
+    const compact2 = (v) => v >= 1e6 ? (v / 1e6).toFixed(2) + "M" : compact(v);
     const $ = (s, r = document) => r.querySelector(s);
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Tiny DOM helper. Text goes in as text (textContent semantics) — never HTML.
     const h = (tag, attrs = {}, ...kids) => {
       const n = document.createElement(tag);
       for (const [k, v] of Object.entries(attrs)) {
@@ -330,7 +480,7 @@
         else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
         else n.setAttribute(k, v);
       }
-      for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
+      for (const c of kids.flat(Infinity)) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
       return n;
     };
     const svg = (tag, attrs = {}) => {
@@ -338,7 +488,24 @@
       for (const [k, v] of Object.entries(attrs)) if (v != null) n.setAttribute(k, v);
       return n;
     };
+    const put = (node, ...kids) => node.replaceChildren(...kids.flat(Infinity).filter((k) => k != null && k !== false));
     const text = (x, y, s, cls, anchor) => { const t = svg("text", { x, y, class: cls, "text-anchor": anchor || "start" }); t.textContent = s; return t; };
+    const niceStep = (raw) => { const p = Math.pow(10, Math.floor(Math.log10(raw))); const f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p; };
+
+    // ---------------- the bar: three evidentiary standards ----------------
+    const STANDARDS = [
+      { tiers: ["B1"], title: "Only the company's own words", small: "the number we publish",
+        label: "where the company itself said AI",
+        note: "Strictest. A layoff counts only if the company itself said AI, on the record, and the count is documented. This is the number we publish." },
+      { tiers: ["B1", "B2"], title: "…plus our inferences", small: "the company said it, or the evidence points there",
+        label: "where the company said AI, or the evidence points to it",
+        note: "Adds layoffs where the company never said AI, but the roles cut, the AI spending and the timing all point that way. Our inference — labeled as ours, never as their claim." },
+      { tiers: ["B1", "B2", "B3"], title: "…plus the headlines", small: "count it if anyone said it",
+        label: "where the company, we, or a headline said AI",
+        note: "Adds layoffs where only the coverage said AI and the company gave other reasons. This is how the number gets inflated. Watch what it does." },
+    ];
+    let std = 0;
+    const COUNTABLE = (e) => e.event_confidence === "A1" || e.event_confidence === "A2";
 
     // ---------------- data ----------------
     async function load() {
@@ -352,56 +519,62 @@
       return out;
     }
 
-    const CONFIRMED = (e) => e.ai_attribution === "B1" && (e.event_confidence === "A1" || e.event_confidence === "A2");
-
     function compute(d) {
-      const events = (d.events?.events || []).slice().sort((a, b) => (b.headcount || 0) - (a.headcount || 0) || a.date_announced.localeCompare(b.date_announced));
+      const events = (d.events?.events || []).slice()
+        .sort((a, b) => (b.headcount || 0) - (a.headcount || 0) || a.date_announced.localeCompare(b.date_announced));
+      const empty = () => ({ B1: { hc: 0, events: [] }, B2: { hc: 0, events: [] }, B3: { hc: 0, events: [] } });
       const byMonth = {};
       for (const e of events) {
-        if (!CONFIRMED(e)) continue;
+        if (!COUNTABLE(e) || !["B1", "B2", "B3"].includes(e.ai_attribution)) continue;
         const m = (e.date_announced || "").slice(0, 7);
-        (byMonth[m] ||= { hc: 0, events: [] });
-        byMonth[m].hc += e.headcount || 0;
-        byMonth[m].events.push(e);
+        (byMonth[m] ||= empty());
+        byMonth[m][e.ai_attribution].hc += e.headcount || 0;
+        byMonth[m][e.ai_attribution].events.push(e);
       }
       const rows = (d.challenger?.months || []).slice()
         .filter((c) => c.ai_cited_cuts != null)
         .sort((a, b) => a.month.localeCompare(b.month))
         .map((c) => {
-          const confirmed = byMonth[c.month]?.hc || 0;
-          return { month: c.month, claimed: c.ai_cited_cuts, total: c.total_cuts, share: c.ai_cited_share,
-            confirmed, gap: c.ai_cited_cuts - confirmed,
-            unverified: c.ai_cited_cuts ? 1 - confirmed / c.ai_cited_cuts : null,
-            companies: byMonth[c.month]?.events || [] };
+          const bm = byMonth[c.month] || empty();
+          const conf = STANDARDS.map((s) => {
+            const evs = s.tiers.flatMap((t) => bm[t].events);
+            return { hc: s.tiers.reduce((sum, t) => sum + bm[t].hc, 0), events: evs };
+          });
+          return { month: c.month, claimed: c.ai_cited_cuts, total: c.total_cuts, share: c.ai_cited_share, conf };
         });
+      let cumC = 0; const cumS = [0, 0, 0];
+      for (const r of rows) { cumC += r.claimed; r.cumClaimed = cumC; r.cumConf = r.conf.map((c, i) => (cumS[i] += c.hc)); }
       const latest = rows[rows.length - 1];
-      const sum = (k) => rows.reduce((s, r) => s + (r[k] || 0), 0);
-      const ytd = { claimed: sum("claimed"), confirmed: sum("confirmed") };
-      ytd.gap = ytd.claimed - ytd.confirmed;
-      ytd.unverified = ytd.claimed ? 1 - ytd.confirmed / ytd.claimed : null;
+      const ytd = { claimed: cumC, conf: cumS.slice() };
 
-      // Scale: the latest JOLTS month that also has a Challenger row (JOLTS lags ~2 months).
-      const lay = (d.jolts?.series?.layoffs_discharges?.observations || []).filter((o) => o.value != null);
+      const lay = (d.jolts?.series?.layoffs_discharges?.observations || []).filter((o) => o.value != null)
+        .map((o) => ({ period: o.period, people: o.value * 1000 }));
       let scale = null;
       for (let i = lay.length - 1; i >= 0 && !scale; i--) {
         const r = rows.find((x) => x.month === lay[i].period);
-        if (r) scale = { month: lay[i].period, all: lay[i].value * 1000, blamed: r.claimed, confirmed: r.confirmed };
+        if (r) scale = { month: lay[i].period, all: lay[i].people, row: r };
       }
       const groups = ["B1", "B2", "B3", "B0"].map((key) => ({ key, events: events.filter((e) => e.ai_attribution === key) }));
+      const disputes = events.map(disputeOf).filter(Boolean);
+      const mans = (d.log?.manifests || []).filter((m) => m.file && !/seed/i.test(m.manifest_id || ""));
+      const lastMan = mans[mans.length - 1] || null;
       const stamp = {
-        updated: d.events?.meta?.generated || d.challenger?.meta?.last_update || d.jolts?.meta?.last_pull,
-        chalTo: latest?.month, joltsTo: lay[lay.length - 1]?.period,
+        updated: d.events?.meta?.generated || d.challenger?.meta?.last_update || null,
+        chalTo: latest?.month, joltsTo: lay[lay.length - 1]?.period, joltsPull: d.jolts?.meta?.last_pull,
       };
-      return { rows, latest, ytd, scale, groups, events, stamp };
+      return { rows, latest, ytd, lay, scale, groups, disputes, events, lastMan, stamp };
     }
 
-    // ---------------- hero ----------------
+    // ---------------- hero + the bar ----------------
+    const lastShown = new Map();
     function countUp(node, value, format) {
-      if (reduced || !value) { node.textContent = format(value); return; }
-      const t0 = performance.now(), dur = 1200;
+      const from = lastShown.get(node) || 0;
+      lastShown.set(node, value || 0);
+      if (reduced || value == null) { node.textContent = format(value); return; }
+      const t0 = performance.now(), dur = from ? 650 : 1200;
       const tick = (now) => {
         const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
-        node.textContent = format(value * e);
+        node.textContent = format(from + (value - from) * e);
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -410,263 +583,477 @@
     function paintHero(S) {
       const L = S.latest;
       if (!L) return;
+      const conf = L.conf[std].hc, over = conf >= L.claimed && L.claimed > 0;
+      const unv = L.claimed ? Math.max(0, 1 - conf / L.claimed) : null;
       $("#hero-month").textContent = fmtM(L.month);
       countUp($("#hero-claimed"), L.claimed, fmt);
-      countUp($("#hero-confirmed"), L.confirmed, fmt);
-      countUp($("#hero-pct"), L.unverified, pct);
-      const names = L.companies.map((e) => e.company);
-      const sub = $("#hero-companies");
-      sub.replaceChildren(
-        names.length ? `${names.join(" · ")} — ` : "on the record — a filing, a memo, a statement · ",
+      countUp($("#hero-confirmed"), conf, fmt);
+      $("#hero-conf-label").textContent = STANDARDS[std].label;
+      const names = L.conf[std].events.map((e) => e.company);
+      const shown = names.slice(0, 6), more = names.length - shown.length;
+      put($("#hero-companies"),
+        names.length ? `${shown.join(" · ")}${more > 0 ? ` +${more} more` : ""} — ` : "nothing on the record this month — ",
         h("a", { href: "#receipts" }, "see the receipts"));
-      $("#ytd").replaceChildren(
-        `${L.month.slice(0, 4)} to date · `,
-        h("b", {}, fmt(S.ytd.claimed)), " blamed on AI · ",
-        h("b", {}, fmt(S.ytd.confirmed)), " company-confirmed · ",
-        h("b", {}, pct(S.ytd.unverified)), " unverified");
+
+      const v = $("#verdict");
+      if (over) {
+        v.replaceChildren(h("span", { class: "pct" }, "≥100%"), " — counting headlines, the ledger “finds” ", h("b", {}, "more"),
+          " AI layoffs than the tracker itself attributed. ",
+          h("span", { class: "fineline" }, "That is the flood talking to itself: a claim in a headline, counted as a fact. We never publish this figure. It is here so you can watch it happen."));
+      } else if (std === 0) {
+        v.replaceChildren(h("span", { class: "pct" }, pct(unv)), " of the AI blame is ", h("b", {}, "unverified"), " — no company has put its name to it.",
+          h("span", { class: "fineline" }, "Unverified isn't the same as false. It means nobody has said it on the record, and the record is the only thing we count."));
+      } else if (std === 1) {
+        v.replaceChildren("Even counting our inferences, ", h("span", { class: "pct" }, pct(unv)), " of the AI blame has ", h("b", {}, "nothing behind it"), ".",
+          h("span", { class: "fineline" }, "Inference is not evidence. We show it so you can see how much of the gap a looser standard closes — and how much it doesn't."));
+      } else {
+        v.replaceChildren("Counting the headlines too, ", h("span", { class: "pct" }, pct(unv)), " is ", h("b", {}, "still unaccounted for"), ".",
+          h("span", { class: "fineline" }, "This is how the number gets inflated: a claim in a headline, counted as a fact. We never publish this figure."));
+      }
+      const yc = S.ytd.conf[std], yu = S.ytd.claimed ? Math.max(0, 1 - yc / S.ytd.claimed) : null;
+      put($("#ytd"), `${L.month.slice(0, 4)} to date · `, h("b", {}, fmt(S.ytd.claimed)), " blamed on AI · ",
+        h("b", {}, fmt(yc)), " meets the bar · ", h("b", {}, yc >= S.ytd.claimed ? "≥100%" : pct(yu)), yc >= S.ytd.claimed ? " — exceeds the claim" : " unverified");
+      $("#bar-note").textContent = STANDARDS[std].note;
+      document.querySelectorAll("#bar-opts button").forEach((b) => b.setAttribute("aria-checked", String(+b.dataset.std === std)));
     }
 
-    // ---------------- the chart ----------------
-    function niceStep(raw) {
-      const p = Math.pow(10, Math.floor(Math.log10(raw)));
-      const f = raw / p;
-      return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+    function paintArc(S, node) {
+      const rows = S.rows;
+      if (rows.length < 2) { node.textContent = ""; return; }
+      const peak = rows.reduce((a, b) => (b.claimed > a.claimed ? b : a));
+      const L = S.latest;
+      put(node, "The blame peaked in ", h("b", {}, fmtM(peak.month)), " at ", h("b", {}, fmt(peak.claimed)),
+        peak.share != null ? [" — ", h("b", {}, pct(peak.share)), " of every announced cut that month"] : null,
+        peak.month === L.month ? "." : [". By ", h("b", {}, fmtM(L.month)), " it was ", h("b", {}, fmt(L.claimed)), L.share != null ? [" (", pct(L.share), ")"] : null, "."]);
     }
-    // A column with a rounded cap and a square baseline.
+
+    function buildBar(onChange) {
+      const box = $("#bar-opts");
+      STANDARDS.forEach((s, i) => box.append(h("button", { type: "button", role: "radio", "aria-checked": String(i === std), "data-std": String(i),
+        onclick: () => onChange(i) }, s.title, h("small", {}, s.small))));
+    }
+
+    // ---------------- tooltips ----------------
+    function tipFor(fig) { return fig.querySelector(".tip"); }
+    function placeTip(tip, fig, ev, anchorEl) {
+      tip.hidden = false;
+      const fr = fig.getBoundingClientRect();
+      let left, top;
+      if (ev) { left = ev.clientX - fr.left + 16; top = ev.clientY - fr.top + 16; }
+      else { const gr = anchorEl.getBoundingClientRect(); left = gr.left - fr.left + gr.width / 2; top = gr.top - fr.top + 24; }
+      const tw = tip.offsetWidth, th = tip.offsetHeight;
+      if (left + tw > fr.width - 8) left = Math.max(8, left - tw - 24);
+      if (top + th > fr.height - 8) top = Math.max(8, top - th - 24);
+      tip.style.left = left + "px"; tip.style.top = top + "px";
+    }
+    const tipRow = (label, value, color) => h("div", { class: "v" }, h("span", {}, color ? h("i", { style: `background:${color}` }) : null, label), h("b", {}, value));
+
+    // ---------------- II · monthly columns ----------------
     function capPath(x, y, w, hgt, r) {
       r = Math.min(r, w / 2, hgt);
       return `M${x},${y + hgt} V${y + r} Q${x},${y} ${x + r},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + hgt} Z`;
     }
-
-    function renderChart(rows, plot) {
+    function renderMonthly(rows, plot, animate) {
       plot.replaceChildren();
       if (!rows.length) return;
-      const W = Math.max(320, plot.clientWidth || 720);
-      const wide = W >= 600;
-      const m = { top: 30, right: wide ? 72 : 10, bottom: 58, left: 46 };
-      const H = wide ? 360 : 300;
+      const fig = plot.closest("figure"), tip = tipFor(fig);
+      const W = Math.max(320, plot.clientWidth || 720), wide = W >= 600;
+      const m = { top: 30, right: wide ? 72 : 10, bottom: 58, left: 46 }, H = wide ? 360 : 300;
       const iw = W - m.left - m.right, ih = H - m.top - m.bottom;
-      const maxV = Math.max(1, ...rows.map((r) => r.claimed));
+      const maxV = Math.max(1, ...rows.map((r) => Math.max(r.claimed, r.conf[std].hc)));
       const step = niceStep(maxV / 4), top = Math.ceil(maxV / step) * step;
-      const y = (v) => m.top + ih - (v / top) * ih;
-      const base = y(0);
-      const band = iw / rows.length;
-      const bw = Math.min(wide ? 44 : 28, band * 0.55);
-
-      const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img",
-        "aria-label": `Job cuts blamed on AI versus cuts the company itself attributed to AI, ${fmtM(rows[0].month)} to ${fmtM(rows[rows.length - 1].month)}. Table below.` });
-
+      const y = (v) => m.top + ih - (v / top) * ih, base = y(0);
+      const band = iw / rows.length, bw = Math.min(wide ? 44 : 26, band * 0.55);
+      const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img", class: "grow" + (animate ? " pre" : ""),
+        "aria-label": `Job cuts blamed on AI versus cuts meeting the evidentiary bar, ${fmtM(rows[0].month)} to ${fmtM(rows[rows.length - 1].month)}. Table below.` });
       for (let v = 0; v <= top + 1e-9; v += step) {
         root.append(svg("line", { x1: m.left, x2: m.left + iw, y1: y(v), y2: y(v), class: "grid" }));
         root.append(text(m.left - 8, y(v) + 4, compact(v), "tick", "end"));
       }
-
       rows.forEach((r, i) => {
-        const bx = m.left + band * i, cx = bx + band / 2, x0 = cx - bw / 2;
-        const yc = y(r.claimed), yv = y(r.confirmed);
+        const conf = r.conf[std].hc, bx = m.left + band * i, cx = bx + band / 2, x0 = cx - bw / 2;
+        const inside = Math.min(conf, r.claimed), yc = y(r.claimed), yv = y(inside);
         const g = svg("g", { class: "band", tabindex: "0", role: "group",
-          "aria-label": `${fmtM(r.month)}: ${fmt(r.claimed)} blamed on AI, ${fmt(r.confirmed)} confirmed by the company, ${pct(r.unverified)} unverified.` });
+          "aria-label": `${fmtM(r.month)}: ${fmt(r.claimed)} blamed on AI, ${fmt(conf)} meet the bar.` });
         g.append(svg("rect", { x: bx, y: m.top, width: band, height: ih, class: "hit" }));
-        // Grey = unverified. Sits on top of the gold, separated by a 2px surface gap.
-        const gapBottom = r.confirmed > 0 ? yv - 2 : base;
+        const gapBottom = inside > 0 ? yv - 2 : base;
         if (gapBottom - yc > 0.5) g.append(svg("path", { d: capPath(x0, yc, bw, gapBottom - yc, 4), class: "col-gap" }));
-        // Gold = confirmed. Square at the baseline.
-        if (r.confirmed > 0) g.append(svg("rect", { x: x0, y: yv, width: bw, height: base - yv, class: "col-conf" }));
-        // Labels: the claimed total on the cap; the confirmed figure beside the gold (when there's room).
+        if (inside > 0) g.append(svg("rect", { x: x0, y: yv, width: bw, height: base - yv, class: "col-conf" }));
+        if (conf > r.claimed) g.append(svg("rect", { x: x0 + .75, y: y(conf), width: bw - 1.5, height: yc - y(conf) - 2, class: "col-over", rx: 3 }));
         g.append(text(cx, yc - 8, fmt(r.claimed), "lbl strong", "middle"));
-        if (r.confirmed > 0) {
-          if (wide) g.append(text(x0 + bw + 7, yv + 4, fmt(r.confirmed), "lbl", "start"));
-          else if (base - yv >= 18) { const t = text(cx, base - 5, fmt(r.confirmed), "lbl", "middle"); t.style.fill = "#0a0e14"; t.style.fontSize = "9.5px"; g.append(t); }
+        if (conf > 0) {
+          const ly = conf > r.claimed ? y(conf) - 8 : yv + 4;
+          if (wide) g.append(text(x0 + bw + 7, ly, fmt(conf) + (conf > r.claimed ? " ▲" : ""), "lbl" + (conf > r.claimed ? " gold" : ""), "start"));
+          else if (base - yv >= 18 && conf <= r.claimed) { const t = text(cx, base - 5, fmt(conf), "lbl", "middle"); t.style.fill = "#07090d"; t.style.fontSize = "9.5px"; g.append(t); }
         }
         g.append(text(cx, base + 18, fmtMs(r.month), "lbl", "middle"));
         if (r.share != null) g.append(text(cx, base + 34, pct(r.share) + (band >= 110 ? " of all cuts" : ""), "tick", "middle"));
-
-        const show = (ev) => showTip(r, ev, g);
-        g.addEventListener("pointerenter", show);
-        g.addEventListener("pointermove", show);
-        g.addEventListener("pointerleave", hideTip);
-        g.addEventListener("focus", () => showTip(r, null, g));
-        g.addEventListener("blur", hideTip);
+        const show = (ev) => {
+          const gap = Math.max(0, r.claimed - conf);
+          tip.replaceChildren(
+            h("div", { class: "t" }, fmtM(r.month)),
+            tipRow("blamed on AI", fmt(r.claimed), "#8a93a3"),
+            tipRow("meets the bar", fmt(conf), "#c98500"),
+            conf > r.claimed ? tipRow("beyond the claim", fmt(conf - r.claimed) + " ▲") : tipRow("unverified", `${fmt(gap)} · ${pct(r.claimed ? gap / r.claimed : null)}`),
+            tipRow("AI share of all cuts", pct(r.share)),
+            h("div", { class: "cos" }, r.conf[std].events.length
+              ? r.conf[std].events.map((e) => `${e.company} ${e.headcount ? fmt(e.headcount) : "n/d"}`).join(" · ")
+              : "Nothing on the record this month."));
+          placeTip(tip, fig, ev, g);
+        };
+        g.addEventListener("pointerenter", show); g.addEventListener("pointermove", show);
+        g.addEventListener("pointerleave", () => { tip.hidden = true; });
+        g.addEventListener("focus", () => show(null)); g.addEventListener("blur", () => { tip.hidden = true; });
         root.append(g);
       });
       root.append(svg("line", { x1: m.left, x2: m.left + iw, y1: base, y2: base, class: "axis" }));
       plot.append(root);
+      if (animate) onVisible(plot, () => requestAnimationFrame(() => root.classList.remove("pre")));
     }
 
-    function showTip(r, ev, g) {
-      const tip = $("#tip"), fig = tip.parentElement;
-      const row = (label, value, color) => h("div", { class: "v" },
-        h("span", {}, color ? h("i", { style: `background:${color}` }) : null, label), h("b", {}, value));
-      tip.replaceChildren(
-        h("div", { class: "t" }, fmtM(r.month)),
-        row("blamed on AI", fmt(r.claimed), "#8a93a3"),
-        row("company said AI", fmt(r.confirmed), "#c98500"),
-        row("unverified", `${fmt(r.gap)} · ${pct(r.unverified)}`),
-        row("AI share of all cuts", pct(r.share)),
-        h("div", { class: "cos" }, r.companies.length
-          ? r.companies.map((e) => `${e.company} ${fmt(e.headcount)}`).join(" · ")
-          : "No company put its name to AI this month."));
-      tip.hidden = false;
-      const fr = fig.getBoundingClientRect();
-      let left, topPx;
-      if (ev) { left = ev.clientX - fr.left + 16; topPx = ev.clientY - fr.top + 16; }
-      else { const gr = g.getBoundingClientRect(); left = gr.left - fr.left + gr.width / 2; topPx = gr.top - fr.top + 24; }
-      const tw = tip.offsetWidth, th = tip.offsetHeight;
-      if (left + tw > fr.width - 8) left = Math.max(8, left - tw - 24);
-      if (topPx + th > fr.height - 8) topPx = Math.max(8, topPx - th - 24);
-      tip.style.left = left + "px"; tip.style.top = topPx + "px";
+    // ---------------- II · the cumulative seam ----------------
+    function renderSeam(rows, plot, animate) {
+      plot.replaceChildren();
+      if (rows.length < 2) return;
+      const fig = plot.closest("figure"), tip = tipFor(fig);
+      const W = Math.max(320, plot.clientWidth || 720), wide = W >= 600;
+      const m = { top: 26, right: wide ? 150 : 14, bottom: 36, left: 50 }, H = wide ? 300 : 250;
+      const iw = W - m.left - m.right, ih = H - m.top - m.bottom, n = rows.length;
+      const x = (i) => m.left + (i / (n - 1)) * iw;
+      const maxV = Math.max(1, ...rows.map((r) => Math.max(r.cumClaimed, r.cumConf[std])));
+      const step = niceStep(maxV / 4), top = Math.ceil(maxV / step) * step;
+      const y = (v) => m.top + ih - (v / top) * ih;
+      const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img", tabindex: "0", class: "draw" + (animate ? " pre" : ""),
+        "aria-label": "Cumulative job cuts blamed on AI versus cuts meeting the bar, by month. Table below." });
+      for (let v = 0; v <= top + 1e-9; v += step) {
+        root.append(svg("line", { x1: m.left, x2: m.left + iw, y1: y(v), y2: y(v), class: "grid" }));
+        root.append(text(m.left - 8, y(v) + 4, compact(v), "tick", "end"));
+      }
+      const up = rows.map((r, i) => `${x(i)},${y(r.cumClaimed)}`), dn = rows.map((r, i) => `${x(i)},${y(r.cumConf[std])}`);
+      root.append(svg("path", { d: `M${up.join(" L")} L${dn.slice().reverse().join(" L")} Z`, class: "area-u" }));
+      const lu = svg("path", { d: `M${up.join(" L")}`, class: "ln u" }), lg = svg("path", { d: `M${dn.join(" L")}`, class: "ln g" });
+      root.append(lu, lg);
+      const every = Math.max(1, Math.ceil(n / Math.max(1, Math.floor(iw / 64))));
+      rows.forEach((r, i) => {
+        if (i !== n - 1 && (i % every !== 0 || n - 1 - i < every)) return;
+        root.append(text(x(i), m.top + ih + 18, fmtMs(r.month), "tick", i === 0 ? "start" : i === n - 1 ? "end" : "middle"));
+      });
+      const last = rows[n - 1], yc = y(last.cumClaimed), yg = y(last.cumConf[std]);
+      root.append(svg("circle", { cx: x(n - 1), cy: yc, r: 4, class: "dot u" }), svg("circle", { cx: x(n - 1), cy: yg, r: 4, class: "dot g" }));
+      if (wide) {
+        let gy = Math.max(yg, yc + 16);
+        root.append(text(x(n - 1) + 10, yc + 4, `${fmt(last.cumClaimed)} blamed`, "lbl strong"));
+        root.append(text(x(n - 1) + 10, gy + 4, `${fmt(last.cumConf[std])} meet the bar`, "lbl gold"));
+        const gap = last.cumClaimed - last.cumConf[std];
+        if (gap > 0 && yg - yc > 26) root.append(text(x(n - 1) - 8, (yc + yg) / 2 + 4, `the gap · ${fmt(gap)}`, "lbl", "end"));
+      }
+      const xh = svg("line", { x1: 0, x2: 0, y1: m.top, y2: m.top + ih, class: "xhair" });
+      const du = svg("circle", { r: 5, class: "dot u", opacity: 0 }), dg = svg("circle", { r: 5, class: "dot g", opacity: 0 });
+      root.append(xh, du, dg);
+      const hit = svg("rect", { x: m.left, y: m.top, width: iw, height: ih, class: "hit" });
+      root.append(hit);
+      let idx = -1;
+      const show = (i, ev) => {
+        idx = i; const r = rows[i];
+        xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("opacity", 1);
+        du.setAttribute("cx", x(i)); du.setAttribute("cy", y(r.cumClaimed)); du.setAttribute("opacity", 1);
+        dg.setAttribute("cx", x(i)); dg.setAttribute("cy", y(r.cumConf[std])); dg.setAttribute("opacity", 1);
+        tip.replaceChildren(
+          h("div", { class: "t" }, `Through ${fmtM(r.month)}`),
+          tipRow("blamed, cumulative", fmt(r.cumClaimed), "#8a93a3"),
+          tipRow("meets the bar, cumulative", fmt(r.cumConf[std]), "#c98500"),
+          tipRow("the gap", fmt(Math.max(0, r.cumClaimed - r.cumConf[std]))),
+          h("div", { class: "cos" }, `This month alone: ${fmt(r.claimed)} blamed · ${fmt(r.conf[std].hc)} meet the bar`));
+        placeTip(tip, fig, ev, null);
+        if (!ev) { tip.style.left = Math.min(x(i) + 12, W - tip.offsetWidth - 8) + "px"; tip.style.top = (m.top + 8) + "px"; }
+      };
+      const hide = () => { tip.hidden = true; xh.setAttribute("opacity", 0); du.setAttribute("opacity", 0); dg.setAttribute("opacity", 0); };
+      const nearest = (clientX) => { const pt = root.getBoundingClientRect(); const px = (clientX - pt.left) / pt.width * W; let best = 0, bd = 1e9; rows.forEach((_, i) => { const d = Math.abs(x(i) - px); if (d < bd) { bd = d; best = i; } }); return best; };
+      hit.addEventListener("pointermove", (ev) => show(nearest(ev.clientX), ev));
+      hit.addEventListener("pointerleave", hide);
+      root.addEventListener("focus", () => show(n - 1, null));
+      root.addEventListener("blur", hide);
+      root.addEventListener("keydown", (ev) => { if (ev.key === "ArrowLeft") { ev.preventDefault(); show(Math.max(0, (idx < 0 ? n - 1 : idx) - 1), null); } if (ev.key === "ArrowRight") { ev.preventDefault(); show(Math.min(n - 1, (idx < 0 ? n - 1 : idx) + 1), null); } });
+      plot.append(root);
+      if (animate && !reduced) {
+        for (const p of [lu, lg]) { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; }
+        onVisible(plot, () => requestAnimationFrame(() => { root.classList.remove("pre"); for (const p of [lu, lg]) p.style.strokeDashoffset = 0; }));
+      } else root.classList.remove("pre");
     }
-    function hideTip() { $("#tip").hidden = true; }
 
     function renderTable(rows, table) {
       const th = (s) => h("th", {}, s), td = (s) => h("td", {}, s);
       table.replaceChildren(
-        h("thead", {}, h("tr", {}, th("Month"), th("Blamed on AI"), th("Company said AI"), th("Unverified"), th("Unverified %"), th("AI share of all cuts"))),
-        h("tbody", {}, ...rows.map((r) => h("tr", {}, td(fmtM(r.month)), td(fmt(r.claimed)), td(fmt(r.confirmed)), td(fmt(r.gap)), td(pct(r.unverified)), td(pct(r.share))))));
+        h("thead", {}, h("tr", {}, th("Month"), th("Blamed on AI"), th("Meets the bar"), th("Unverified"), th("Unverified %"), th("Blamed, cumulative"), th("Meets the bar, cumulative"), th("AI share of all cuts"))),
+        h("tbody", {}, ...rows.map((r) => { const c = r.conf[std].hc, gap = Math.max(0, r.claimed - c); return h("tr", {}, td(fmtM(r.month)), td(fmt(r.claimed)), td(fmt(c)), td(fmt(gap)), td(pct(r.claimed ? gap / r.claimed : null)), td(fmt(r.cumClaimed)), td(fmt(r.cumConf[std])), td(pct(r.share))); })));
     }
 
-    // ---------------- the receipts ----------------
+    // ---------------- III · the telephone game ----------------
+    const SRC = { sec_filing: "SEC filing", company_statement: "company statement", company_blog: "company blog", internal_memo: "internal memo", earnings_call: "earnings call",
+      warn_filing: "WARN filing", wire: "wire report", press: "press", aggregator: "tracker" };
+    const srcLabel = (t) => SRC[t] || (t || "source").replace(/_/g, " ");
+    const srcShort = (t) => ({ sec_filing: "filing", company_statement: "company", company_blog: "company", internal_memo: "memo", earnings_call: "earnings call", warn_filing: "WARN", wire: "press", press: "press", aggregator: "tracker" })[t] || "source";
+    function disputeOf(e) {
+      const figs = new Map();
+      for (const s of e.sources || []) if (Number.isFinite(s.headcount) && s.headcount > 0 && !figs.has(s.headcount)) figs.set(s.headcount, srcShort(s.type));
+      if (Number.isFinite(e.headcount) && e.headcount > 0 && !figs.has(e.headcount)) figs.set(e.headcount, "our figure");
+      if (figs.size < 2 && e.discrepancy_note) {
+        const nums = (e.discrepancy_note.match(/\d{1,3}(?:,\d{3})+|\d{3,}/g) || []).map((x) => parseInt(x.replace(/,/g, ""), 10)).filter((v) => v >= 50 && v <= 100000);
+        for (const v of nums) if (!figs.has(v)) figs.set(v, "reported");
+      }
+      if (figs.size < 2) return null;
+      const pts = [...figs.entries()].map(([v, label]) => ({ v, label, used: v === e.headcount })).sort((a, b) => a.v - b.v);
+      return { e, pts };
+    }
+    function renderDisputes(disputes, mount) {
+      mount.replaceChildren();
+      if (!disputes.length) { mount.append(h("p", { class: "fine" }, "No disputed figures in the ledger yet.")); return; }
+      for (const { e, pts } of disputes) {
+        const lo = pts[0].v, hi = pts[pts.length - 1].v, span = Math.max(1, hi - lo);
+        const track = h("div", { class: "track" });
+        pts.forEach((p, i) => {
+          const left = 12 + ((p.v - lo) / span) * 76;
+          track.append(h("span", { class: "pt" + (p.used ? " used" : ""), style: `left:${left}%`, title: `${fmt(p.v)} — ${p.label}` }));
+          track.append(h("span", { class: "pl " + (i % 2 ? "down" : "up") + (p.used ? " used" : ""), style: `left:${left}%` }, h("b", {}, fmt(p.v)),
+            p.used ? [h("span", { class: "lw" }, "the figure we use"), h("span", { class: "ln2" }, "ours")] : p.label));
+        });
+        mount.append(h("div", { class: "dispute" },
+          h("div", { class: "who" }, h("b", {}, e.company), h("span", {}, `${fmtD(e.date_announced)} · ${e.headcount ? fmt(e.headcount) + " used" : "no count disclosed by the company"}`)),
+          track,
+          h("p", { class: "why" }, e.discrepancy_note || "Sources give different counts; each is kept.")));
+      }
+    }
+
+    // ---------------- IV · the receipts ----------------
     const GROUP = {
-      B1: { title: "The company itself said AI", conf: true,
-        blurb: "A filing, a memo, or an official statement names AI as a reason, and the headcount is documented. This is the only group we count as confirmed." },
+      B1: { title: "The company itself said AI",
+        blurb: "A filing, a memo, or an official statement names AI as a reason, and the headcount is documented. At the strictest bar, this is the only group that counts." },
       B2: { title: "Probably AI — but the company never said so",
-        blurb: "The roles cut, the AI spending and the timing all point one way. That is our inference, not their statement, so it isn't counted." },
+        blurb: "The roles cut, the AI spending and the timing all point one way. That is our inference, not their statement." },
       B3: { title: "Only the headlines said AI",
-        blurb: "The company gave other reasons. “AI” was added by the coverage. Not counted." },
+        blurb: "The company gave other reasons. “AI” was added by the coverage." },
       B0: { title: "Not about AI",
         blurb: "Nobody — not the company, not the press — claims AI played a part. Most layoffs look like this. It is the baseline the AI story sits inside." },
     };
-    const SRC = { sec_filing: "SEC filing", company_statement: "company statement", company_blog: "company blog", internal_memo: "internal memo",
-      warn_filing: "WARN filing", wire: "wire report", press: "press", aggregator: "tracker" };
-    const srcLabel = (t) => SRC[t] || (t || "source").replace(/_/g, " ");
     const primarySource = (e) => (e.sources || []).find((s) => s.carries_ai_attribution) || (e.sources || [])[0];
-
-    function eventRow(e, conf) {
+    const groupEls = {};
+    function eventRow(e, lastMan) {
       const ps = primarySource(e);
       const mixed = /mixed-cause/i.test(e.ai_attribution_rationale || "");
-      const shaky = conf && e.event_confidence === "A3";
+      const shaky = e.event_confidence === "A3";
+      const isNew = lastMan && e.manifest_id === lastMan.manifest_id;
       const det = h("div", { class: "rdet" },
         e.ai_attribution_rationale ? [h("span", { class: "lab" }, "Why it's in this group"), h("p", {}, e.ai_attribution_rationale)] : null,
-        h("span", { class: "lab" }, "Reasons the company gave"),
-        h("p", {}, (e.stated_reasons || []).join(" · ") || "—"),
+        h("span", { class: "lab" }, "Reasons the company gave"), h("p", {}, (e.stated_reasons || []).join(" · ") || "—"),
         e.discrepancy_note ? [h("span", { class: "lab" }, "Disputed figure — both kept, never averaged"), h("p", {}, e.discrepancy_note)] : null,
         h("span", { class: "lab" }, `Sources (${(e.sources || []).length})`),
-        ...(e.sources || []).map((s) => h("p", {},
-          s.url ? h("a", { href: s.url, target: "_blank", rel: "noopener" }, srcLabel(s.type)) : srcLabel(s.type),
-          " — ", s.claim || "")));
-      const btn = h("button", { class: "co", type: "button", "aria-expanded": "false" }, e.company, (mixed || shaky) ? " " : null,
+        ...(e.sources || []).map((s) => h("p", {}, s.url ? h("a", { href: s.url, target: "_blank", rel: "noopener" }, srcLabel(s.type)) : srcLabel(s.type), " — ", s.claim || "")));
+      const btn = h("button", { class: "co", type: "button", "aria-expanded": "false" }, e.company, (mixed || shaky || isNew) ? " " : null,
+        isNew ? h("span", { class: "tag new", title: "Added in the latest research pass" }, "new") : null,
         mixed ? h("span", { class: "tag", title: "The company named AI alongside another, co-equal reason." }, "mixed cause") : null,
-        shaky ? h("span", { class: "tag", title: "Count not yet confirmed — excluded from the confirmed total." }, "unconfirmed count") : null);
+        shaky ? h("span", { class: "tag", title: "Count not yet confirmed — never counted." }, "unconfirmed") : null);
       const line = h("div", { class: "rline" }, btn,
         h("span", { class: "pp", title: e.headcount ? "people" : "headcount not disclosed" }, e.headcount ? fmt(e.headcount) : "n/d"),
         h("span", { class: "dt" }, fmtD(e.date_announced)),
         h("span", { class: "cl" }, ps?.claim || ""),
-        ps?.url ? h("a", { class: "src", href: ps.url, target: "_blank", rel: "noopener", title: "Open the source" }, srcLabel(ps.type) + " ↗")
-                : h("span", { class: "src" }, ps ? srcLabel(ps.type) : ""));
+        ps?.url ? h("a", { class: "src", href: ps.url, target: "_blank", rel: "noopener", title: "Open the source" }, srcLabel(ps.type) + " ↗") : h("span", { class: "src" }, ps ? srcLabel(ps.type) : ""));
       const row = h("div", { class: "row" }, line, det);
       const toggle = () => { const open = row.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); };
       btn.addEventListener("click", (ev) => { ev.stopPropagation(); toggle(); });
       line.addEventListener("click", (ev) => { if (ev.target.closest("a")) return; toggle(); });
       return row;
     }
-
-    function renderGroups(groups, mount) {
+    function renderGroups(groups, mount, lastMan) {
       mount.replaceChildren();
       for (const g of groups) {
         if (!g.events.length) continue;
-        const meta = GROUP[g.key];
-        const people = g.events.reduce((s, e) => s + (e.headcount || 0), 0);
-        mount.append(h("div", { class: "group" + (meta.conf ? " conf" : "") },
+        const meta = GROUP[g.key], people = g.events.reduce((s, e) => s + (e.headcount || 0), 0);
+        const chip = h("span", { class: "chip" });
+        const el = h("div", { class: "group", "data-key": g.key },
           h("div", { class: "ghead" },
             h("h3", {}, h("i"), meta.title),
-            h("span", { class: "tot" }, `${g.events.length} layoff${g.events.length === 1 ? "" : "s"} · ${fmt(people)} people`)),
+            h("span", { class: "tot" }, `${g.events.length} layoff${g.events.length === 1 ? "" : "s"} · ${fmt(people)} people`, chip)),
           h("p", { class: "gblurb" }, meta.blurb),
-          ...g.events.map((e) => eventRow(e, meta.conf))));
+          ...g.events.map((e) => eventRow(e, lastMan)));
+        groupEls[g.key] = { el, chip };
+        mount.append(el);
+      }
+      paintCounted();
+    }
+    function paintCounted() {
+      for (const [key, { el, chip }] of Object.entries(groupEls)) {
+        const on = STANDARDS[std].tiers.includes(key);
+        el.classList.toggle("counted", on);
+        chip.textContent = on ? "counted" : "not counted";
       }
     }
 
-    // ---------------- zoom out ----------------
+    // ---------------- V · the baseline ----------------
+    function renderJolts(lay, plot, animate) {
+      plot.replaceChildren();
+      if (lay.length < 2) return;
+      const fig = plot.closest("figure"), tip = tipFor(fig);
+      const W = Math.max(320, plot.clientWidth || 720), wide = W >= 600;
+      const m = { top: 22, right: wide ? 96 : 14, bottom: 32, left: 52 }, H = wide ? 280 : 230;
+      const iw = W - m.left - m.right, ih = H - m.top - m.bottom, n = lay.length;
+      const x = (i) => m.left + (i / (n - 1)) * iw;
+      const maxV = Math.max(...lay.map((o) => o.people));
+      const step = niceStep(maxV / 4), top = Math.ceil(maxV / step) * step;
+      const y = (v) => m.top + ih - (v / top) * ih;
+      const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img", tabindex: "0", class: "draw" + (animate ? " pre" : ""),
+        "aria-label": `Monthly layoffs and discharges, ${fmtM(lay[0].period)} to ${fmtM(lay[n - 1].period)}, seasonally adjusted.` });
+      for (let v = 0; v <= top + 1e-9; v += step) {
+        root.append(svg("line", { x1: m.left, x2: m.left + iw, y1: y(v), y2: y(v), class: "grid" }));
+        root.append(text(m.left - 8, y(v) + 4, compact(v), "tick", "end"));
+      }
+      lay.forEach((o, i) => { if (o.period.endsWith("-01")) { root.append(svg("line", { x1: x(i), x2: x(i), y1: m.top + ih, y2: m.top + ih + 4, class: "axis" })); root.append(text(x(i), m.top + ih + 18, o.period.slice(0, 4), "tick", "middle")); } });
+      const pts = lay.map((o, i) => `${x(i)},${y(o.people)}`);
+      root.append(svg("path", { d: `M${pts.join(" L")} L${x(n - 1)},${y(0)} L${x(0)},${y(0)} Z`, class: "area-k" }));
+      const ln = svg("path", { d: `M${pts.join(" L")}`, class: "ln k" });
+      root.append(ln);
+      const last = lay[n - 1];
+      root.append(svg("circle", { cx: x(n - 1), cy: y(last.people), r: 4, class: "dot k" }));
+      if (wide) root.append(text(x(n - 1) + 10, y(last.people) + 4, `${fmtMs(last.period)} · ${compact2(last.people)}`, "lbl strong"));
+      const xh = svg("line", { x1: 0, x2: 0, y1: m.top, y2: m.top + ih, class: "xhair" }), dk = svg("circle", { r: 5, class: "dot k", opacity: 0 });
+      const hit = svg("rect", { x: m.left, y: m.top, width: iw, height: ih, class: "hit" });
+      root.append(xh, dk, hit);
+      let idx = -1;
+      const show = (i, ev) => {
+        idx = i; const o = lay[i], prior = lay.find((p) => p.period === `${+o.period.slice(0, 4) - 1}${o.period.slice(4)}`);
+        xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("opacity", 1);
+        dk.setAttribute("cx", x(i)); dk.setAttribute("cy", y(o.people)); dk.setAttribute("opacity", 1);
+        tip.replaceChildren(h("div", { class: "t" }, fmtM(o.period)), tipRow("laid off or discharged", fmt(o.people), "#ebe6d8"),
+          prior ? tipRow("a year earlier", fmt(prior.people)) : null);
+        placeTip(tip, fig, ev, null);
+        if (!ev) { tip.style.left = Math.min(x(i) + 12, W - tip.offsetWidth - 8) + "px"; tip.style.top = (m.top + 8) + "px"; }
+      };
+      const hide = () => { tip.hidden = true; xh.setAttribute("opacity", 0); dk.setAttribute("opacity", 0); };
+      const nearest = (clientX) => { const pt = root.getBoundingClientRect(); const px = (clientX - pt.left) / pt.width * W; return Math.max(0, Math.min(n - 1, Math.round((px - m.left) / iw * (n - 1)))); };
+      hit.addEventListener("pointermove", (ev) => show(nearest(ev.clientX), ev));
+      hit.addEventListener("pointerleave", hide);
+      root.addEventListener("focus", () => show(n - 1, null)); root.addEventListener("blur", hide);
+      root.addEventListener("keydown", (ev) => { if (ev.key === "ArrowLeft") { ev.preventDefault(); show(Math.max(0, (idx < 0 ? n - 1 : idx) - 1), null); } if (ev.key === "ArrowRight") { ev.preventDefault(); show(Math.min(n - 1, (idx < 0 ? n - 1 : idx) + 1), null); } });
+      plot.append(root);
+      if (animate && !reduced) {
+        const L = ln.getTotalLength(); ln.style.strokeDasharray = L; ln.style.strokeDashoffset = L;
+        onVisible(plot, () => requestAnimationFrame(() => { root.classList.remove("pre"); ln.style.strokeDashoffset = 0; }));
+      } else root.classList.remove("pre");
+    }
+    const chg = (a, b) => { const c = a / b - 1; return Math.abs(c) < 0.005 ? "flat" : (c > 0 ? "up " : "down ") + Math.round(Math.abs(c) * 100) + "%"; };
+    function paintJoltsNote(S, node) {
+      const lay = S.lay, last = lay[lay.length - 1];
+      if (!last) { node.textContent = ""; return; }
+      const prior = lay.find((p) => p.period === `${+last.period.slice(0, 4) - 1}${last.period.slice(4)}`);
+      const inWindow = S.rows.map((r) => r.month).filter((mth) => lay.some((o) => o.period === mth));
+      const avg = (periods) => { const v = periods.map((p) => lay.find((o) => o.period === p)?.people).filter(Boolean); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+      const thisYear = avg(inWindow), lastYear = avg(inWindow.map((p) => `${+p.slice(0, 4) - 1}${p.slice(4)}`));
+      const latest = S.latest, peak = S.rows.reduce((a, b) => (b.share != null && (a.share == null || b.share > a.share) ? b : a), S.rows[0] || {});
+      put(node,
+        `In ${fmtM(last.period)}, employers laid off or discharged `, h("b", {}, fmt(last.people)), " people",
+        prior ? [" — ", h("b", {}, chg(last.people, prior.people)), " from a year earlier"] : null, ". ",
+        thisYear && lastYear ? ["Across the months on this page, measured layoffs averaged ", h("b", {}, compact2(thisYear)), " a month, ", h("b", {}, chg(thisYear, lastYear)), " on the same months of the year before. "] : null,
+        peak && peak.share != null && latest ? ["Over those same months, the share of announced cuts blamed on AI peaked at ", h("b", {}, pct(peak.share)), ` (${fmtM(peak.month)})`,
+          latest.month !== peak.month && latest.share != null ? [" and was ", h("b", {}, pct(latest.share)), ` in ${fmtM(latest.month)}`] : null, "."] : null);
+    }
     function renderScale(scale, mount, line) {
       mount.replaceChildren();
       if (!scale) { line.textContent = ""; return; }
+      const conf = scale.row.conf[std].hc;
       const items = [
         { lab: "All layoffs & discharges", sub: `U.S. employers, ${fmtM(scale.month)} · BLS JOLTS`, v: scale.all, cls: "f-all" },
-        { lab: "Blamed on AI", sub: "announced cuts citing AI · Challenger", v: scale.blamed, cls: "f-blamed" },
-        { lab: "Company said AI", sub: "on the record · our ledger", v: scale.confirmed, cls: "f-conf" },
+        { lab: "Blamed on AI", sub: "announced cuts citing AI · Challenger", v: scale.row.claimed, cls: "f-blamed" },
+        { lab: "Meets the bar", sub: STANDARDS[std].label, v: conf, cls: "f-conf" },
       ];
       for (const it of items) {
         const w = (it.v / scale.all) * 100, inside = w > 60, wv = Math.max(w, 0.25);
         const share = w >= 10 ? Math.round(w) + "%" : w >= 1 ? w.toFixed(1) + "%" : w.toFixed(2) + "%";
-        mount.append(h("div", { class: "bar" },
+        mount.append(h("div", { class: "barrow" },
           h("div", { class: "bl" }, it.lab, h("small", {}, it.sub)),
           h("div", { class: "track" },
             h("div", { class: "fill " + it.cls, style: `width:${wv}%` }),
             h("span", { class: "val" + (inside ? " in" : ""), style: inside ? null : `left:${wv}%` }, fmt(it.v), h("small", {}, share)))));
       }
-      const per = (v) => (v / scale.all) * 1000;
-      const pb = per(scale.blamed), pc = per(scale.confirmed);
-      const said = pc < 1 ? ["Fewer than ", h("b", {}, "1"), " had the company say so."]
-                          : [h("b", {}, Math.round(pc)), ` had the company say so.`];
-      line.replaceChildren(
-        `For every 1,000 people laid off in ${fmtM(scale.month)}, `, h("b", {}, Math.round(pb)), " were blamed on AI. ", ...said,
-        h("span", { class: "fine" }, "Two different yardsticks (announcements vs. measured separations), shown together only for scale — never added."));
+      const per = (v) => (v / scale.all) * 1000, pb = per(scale.row.claimed), pc = per(conf);
+      const said = pc < 1 ? ["Fewer than ", h("b", {}, "1"), " met the bar."] : [h("b", {}, Math.round(pc)), " met the bar."];
+      put(line, `For every 1,000 people laid off in ${fmtM(scale.month)}, `, h("b", {}, Math.round(pb)), " were blamed on AI. ", ...said,
+        h("span", { class: "fineline" }, "Two different yardsticks (announcements vs. measured separations), shown together only for scale — never added."));
     }
 
-    // ---------------- boot ----------------
+    // ---------------- VI · what changed ----------------
+    function paintChanges(S, node) {
+      const mn = S.lastMan;
+      if (!mn) { node.hidden = true; return; }
+      const counts = Object.entries(mn.ops || {}).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${k.replace(/_/g, " ")}`).join(" · ");
+      put(node, h("span", { class: "when" }, `Latest research pass · ${fmtD((mn.applied_at || "").slice(0, 10))}`),
+        h("b", {}, "What changed. "), mn.summary || "", counts ? h("span", { class: "fine" }, ` (${counts}; content hash ${(mn.sha256 || "").slice(0, 12)}…)`) : null,
+        S.stamp.joltsPull ? h("span", { class: "fine" }, ` JOLTS re-pulled ${fmtD(S.stamp.joltsPull)}.`) : null);
+    }
+
+    // ---------------- helpers: visibility, stamp, reveal ----------------
+    function onVisible(el, fn) {
+      if (!("IntersectionObserver" in window)) { fn(); return; }
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); fn(); } }, { rootMargin: "0px 0px -12% 0px" });
+      io.observe(el);
+      setTimeout(() => { io.disconnect(); fn(); }, 6000);   // never leave a chart un-drawn
+    }
     function paintStamp(st) {
       const bits = [];
       if (st.updated) bits.push(`Updated ${fmtD(st.updated)}`);
       if (st.chalTo) bits.push(`Challenger through ${fmtM(st.chalTo)}`);
       if (st.joltsTo) bits.push(`JOLTS through ${fmtM(st.joltsTo)}`);
-      $("#stamp").textContent = bits.join(" · ");
+      const s = $("#stamp"); s.replaceChildren(...bits.flatMap((b, i) => [i ? " · " : null, h("b", {}, b)].filter(Boolean)));
     }
-
-    // Scroll-reveal is decoration; content must never be stuck invisible. So: reveal on
-    // intersection, but also on print, and unconditionally a few seconds after load —
-    // a full-page capture or a screen reader never waits for an observer.
     function reveal() {
       const els = document.querySelectorAll(".reveal");
       const all = () => els.forEach((e) => e.classList.add("in"));
       if (reduced || !("IntersectionObserver" in window)) { all(); return; }
-      const io = new IntersectionObserver((entries) => {
-        for (const en of entries) if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
-      }, { rootMargin: "0px 0px -8% 0px" });
+      const io = new IntersectionObserver((entries) => { for (const en of entries) if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }, { rootMargin: "0px 0px -8% 0px" });
       els.forEach((e) => io.observe(e));
       window.addEventListener("beforeprint", all);
       setTimeout(all, 3000);
     }
 
+    // ---------------- boot ----------------
     async function boot() {
       let S;
-      try {
-        S = compute(await load());
-      } catch (err) {
+      try { S = compute(await load()); }
+      catch (err) {
         console.error(err);
         $("#err-msg").textContent = String(err.message || err);
-        $("#err").hidden = false;
-        $("#stamp").textContent = "";
+        $("#err").hidden = false; $("#stamp").textContent = "";
         document.querySelectorAll(".reveal").forEach((e) => e.classList.add("in"));
         return;
       }
+      const plot = $("#plot"), seam = $("#seam"), jl = $("#jolts-line");
+      const paintAll = (animate) => {
+        paintHero(S);
+        renderMonthly(S.rows, plot, animate);
+        renderSeam(S.rows, seam, animate);
+        renderTable(S.rows, $("#chart-table"));
+        paintCounted();
+        renderScale(S.scale, $("#scale-bars"), $("#scale-line"));
+      };
+      buildBar((i) => { if (i === std) return; std = i; paintAll(false); });
       paintStamp(S.stamp);
-      paintHero(S);
-      const plot = $("#plot");
-      renderChart(S.rows, plot);
-      renderTable(S.rows, $("#chart-table"));
+      paintArc(S, $("#arc"));
       $("#n-events").textContent = String(S.events.length);
-      renderGroups(S.groups, $("#groups"));
-      renderScale(S.scale, $("#scale-bars"), $("#scale-line"));
+      renderDisputes(S.disputes, $("#disputes"));
+      renderGroups(S.groups, $("#groups"), S.lastMan);
+      renderJolts(S.lay, jl, true);
+      paintJoltsNote(S, $("#jolts-note"));
+      paintChanges(S, $("#changes"));
+      paintAll(true);
       reveal();
-      // Redraw the chart when the container changes width (orientation, resize).
       if ("ResizeObserver" in window) {
         let last = plot.clientWidth, t;
         new ResizeObserver(() => {
           const w = plot.clientWidth;
           if (Math.abs(w - last) < 4) return;
-          last = w; clearTimeout(t); t = setTimeout(() => { hideTip(); renderChart(S.rows, plot); }, 120);
+          last = w; clearTimeout(t);
+          t = setTimeout(() => { renderMonthly(S.rows, plot, false); renderSeam(S.rows, seam, false); renderJolts(S.lay, jl, false); }, 120);
         }).observe(plot);
       }
-      window.__HUMANCOST = S;   // exposed for the browser check in tests/site_check.mjs
+      window.__HUMANCOST = S;   // exposed for tests/site_check.mjs
     }
     boot();
   })();

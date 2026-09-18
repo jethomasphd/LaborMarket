@@ -50,21 +50,18 @@ between them is not an error to reconcile — **it is the measurement of the str
 
 ## The dashboard — one page, one idea
 
-The site is a **single scrolling page** (`index.html`). No tabs, no jargon on the surface — the two-axis
-rubric lives in the data layer and the page translates it into plain words. Five beats, top to bottom:
+The site is a **single scrolling page** (`index.html`): inline CSS and JS, inline-SVG charts, no dependencies,
+no build step. No tabs, no tier codes on the surface — the two-axis rubric lives in the data layer and the
+page translates it into plain words. Six movements, numbered in the margin like an argument:
 
-1. **The question and the two numbers.** *How many jobs is AI really taking?* For the latest month:
-   jobs **blamed on AI** (Challenger's AI-cited total) beside jobs where **the company itself said AI**
-   (our B1, A1/A2-verified total), and the verdict — the share of the blame that is **unverified**.
-2. **The gap, month by month.** One stacked column per month: gold base = confirmed, grey = unverified,
-   whole column = blamed. AI's share of all announced cuts sits under each month. Hover/tab for the
-   companies; a table view sits beneath for accessibility.
-3. **The receipts.** Every event in the ledger, grouped in plain language — *the company itself said AI ·
-   probably AI but the company never said so · only the headlines said AI · not about AI.* Each row: company,
-   people, date, the sourced claim, and a link. Click a row for the full rationale, disputed figures, and all sources.
-4. **Zoom out.** All layoffs & discharges (JOLTS) vs. blamed vs. confirmed, on one honest linear scale, plus
-   the “for every 1,000 people laid off…” line.
-5. **How we count** — the four definitions and what the page *can't* tell you.
+| | Movement | What it shows |
+|---|---|---|
+| I | **The numbers** | For the latest month: jobs **blamed on AI** (Challenger's AI-cited total) beside jobs that **meet the bar**, and the share of the blame that is unverified. Then the page's signature control — **“Where do you set the bar?”** — three evidentiary standards (*only the company's own words* → *plus our inferences* → *plus the headlines*). Every gold figure on the page recomputes live, so a reader can watch the number inflate as the standard loosens. The strict figure is the only one we publish. |
+| II | **The seam** | Monthly stacked columns (gold = meets the bar, grey = unverified, whole column = blamed) with AI's share of all announced cuts beneath each month, plus the **cumulative seam**: running totals whose widening gap is the distance between the story and the record. Hover/tap tooltips, keyboard navigation, and a table twin. |
+| III | **The telephone game** | Every event whose sources disagree on a headcount, drawn as a range: each source's figure as a dot, the figure we use in gold. Nothing is averaged. |
+| IV | **The receipts** | The whole ledger, grouped in plain language (*the company itself said AI · probably AI but the company never said so · only the headlines said AI · not about AI*), each group marked counted/not-counted for the current bar. Rows carry the sourced claim and a link, expand to the full rationale, disputed figures and every source, and are tagged **new** when added by the latest research pass. |
+| V | **The baseline** | JOLTS layoffs & discharges, every month since 2022, with a data-derived sentence (year-over-year change, the window average vs. the year before, the peak AI share); then all layoffs vs. blamed vs. meets-the-bar on one linear scale and the “for every 1,000 people laid off…” line. |
+| VI | **The method** | The four definitions, what the page can't tell you, and a **what changed** box read from the manifest log. |
 
 Every figure is computed in the browser from `data/*.json` at load; nothing is typed into the markup.
 `scripts/build_standalone.py` inlines the data into a single `dist/humancost.html` that opens from disk
@@ -75,7 +72,7 @@ Every figure is computed in the browser from `data/*.json` at load; nothing is t
 ## Repository layout
 
 ```
-index.html                 the whole dashboard — one page, inline CSS + JS, no dependencies, no build step
+index.html                 the whole dashboard — one page, six movements, inline CSS + JS + SVG, no build step
 data/*.json                the data layer (event ledger, JOLTS, Challenger, WARN, sources, manifest log)
 data/derived/*.json        auto-generated rollups (never hand-edited; used by the pipeline + tests)
 schemas/*.schema.json      JSON Schema for every data file
@@ -113,7 +110,7 @@ The dashboard is a static publication target; the intelligence comes from a recu
 Refresh the measured baseline any time:
 
 ```bash
-python scripts/fetch_jolts.py            # BLS v2 (BLS_API_KEY) → v1 (keyless) → FRED (FRED_API_KEY)
+python scripts/fetch_jolts.py            # BLS v2 (BLS_API_KEY) → v1 (keyless) → FRED API (FRED_API_KEY) → FRED CSV (keyless, no quota)
 ```
 
 ---
@@ -130,8 +127,8 @@ python -m pytest tests/ -q               # 17 tests: validator refusal, rollups,
 python -m http.server 8000               # then open http://localhost:8000  (the page fetches data/ over HTTP)
 python scripts/build_standalone.py       # or: dist/humancost.html — a single file that opens from disk
 
-npm install && npm run check             # optional real-browser check (Playwright): hero figures == data,
-                                         # chart/receipts/scale render, no overflow at 360px, screenshots
+npm install && npm run check             # optional real-browser check (Playwright): hero figures == data, the bar
+                                         # recomputes, charts/receipts/baseline render, no overflow at 360px, screenshots
 ```
 
 Secrets are env-vars only — `BLS_API_KEY`, `FRED_API_KEY`. **Never commit a key.**

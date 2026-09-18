@@ -1,8 +1,8 @@
 {
   "meta": {
     "source": "BLS JOLTS (SA, total nonfarm, level, thousands)",
-    "last_pull": "2026-06-16",
-    "api": "BLS v1 (keyless)",
+    "last_pull": "2026-09-18",
+    "api": "FRED CSV (keyless)",
     "note": "Measured baseline. Rigorous, lagged ~2 months, CANNOT attribute causation."
   },
   "series": {
@@ -219,7 +219,19 @@
         },
         {
           "period": "2026-04",
-          "value": 7618.0
+          "value": 7585.0
+        },
+        {
+          "period": "2026-05",
+          "value": 7537.0
+        },
+        {
+          "period": "2026-06",
+          "value": 7182.0
+        },
+        {
+          "period": "2026-07",
+          "value": 7271.0
         }
       ]
     },
@@ -436,7 +448,19 @@
         },
         {
           "period": "2026-04",
-          "value": 5116.0
+          "value": 5215.0
+        },
+        {
+          "period": "2026-05",
+          "value": 5252.0
+        },
+        {
+          "period": "2026-06",
+          "value": 5332.0
+        },
+        {
+          "period": "2026-07",
+          "value": 5054.0
         }
       ]
     },
@@ -653,7 +677,19 @@
         },
         {
           "period": "2026-04",
-          "value": 2977.0
+          "value": 3043.0
+        },
+        {
+          "period": "2026-05",
+          "value": 3153.0
+        },
+        {
+          "period": "2026-06",
+          "value": 3213.0
+        },
+        {
+          "period": "2026-07",
+          "value": 3056.0
         }
       ]
     },
@@ -870,7 +906,19 @@
         },
         {
           "period": "2026-04",
-          "value": 1692.0
+          "value": 1667.0
+        },
+        {
+          "period": "2026-05",
+          "value": 1761.0
+        },
+        {
+          "period": "2026-06",
+          "value": 1785.0
+        },
+        {
+          "period": "2026-07",
+          "value": 1666.0
         }
       ]
     },
@@ -1087,7 +1135,19 @@
         },
         {
           "period": "2026-04",
-          "value": 4978.0
+          "value": 5038.0
+        },
+        {
+          "period": "2026-05",
+          "value": 5260.0
+        },
+        {
+          "period": "2026-06",
+          "value": 5337.0
+        },
+        {
+          "period": "2026-07",
+          "value": 5072.0
         }
       ]
     },
@@ -1304,7 +1364,19 @@
         },
         {
           "period": "2026-04",
-          "value": 310.0
+          "value": 328.0
+        },
+        {
+          "period": "2026-05",
+          "value": 346.0
+        },
+        {
+          "period": "2026-06",
+          "value": 340.0
+        },
+        {
+          "period": "2026-07",
+          "value": 350.0
         }
       ]
     }

@@ -8,7 +8,8 @@ total nonfarm, LEVEL (thousands). Six series. Causation-blind by design.
 Source chain (first that works wins, per series request):
   1. BLS Public Data API v2  (POST, needs BLS_API_KEY; up to 20-year span, 50 series)
   2. BLS Public Data API v1  (POST, no key; ~10-year span, lower daily quota)   [fallback]
-  3. FRED                    (GET, needs FRED_API_KEY; mirrors the JOLTS series)  [fallback]
+  3. FRED API                (GET, needs FRED_API_KEY; mirrors the JOLTS series)  [fallback]
+  4. FRED CSV                (GET, keyless fredgraph.csv; same series, no quota)   [last resort]
 
 Charter guardrail honored: series IDs are the seed.md §2.1/§5.3 starting points, and the
 caller is expected to have round-tripped them against a live API (see BUILD_LOG findings).
@@ -42,6 +43,7 @@ SERIES = {
 BLS_V2 = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 BLS_V1 = "https://api.bls.gov/publicAPI/v1/timeseries/data/"
 FRED_URL = "https://api.stlouisfed.org/fred/series/observations"
+FRED_CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv"   # keyless CSV mirror
 
 # A JOLTS level (thousands) is in the hundreds-to-tens-of-thousands range; a rate is < 100.
 # Guard against silently ingesting the rate series under a 'thousands' unit.
@@ -110,6 +112,27 @@ def fetch_fred(api_key, startyear):
     return by_name
 
 
+def fetch_fred_csv(startyear):
+    """Keyless FRED fallback: fredgraph.csv?id=<SERIES> returns 'observation_date,<ID>' rows.
+    Same JOLTS mirror as the API, no key, no daily quota. One GET per series."""
+    by_name = {}
+    for name, meta in SERIES.items():
+        r = requests.get(FRED_CSV_URL, params={"id": meta["fred"]}, timeout=45)
+        r.raise_for_status()
+        obs = []
+        for line in r.text.splitlines()[1:]:          # skip the header row
+            parts = line.strip().split(",")
+            if len(parts) != 2 or parts[1] in (".", ""):
+                continue
+            period = parts[0][:7]
+            if int(period[:4]) < startyear:
+                continue
+            obs.append({"period": period, "value": float(parts[1])})
+        obs.sort(key=lambda x: x["period"])
+        by_name[name] = obs
+    return by_name
+
+
 def _looks_like_rate(observations):
     vals = [o["value"] for o in observations if o["value"] is not None]
     if not vals:
@@ -156,6 +179,16 @@ def main():
             used_api = "FRED"
         except Exception as e:  # noqa: BLE001
             print(f"[fetch_jolts] FRED failed: {e}", file=sys.stderr)
+
+    # 4) FRED keyless CSV — the route that still works when BLS's daily quota is spent.
+    if not used_api or not all(series_obs.values()):
+        try:
+            print("[fetch_jolts] trying FRED CSV (keyless) fallback ...", file=sys.stderr)
+            series_obs = fetch_fred_csv(args.startyear)
+            if all(series_obs.values()):
+                used_api = "FRED CSV (keyless)"
+        except Exception as e:  # noqa: BLE001
+            print(f"[fetch_jolts] FRED CSV failed: {e}", file=sys.stderr)
 
     if not used_api or not all(series_obs.values()):
         print("[fetch_jolts] ERROR: could not retrieve all six series from any source.", file=sys.stderr)
