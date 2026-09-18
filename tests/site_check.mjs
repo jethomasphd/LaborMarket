@@ -26,10 +26,12 @@ const jolts = J("data/jolts-series.json");
 const countable = (e) => ["A1", "A2"].includes(e.event_confidence);
 const sumIn = (m, tiers) => events.filter((e) => countable(e) && tiers.includes(e.ai_attribution) && e.date_announced.startsWith(m)).reduce((s, e) => s + (e.headcount || 0), 0);
 const latest = months[months.length - 1];
-const expClaimed = latest.ai_cited_cuts;
-const expStrict = sumIn(latest.month, ["B1"]);
-const expLoose = sumIn(latest.month, ["B1", "B2", "B3"]);
+const ytdOf = (tiers) => months.reduce((s, m) => s + sumIn(m.month, tiers), 0);
+const expClaimed = months.reduce((s, m) => s + m.ai_cited_cuts, 0);   // year to date — the hero
+const expStrict = ytdOf(["B1"]);
+const expLoose = ytdOf(["B1", "B2", "B3"]);
 const expPct = Math.round((1 - expStrict / expClaimed) * 100) + "%";
+const expLatestStrict = sumIn(latest.month, ["B1"]);
 const fmt = (n) => n.toLocaleString("en-US");
 const lastLay = jolts.series.layoffs_discharges.observations.filter((o) => o.value != null).pop();
 
@@ -56,10 +58,11 @@ try {
   ok("no JS exceptions", jsErrors.length === 0, jsErrors.join(" | "));
   ok("no failed requests (fonts excepted)", badRequests.length === 0, badRequests.join(", "));
   ok("error box hidden", await page.isHidden("#err"));
-  ok(`hero month = ${latest.month}`, (await txt("#hero-month")).includes(latest.month.slice(0, 4)));
-  ok(`hero claimed = ${fmt(expClaimed)} (from data)`, (await txt("#hero-claimed")) === fmt(expClaimed), await txt("#hero-claimed"));
-  ok(`hero strict = ${fmt(expStrict)} (from data)`, (await txt("#hero-confirmed")) === fmt(expStrict), await txt("#hero-confirmed"));
+  ok(`hero names the year through ${latest.month}`, (await txt("#hero-year")).includes(latest.month.slice(0, 4)));
+  ok(`hero claimed (YTD) = ${fmt(expClaimed)} (from data)`, (await txt("#hero-claimed")) === fmt(expClaimed), await txt("#hero-claimed"));
+  ok(`hero strict (YTD) = ${fmt(expStrict)} (from data)`, (await txt("#hero-confirmed")) === fmt(expStrict), await txt("#hero-confirmed"));
   ok(`verdict = ${expPct} unverified (from data)`, (await txt("#verdict")).includes(expPct), await txt("#verdict"));
+  ok(`latest-month line = ${fmt(latest.ai_cited_cuts)} / ${fmt(expLatestStrict)} (from data)`, (await txt("#latest")).includes(fmt(latest.ai_cited_cuts)) && (await txt("#latest")).includes(fmt(expLatestStrict)), await txt("#latest"));
   ok("stamp shows Challenger + JOLTS coverage", /Challenger through .* JOLTS through/.test(await txt("#stamp")), await txt("#stamp"));
 
   // II — the seam
@@ -69,7 +72,7 @@ try {
   ok("table twin has one row per month", (await page.locator("#chart-table tbody tr").count()) === months.length);
   await page.locator("#plot svg g.band").last().hover();
   ok("monthly tooltip appears on hover", await page.isVisible("#fig-monthly .tip"));
-  ok("monthly tooltip carries the strict figure", (await txt("#fig-monthly .tip")).includes(fmt(expStrict)));
+  ok("monthly tooltip carries the latest month's strict figure", (await txt("#fig-monthly .tip")).includes(fmt(expLatestStrict)));
   await page.locator("#seam svg").focus();
   await page.keyboard.press("ArrowLeft");
   ok("seam chart answers the keyboard", await page.isVisible("#fig-seam .tip"));
@@ -88,6 +91,11 @@ try {
   // III/IV — disputes + receipts
   const nDisputed = events.filter((e) => e.discrepancy_note || new Set((e.sources || []).map((s) => s.headcount).filter((v) => v > 0)).size > 1).length;
   ok(`telephone game renders disputed events (${nDisputed} candidates)`, (await page.locator("#disputes .dispute").count()) >= Math.min(1, nDisputed));
+  if (nDisputed > 6) {
+    ok("telephone game shows six, hides the rest", (await page.locator("#disputes > .dispute").count()) === 6 && await page.isHidden("#disputes .more"));
+    await page.locator("#disputes .morebtn").click();
+    ok("…and the toggle reveals them all", (await page.locator("#disputes .dispute:visible").count()) === (await page.locator("#disputes .dispute").count()));
+  }
   ok(`receipts list every event (${events.length})`, (await page.locator("#groups .row").count()) === events.length);
   ok("receipts count in copy matches", (await txt("#n-events")) === String(events.length));
   ok("every receipt row links a source", (await page.locator("#groups a.src[href^='http']").count()) === events.length);

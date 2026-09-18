@@ -64,6 +64,8 @@ page translates it into plain words. Six movements, numbered in the margin like 
 | VI | **The method** | The four definitions, what the page can't tell you, and a **what changed** box read from the manifest log. |
 
 Every figure is computed in the browser from `data/*.json` at load; nothing is typed into the markup.
+Coverage as of the latest pass (2026-09-18): JOLTS through July 2026 · Challenger through August 2026 · 46 ledgered events
+(16 where the company itself cited AI). The page's masthead stamp and “what changed” box read this from the data.
 `scripts/build_standalone.py` inlines the data into a single `dist/humancost.html` that opens from disk
 (email it, drop it in Slack — no server needed).
 

@@ -191,6 +191,9 @@
     .dispute .pl .ln2 { display: none; }
     @media (max-width: 720px) { .dispute .pl .lw { display: none; } .dispute .pl .ln2 { display: inline; } }
     .dispute .why { grid-column: 1 / -1; font-size: .84rem; color: var(--ink-2); max-width: 78ch; margin: .1rem 0 0; }
+    .more[hidden] { display: none; }
+    .morebtn { margin-top: 1rem; cursor: pointer; background: none; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 8px; padding: .55rem .9rem; font: .74rem var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .morebtn:hover { border-color: var(--gold); }
     @media (max-width: 720px) { .dispute { grid-template-columns: 1fr; } }
 
     /* ---- the receipts (a ledger) ---- */
@@ -315,7 +318,7 @@
       <div class="body">
         <p class="kicker">The AI layoff story, checked against the record</p>
         <h1>How many jobs is AI <em>really</em> taking?</h1>
-        <p class="lede">Every month, more layoffs are blamed on AI. We went looking for the companies that actually said so — on the record, with a headcount. In <b id="hero-month">…</b>:</p>
+        <p class="lede">Every month, layoffs are blamed on AI. We went looking for the companies that actually said so — on the record, with a headcount. So far in <b id="hero-year">…</b>:</p>
 
         <div class="pair">
           <div class="fig claimed">
@@ -333,7 +336,7 @@
         </div>
 
         <p class="verdict" id="verdict"></p>
-        <p class="ytd" id="ytd"></p>
+        <p class="ytd" id="latest"></p>
 
         <div class="bar" id="bar">
           <div class="bar-q"><b>Where do you set the bar?</b><span>every gold number on this page obeys it</span></div>
@@ -378,7 +381,7 @@
       <div class="rail"><span class="n">III</span><span>The telephone game</span></div>
       <div class="body">
         <h2>One layoff. Several numbers.</h2>
-        <p class="sub">A figure changes as it travels — from filing to memo to tracker to headline. When our sources disagree we keep <b>every</b> figure and say which one we use. Nothing is averaged, because an average of two claims is a third claim nobody made.</p>
+        <p class="sub">A figure changes as it travels — from filing to memo to tracker to headline. When our sources disagree we keep <b>every</b> figure and say which one we use. Nothing is averaged, because an average of two claims is a third claim nobody made. The most instructive cases first; a state WARN count is only ever a partial.</p>
         <div id="disputes"></div>
       </div>
     </section>
@@ -583,36 +586,38 @@
     function paintHero(S) {
       const L = S.latest;
       if (!L) return;
-      const conf = L.conf[std].hc, over = conf >= L.claimed && L.claimed > 0;
-      const unv = L.claimed ? Math.max(0, 1 - conf / L.claimed) : null;
-      $("#hero-month").textContent = fmtM(L.month);
-      countUp($("#hero-claimed"), L.claimed, fmt);
+      const claimed = S.ytd.claimed, conf = S.ytd.conf[std], over = conf >= claimed && claimed > 0;
+      const unv = claimed ? Math.max(0, 1 - conf / claimed) : null;
+      $("#hero-year").textContent = `${L.month.slice(0, 4)} (through ${fmtM(L.month)})`;
+      countUp($("#hero-claimed"), claimed, fmt);
       countUp($("#hero-confirmed"), conf, fmt);
       $("#hero-conf-label").textContent = STANDARDS[std].label;
-      const names = L.conf[std].events.map((e) => e.company);
-      const shown = names.slice(0, 6), more = names.length - shown.length;
+      const counted = S.rows.flatMap((r) => r.conf[std].events).sort((a, b) => (b.headcount || 0) - (a.headcount || 0));
+      const names = [...new Set(counted.map((e) => e.company))];
+      const shown = names.slice(0, 5), more = names.length - shown.length;
       put($("#hero-companies"),
-        names.length ? `${shown.join(" · ")}${more > 0 ? ` +${more} more` : ""} — ` : "nothing on the record this month — ",
+        names.length ? `${shown.join(" · ")}${more > 0 ? ` +${more} more` : ""} — ` : "nothing on the record — ",
         h("a", { href: "#receipts" }, "see the receipts"));
 
       const v = $("#verdict");
       if (over) {
-        v.replaceChildren(h("span", { class: "pct" }, "≥100%"), " — counting headlines, the ledger “finds” ", h("b", {}, "more"),
+        put(v, h("span", { class: "pct" }, "≥100%"), " — counting headlines, the ledger “finds” ", h("b", {}, "more"),
           " AI layoffs than the tracker itself attributed. ",
           h("span", { class: "fineline" }, "That is the flood talking to itself: a claim in a headline, counted as a fact. We never publish this figure. It is here so you can watch it happen."));
       } else if (std === 0) {
-        v.replaceChildren(h("span", { class: "pct" }, pct(unv)), " of the AI blame is ", h("b", {}, "unverified"), " — no company has put its name to it.",
+        put(v, h("span", { class: "pct" }, pct(unv)), " of the AI blame is ", h("b", {}, "unverified"), " — no company has put its name to it.",
           h("span", { class: "fineline" }, "Unverified isn't the same as false. It means nobody has said it on the record, and the record is the only thing we count."));
       } else if (std === 1) {
-        v.replaceChildren("Even counting our inferences, ", h("span", { class: "pct" }, pct(unv)), " of the AI blame has ", h("b", {}, "nothing behind it"), ".",
+        put(v, "Even counting our inferences, ", h("span", { class: "pct" }, pct(unv)), " of the AI blame has ", h("b", {}, "nothing behind it"), ".",
           h("span", { class: "fineline" }, "Inference is not evidence. We show it so you can see how much of the gap a looser standard closes — and how much it doesn't."));
       } else {
-        v.replaceChildren("Counting the headlines too, ", h("span", { class: "pct" }, pct(unv)), " is ", h("b", {}, "still unaccounted for"), ".",
+        put(v, "Counting the headlines too, ", h("span", { class: "pct" }, pct(unv)), " is ", h("b", {}, "still unaccounted for"), ".",
           h("span", { class: "fineline" }, "This is how the number gets inflated: a claim in a headline, counted as a fact. We never publish this figure."));
       }
-      const yc = S.ytd.conf[std], yu = S.ytd.claimed ? Math.max(0, 1 - yc / S.ytd.claimed) : null;
-      put($("#ytd"), `${L.month.slice(0, 4)} to date · `, h("b", {}, fmt(S.ytd.claimed)), " blamed on AI · ",
-        h("b", {}, fmt(yc)), " meets the bar · ", h("b", {}, yc >= S.ytd.claimed ? "≥100%" : pct(yu)), yc >= S.ytd.claimed ? " — exceeds the claim" : " unverified");
+      const lc = L.conf[std].hc, lu = L.claimed ? Math.max(0, 1 - lc / L.claimed) : null;
+      put($("#latest"), `Latest month · ${fmtM(L.month)} · `, h("b", {}, fmt(L.claimed)), " blamed on AI · ",
+        h("b", {}, fmt(lc)), " meets the bar · ", h("b", {}, lc >= L.claimed && L.claimed > 0 ? "≥100%" : pct(lu)), lc >= L.claimed && L.claimed > 0 ? " — exceeds the claim" : " unverified",
+        L.conf[std].events.length ? ` (${L.conf[std].events.map((e) => e.company).join(", ")})` : "");
       $("#bar-note").textContent = STANDARDS[std].note;
       document.querySelectorAll("#bar-opts button").forEach((b) => b.setAttribute("aria-checked", String(+b.dataset.std === std)));
     }
@@ -803,12 +808,27 @@
       }
       if (figs.size < 2) return null;
       const pts = [...figs.entries()].map(([v, label]) => ({ v, label, used: v === e.headcount })).sort((a, b) => a.v - b.v);
-      return { e, pts };
+      // A state WARN count is a partial by design; a dispute is "genuine" when two non-WARN figures disagree.
+      const nonWarn = new Set(pts.filter((p) => p.label !== "WARN").map((p) => p.v));
+      const genuine = nonWarn.size >= 2 || !!(e.discrepancy_note && !/^Figures by source/.test(e.discrepancy_note) && !/^FLOOR, NOT TOTAL/.test(e.discrepancy_note));
+      const ratio = pts[pts.length - 1].v / pts[0].v;
+      return { e, pts, genuine, score: (genuine ? 1000 : 0) + ratio + (e.headcount || 0) / 1e6 };
     }
     function renderDisputes(disputes, mount) {
       mount.replaceChildren();
       if (!disputes.length) { mount.append(h("p", { class: "fine" }, "No disputed figures in the ledger yet.")); return; }
-      for (const { e, pts } of disputes) {
+      const ranked = disputes.slice().sort((a, b) => b.score - a.score);
+      const SHOW = 6, more = h("div", { class: "more", hidden: ranked.length > SHOW });   // collapsed until asked
+      ranked.forEach(({ e, pts }, i) => (i < SHOW ? mount : more).append(disputeRow(e, pts)));
+      mount.append(more);
+      if (ranked.length > SHOW) {
+        const btn = h("button", { type: "button", class: "morebtn", "aria-expanded": "false" }, `Show all ${ranked.length} disputed figures`);
+        btn.addEventListener("click", () => { const open = more.hidden; more.hidden = !open; btn.setAttribute("aria-expanded", String(open)); btn.textContent = open ? "Show fewer" : `Show all ${ranked.length} disputed figures`; });
+        mount.append(btn);
+      }
+    }
+    function disputeRow(e, pts) {
+      {
         const lo = pts[0].v, hi = pts[pts.length - 1].v, span = Math.max(1, hi - lo);
         const track = h("div", { class: "track" });
         pts.forEach((p, i) => {
@@ -817,10 +837,10 @@
           track.append(h("span", { class: "pl " + (i % 2 ? "down" : "up") + (p.used ? " used" : ""), style: `left:${left}%` }, h("b", {}, fmt(p.v)),
             p.used ? [h("span", { class: "lw" }, "the figure we use"), h("span", { class: "ln2" }, "ours")] : p.label));
         });
-        mount.append(h("div", { class: "dispute" },
+        return h("div", { class: "dispute" },
           h("div", { class: "who" }, h("b", {}, e.company), h("span", {}, `${fmtD(e.date_announced)} · ${e.headcount ? fmt(e.headcount) + " used" : "no count disclosed by the company"}`)),
           track,
-          h("p", { class: "why" }, e.discrepancy_note || "Sources give different counts; each is kept.")));
+          h("p", { class: "why" }, e.discrepancy_note || "Sources give different counts; each is kept."));
       }
     }
 
@@ -835,6 +855,7 @@
       B0: { title: "Not about AI",
         blurb: "Nobody — not the company, not the press — claims AI played a part. Most layoffs look like this. It is the baseline the AI story sits inside." },
     };
+    const trim = (t, n) => (t.length <= n ? t : t.slice(0, n).replace(/\s+\S*$/, "") + " …");
     const primarySource = (e) => (e.sources || []).find((s) => s.carries_ai_attribution) || (e.sources || [])[0];
     const groupEls = {};
     function eventRow(e, lastMan) {
@@ -855,7 +876,7 @@
       const line = h("div", { class: "rline" }, btn,
         h("span", { class: "pp", title: e.headcount ? "people" : "headcount not disclosed" }, e.headcount ? fmt(e.headcount) : "n/d"),
         h("span", { class: "dt" }, fmtD(e.date_announced)),
-        h("span", { class: "cl" }, ps?.claim || ""),
+        h("span", { class: "cl", title: (ps?.claim || "").length > 170 ? ps.claim : null }, trim(ps?.claim || "", 170)),
         ps?.url ? h("a", { class: "src", href: ps.url, target: "_blank", rel: "noopener", title: "Open the source" }, srcLabel(ps.type) + " ↗") : h("span", { class: "src" }, ps ? srcLabel(ps.type) : ""));
       const row = h("div", { class: "row" }, line, det);
       const toggle = () => { const open = row.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); };

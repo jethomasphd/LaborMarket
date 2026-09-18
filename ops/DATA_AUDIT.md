@@ -4,8 +4,29 @@
 > stop unverified things from looking verified — so it must hold *itself* to that standard first.
 > **Re-run and update this every few weeks, and after every major data change.**
 
-**Audit date:** 2026-06-16 · **Auditor:** Phase-2 agent · **Method:** live BLS API call + live reads of
+**Audit date:** 2026-09-18 (previous: 2026-06-16) · **Auditor:** Phase-2 agent · **Method:** live BLS API call + live reads of
 the Challenger reports on challengergray.com (see Sources).
+
+> ## ✅ AUDIT 2026-09-18 — second research pass applied (`manifests/2026-09-18.md`)
+> **JOLTS — real & current** through **2026-07** (55 months; re-pulled 2026-09-18 via the keyless FRED CSV mirror because BLS's
+> keyless API quota was exhausted from this environment; values are the BLS series, BLS's April revision included). August data
+> releases **2026-09-29** — re-pull then.
+> **Challenger — real & current** through **2026-08**: June 45,849 / AI 14,029 · July 33,429 / 10,970 · August 52,881 / 3,462, read
+> from the report PDFs (Table 1 / Table 4) and chained YTD-to-YTD with zero residual (529,914 total / 116,175 AI). No revisions to
+> Jan–May. September report due ~2026-10-01.
+> **Event ledger — researched, 46 events** (B1 16 · B2 7 · B3 7 · B0 16; A1 32 · A2 13 · A3 1). 27 added and 17 corrected this pass
+> (SEC filings now corroborate every flagship B1 from the first pass). Honest caveats carried in the data itself:
+> - **Floors, not totals** for four B1 events where the firm cited AI but disclosed no count (Oracle Sept round 800, PayPal 251,
+>   ServiceNow 287, Uber customer support 41): the headcount is the state-WARN-documented figure and the note says so.
+> - **Every B1 added this pass is mixed-cause** (AI named alongside efficiency, restructuring, or geography) — flagged in the rationale.
+> - **Oracle (March) is B1 with no count** — its FY2026 10-K attributes workforce reductions to AI in general terms.
+> - **Intel (Jan) is A3** — the ~3,800 figure could not be corroborated (no 2026 Oregon WARN).
+> - **Microsoft (Jul, 4,800) is B3** — its own post says the roles are “not being replaced by AI”; the “AI-driven” label is press framing.
+> **Coverage:** the ledger is hand-researched and skews to tech/large firms; part of the claimed-vs-confirmed gap is coverage. August
+> shows 3,462 AI-cited cuts and nothing on the record — read that as “no company said it where we looked”, not “none happened”.
+> **B-tiers remain a Phase-1 draft flagged for Jacob's review** (see the manifest's Provenance and Discrepancies Logged).
+> **Next:** re-pull JOLTS 2026-09-29; ingest Challenger September ~2026-10-01; sweep WARN portals (CA xlsx, WA ESD, TX TWC, OH JFS)
+> for A2→A1 upgrades; watch Oracle for a disclosed count.
 
 > ## ✅ RESOLVED 2026-06-16 — first real research pass applied (`manifests/2026-06-16.md`)
 > The illustrative seed was replaced wholesale. Challenger Jan–May corrected to the actual published

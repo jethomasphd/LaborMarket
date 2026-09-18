@@ -154,6 +154,102 @@
         "SRC-CHALLENGER"
       ],
       "manifest_id": "MAN-2026-06-16"
+    },
+    {
+      "month": "2026-06",
+      "total_cuts": 45849,
+      "ai_cited_cuts": 14029,
+      "ai_cited_share": 0.306,
+      "top_reasons": [
+        {
+          "reason": "Artificial Intelligence",
+          "count": 14029
+        },
+        {
+          "reason": "Market/Economic Conditions",
+          "count": 12470
+        },
+        {
+          "reason": "Closing",
+          "count": 11837
+        },
+        {
+          "reason": "Restructuring",
+          "count": 2412
+        },
+        {
+          "reason": "Contract Loss",
+          "count": 1696
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-09-18"
+    },
+    {
+      "month": "2026-07",
+      "total_cuts": 33429,
+      "ai_cited_cuts": 10970,
+      "ai_cited_share": 0.328,
+      "top_reasons": [
+        {
+          "reason": "Artificial Intelligence",
+          "count": 10970
+        },
+        {
+          "reason": "Market/Economic Conditions",
+          "count": 7960
+        },
+        {
+          "reason": "Closing",
+          "count": 6060
+        },
+        {
+          "reason": "Restructuring",
+          "count": 2815
+        },
+        {
+          "reason": "Contract Loss",
+          "count": 2003
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-09-18"
+    },
+    {
+      "month": "2026-08",
+      "total_cuts": 52881,
+      "ai_cited_cuts": 3462,
+      "ai_cited_share": 0.065,
+      "top_reasons": [
+        {
+          "reason": "Restructuring",
+          "count": 16173
+        },
+        {
+          "reason": "Market/Economic Conditions",
+          "count": 15260
+        },
+        {
+          "reason": "Closing",
+          "count": 6743
+        },
+        {
+          "reason": "Artificial Intelligence",
+          "count": 3462
+        },
+        {
+          "reason": "Acquisition/Merger",
+          "count": 3186
+        }
+      ],
+      "source_ids": [
+        "SRC-CHALLENGER"
+      ],
+      "manifest_id": "MAN-2026-09-18"
     }
   ]
 }
