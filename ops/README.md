@@ -31,7 +31,7 @@ human-in-the-loop pipeline. The dashboard is just the publication target; the in
 1. **Phase 1** — run `phase-1-research.md` with that day's date. Save output to `manifests/<date>.md`.
 2. **Phase 2** — run `phase-2-apply.md`. It re-pulls JOLTS if BLS released a new month, applies the
    manifest (validated, idempotent, all-or-nothing), runs the tests, and pushes. Cloudflare redeploys.
-3. Spot-check the live site: the claimed-vs-confirmed gap on Pulse, the Ledger's newest rows.
+3. Spot-check the live site: the two hero numbers (blamed vs. company-confirmed) and the newest rows in the receipts.
 
 ## The release calendar that drives the loop
 - **JOLTS** (the measured baseline): BLS releases ~1st week of the month, **two months in arrears**.

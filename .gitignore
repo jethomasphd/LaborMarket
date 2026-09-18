@@ -15,3 +15,6 @@ venv/
 *.swp
 node_modules/
 package-lock.json
+
+# Standalone (data-inlined) build output — regenerate with scripts/build_standalone.py
+dist/

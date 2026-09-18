@@ -48,31 +48,41 @@ between them is not an error to reconcile — **it is the measurement of the str
 
 ---
 
-## The dashboard
+## The dashboard — one page, one idea
 
-Five views, all reading the JSON layer at runtime (no figure is hardcoded in markup):
+The site is a **single scrolling page** (`index.html`). No tabs, no jargon on the surface — the two-axis
+rubric lives in the data layer and the page translates it into plain words. Five beats, top to bottom:
 
-- **Pulse** — JOLTS headline tiles + the tier-honest AI counter (B1 headline, B2 band, B3 excluded, B0 denominator).
-- **The Ledger** — every event, sortable/filterable, expandable to sources + rationale, CSV export.
-- **JOLTS** — the six measured series + churn view, with explicit *“this is measured; it cannot attribute causation”* framing.
-- **Attribution** — the rubric in plain language, B-tier composition over time, and the discrepancy panel.
-- **Sources** — the registry, the source-class ceilings, the manifest provenance log (with content hashes), and methodology.
+1. **The question and the two numbers.** *How many jobs is AI really taking?* For the latest month:
+   jobs **blamed on AI** (Challenger's AI-cited total) beside jobs where **the company itself said AI**
+   (our B1, A1/A2-verified total), and the verdict — the share of the blame that is **unverified**.
+2. **The gap, month by month.** One stacked column per month: gold base = confirmed, grey = unverified,
+   whole column = blamed. AI's share of all announced cuts sits under each month. Hover/tab for the
+   companies; a table view sits beneath for accessibility.
+3. **The receipts.** Every event in the ledger, grouped in plain language — *the company itself said AI ·
+   probably AI but the company never said so · only the headlines said AI · not about AI.* Each row: company,
+   people, date, the sourced claim, and a link. Click a row for the full rationale, disputed figures, and all sources.
+4. **Zoom out.** All layoffs & discharges (JOLTS) vs. blamed vs. confirmed, on one honest linear scale, plus
+   the “for every 1,000 people laid off…” line.
+5. **How we count** — the four definitions and what the page *can't* tell you.
+
+Every figure is computed in the browser from `data/*.json` at load; nothing is typed into the markup.
+`scripts/build_standalone.py` inlines the data into a single `dist/humancost.html` that opens from disk
+(email it, drop it in Slack — no server needed).
 
 ---
 
 ## Repository layout
 
 ```
-index.html                 the dashboard shell
-assets/css/watchtower.css   "Restrained Watchtower" design system
-assets/js/*.js              ES-module app: app.js (loader+router) + one module per view
-assets/vendor/*             Chart.js + D3, vendored locally (fully self-contained)
-data/*.json                 the data layer (event ledger, JOLTS, Challenger, WARN, sources, manifest log)
-data/derived/*.json         auto-generated rollups (never hand-edited)
-schemas/*.schema.json       JSON Schema for every data file
-manifests/YYYY-MM-DD.md     dated Update Manifests (the operating log)
-scripts/                    fetch_jolts.py · validate.py · apply_manifest.py · build_rollups.py
-tests/                      pytest (validator refusal, rollups, idempotency) + headless render tests
+index.html                 the whole dashboard — one page, inline CSS + JS, no dependencies, no build step
+data/*.json                the data layer (event ledger, JOLTS, Challenger, WARN, sources, manifest log)
+data/derived/*.json        auto-generated rollups (never hand-edited; used by the pipeline + tests)
+schemas/*.schema.json      JSON Schema for every data file
+manifests/YYYY-MM-DD.md    dated Update Manifests (the operating log)
+scripts/                   fetch_jolts.py · validate.py · apply_manifest.py · build_rollups.py · build_standalone.py
+tests/                     pytest (validator refusal, rollups, idempotency) + site_check.mjs (real-browser check)
+ops/                       the weekly operating loop (research prompt, apply prompt, data audit)
 ```
 
 ---
@@ -117,7 +127,11 @@ python scripts/validate.py               # validate the whole data layer (schema
 python scripts/build_rollups.py          # regenerate data/derived/*
 python -m pytest tests/ -q               # 17 tests: validator refusal, rollups, idempotency
 
-python -m http.server 8000               # then open http://localhost:8000  (serve over HTTP, not file://)
+python -m http.server 8000               # then open http://localhost:8000  (the page fetches data/ over HTTP)
+python scripts/build_standalone.py       # or: dist/humancost.html — a single file that opens from disk
+
+npm install && npm run check             # optional real-browser check (Playwright): hero figures == data,
+                                         # chart/receipts/scale render, no overflow at 360px, screenshots
 ```
 
 Secrets are env-vars only — `BLS_API_KEY`, `FRED_API_KEY`. **Never commit a key.**
