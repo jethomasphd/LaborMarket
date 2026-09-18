@@ -803,14 +803,18 @@
       for (const s of e.sources || []) if (Number.isFinite(s.headcount) && s.headcount > 0 && !figs.has(s.headcount)) figs.set(s.headcount, srcShort(s.type));
       if (Number.isFinite(e.headcount) && e.headcount > 0 && !figs.has(e.headcount)) figs.set(e.headcount, "our figure");
       if (figs.size < 2 && e.discrepancy_note) {
-        const nums = (e.discrepancy_note.match(/\d{1,3}(?:,\d{3})+|\d{3,}/g) || []).map((x) => parseInt(x.replace(/,/g, ""), 10)).filter((v) => v >= 50 && v <= 100000);
+        // Fallback for notes that carry the figures in prose: numbers with a thousands separator or 3+ digits,
+        // never years (1900–2100), never percentages, never workforce sizes far outside the event's scale.
+        const anchor = [...figs.keys()][0] || null;
+        const nums = (e.discrepancy_note.match(/\d{1,3}(?:,\d{3})+|\d{3,}(?!%)/g) || []).map((x) => parseInt(x.replace(/,/g, ""), 10))
+          .filter((v) => v >= 50 && v <= 100000 && !(v >= 1900 && v <= 2100) && (!anchor || (v >= anchor / 4 && v <= anchor * 4)));
         for (const v of nums) if (!figs.has(v)) figs.set(v, "reported");
       }
       if (figs.size < 2) return null;
       const pts = [...figs.entries()].map(([v, label]) => ({ v, label, used: v === e.headcount })).sort((a, b) => a.v - b.v);
-      // A state WARN count is a partial by design; a dispute is "genuine" when two non-WARN figures disagree.
+      // A state WARN count is a partial by design; a dispute is "genuine" only when two non-WARN figures disagree.
       const nonWarn = new Set(pts.filter((p) => p.label !== "WARN").map((p) => p.v));
-      const genuine = nonWarn.size >= 2 || !!(e.discrepancy_note && !/^Figures by source/.test(e.discrepancy_note) && !/^FLOOR, NOT TOTAL/.test(e.discrepancy_note));
+      const genuine = nonWarn.size >= 2;
       const ratio = pts[pts.length - 1].v / pts[0].v;
       return { e, pts, genuine, score: (genuine ? 1000 : 0) + ratio + (e.headcount || 0) / 1e6 };
     }
