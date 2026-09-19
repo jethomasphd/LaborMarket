@@ -212,6 +212,574 @@
       "home_url": "https://wbng.org/",
       "access": "manual_read",
       "notes": "Union; contested headcount vs management."
+    },
+    {
+      "source_id": "SRC-AAPL-PR",
+      "name": "Apple — statements to press",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://www.apple.com/newsroom/",
+      "access": "manual_read",
+      "notes": "Aug 21, 2026 statement issued to Bloomberg; read via Engadget/9to5Mac."
+    },
+    {
+      "source_id": "SRC-AGRIPULSE",
+      "name": "Agri-Pulse",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.agri-pulse.com/",
+      "access": "manual_read",
+      "notes": "Agriculture trade press."
+    },
+    {
+      "source_id": "SRC-ATLASSIAN",
+      "name": "Atlassian company blog",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://www.atlassian.com/blog/company-news",
+      "access": "manual_read",
+      "notes": "Founder/CEO statements."
+    },
+    {
+      "source_id": "SRC-CBS",
+      "name": "CBS News (incl. CBS Detroit)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.cbsnews.com/",
+      "access": "manual_read",
+      "notes": "National/local press."
+    },
+    {
+      "source_id": "SRC-CHRON",
+      "name": "Houston Chronicle (Chron)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.chron.com/",
+      "access": "manual_read",
+      "notes": "Read via Yahoo syndication."
+    },
+    {
+      "source_id": "SRC-CHYM-PR",
+      "name": "Chime Financial — investor relations / CEO memo",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://investors.chime.com/",
+      "access": "manual_read",
+      "notes": "Britt memo (July 31, 2026) not published; quoted by Banking Dive and PYMNTS. 8-K on EDGAR."
+    },
+    {
+      "source_id": "SRC-DOW",
+      "name": "Dow Inc. press releases (PR Newswire / investors.dow.com)",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://corporate.dow.com/en-us/news.html",
+      "access": "manual_read",
+      "notes": "Jan 29, 2026 'Transform to Outperform' release."
+    },
+    {
+      "source_id": "SRC-DROIDLIFE",
+      "name": "Droid Life",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.droid-life.com/",
+      "access": "manual_read",
+      "notes": "Niche telecom/Android blog; editorial tone."
+    },
+    {
+      "source_id": "SRC-DSG",
+      "name": "Distribution Strategy Group",
+      "class": "WIRE_PRESS",
+      "home_url": "https://distributionstrategy.com/",
+      "access": "manual_read",
+      "notes": "Wholesale-distribution trade press; compiles multi-state WARN counts."
+    },
+    {
+      "source_id": "SRC-FOODDIVE",
+      "name": "Food Dive (Industry Dive)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.fooddive.com/",
+      "access": "manual_read",
+      "notes": "Food-industry trade press."
+    },
+    {
+      "source_id": "SRC-FOXBIZ",
+      "name": "Fox Business",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.foxbusiness.com/",
+      "access": "manual_read",
+      "notes": "National business press."
+    },
+    {
+      "source_id": "SRC-GTLB-BLOG",
+      "name": "GitLab blog (about.gitlab.com)",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://about.gitlab.com/blog/",
+      "access": "manual_read",
+      "notes": "CEO Bill Staples' “GitLab Act 2” restructuring post (May 11, 2026)."
+    },
+    {
+      "source_id": "SRC-HCDIVE",
+      "name": "Healthcare Dive (Industry Dive)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.healthcaredive.com/",
+      "access": "manual_read",
+      "notes": "Healthcare trade press."
+    },
+    {
+      "source_id": "SRC-INC",
+      "name": "Inc.",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.inc.com/",
+      "access": "manual_read",
+      "notes": "Business press. Direct fetch returned 403 on 2026-09-18; figures taken from the search-index summary of the article; re-verify."
+    },
+    {
+      "source_id": "SRC-INQUIRER",
+      "name": "The Philadelphia Inquirer",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.inquirer.com/",
+      "access": "manual_read",
+      "notes": "Regional press."
+    },
+    {
+      "source_id": "SRC-INVESTING",
+      "name": "Investing.com (earnings/conference transcripts)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.investing.com/news/transcripts",
+      "access": "manual_read",
+      "notes": "Machine transcripts of company conference remarks; treat as press-mediated company statements."
+    },
+    {
+      "source_id": "SRC-JBS",
+      "name": "JBS Foods / JBS USA newsroom",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://jbsfoodsgroup.com/",
+      "access": "manual_read",
+      "notes": "Company statements; headcounts usually omitted."
+    },
+    {
+      "source_id": "SRC-KFDM",
+      "name": "KFDM (Beaumont, TX)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://kfdm.com/",
+      "access": "manual_read",
+      "notes": "Local broadcast press."
+    },
+    {
+      "source_id": "SRC-KSL",
+      "name": "KSL.com (Salt Lake City)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.ksl.com/",
+      "access": "manual_read",
+      "notes": "Local press; reports Utah DWS WARN filings."
+    },
+    {
+      "source_id": "SRC-MEDIAPOST",
+      "name": "MediaPost",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.mediapost.com/",
+      "access": "manual_read",
+      "notes": "Advertising/media trade press."
+    },
+    {
+      "source_id": "SRC-MERCURY",
+      "name": "The Mercury News (Bay Area News Group; read via Spokesman-Review syndication)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.mercurynews.com/",
+      "access": "manual_read",
+      "notes": "Reports California EDD WARN filings."
+    },
+    {
+      "source_id": "SRC-MIADVANCE",
+      "name": "Michigan Advance (States Newsroom)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://michiganadvance.com/",
+      "access": "manual_read",
+      "notes": "Direct fetch 403; read via Yahoo syndication."
+    },
+    {
+      "source_id": "SRC-MNDY-PR",
+      "name": "monday.com — investor relations / founders' letter",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://ir.monday.com/",
+      "access": "manual_read",
+      "notes": "Founders' letter (July 22, 2026) quoted by CTech, CIO, The Next Web; 6-K on EDGAR."
+    },
+    {
+      "source_id": "SRC-MSFT-BLOG",
+      "name": "The Official Microsoft Blog",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://blogs.microsoft.com/",
+      "access": "manual_read",
+      "notes": "Amy Coleman's July 6, 2026 post “The latest in our company transformation” (the layoff memo, published)."
+    },
+    {
+      "source_id": "SRC-NOW-PR",
+      "name": "ServiceNow — corporate statements",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://www.servicenow.com/company/media/press-room.html",
+      "access": "manual_read",
+      "notes": "No press release for the 2026 layoffs; spokesperson statement quoted verbatim by CTech (July 29) and NowBen (June 11)."
+    },
+    {
+      "source_id": "SRC-OUTLOOKBIZ",
+      "name": "Outlook Business",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.outlookbusiness.com/",
+      "access": "manual_read",
+      "notes": "Indian business press; used for the Disney memo date after US outlets blocked fetches."
+    },
+    {
+      "source_id": "SRC-PYPL-PR",
+      "name": "PayPal — corporate statements",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://newsroom.paypal-corp.com/",
+      "access": "manual_read",
+      "notes": "Sept 1, 2026 statement quoted by Payments Dive."
+    },
+    {
+      "source_id": "SRC-QZ",
+      "name": "Quartz",
+      "class": "WIRE_PRESS",
+      "home_url": "https://qz.com/",
+      "access": "manual_read",
+      "notes": "Direct fetches rate-limited (429/403); syndicated copies on Yahoo Finance are readable."
+    },
+    {
+      "source_id": "SRC-THEFACTS",
+      "name": "The Facts (Brazoria County, TX)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://thefacts.com/",
+      "access": "manual_read",
+      "notes": "Local press covering Dow Freeport."
+    },
+    {
+      "source_id": "SRC-TIKTOK-PR",
+      "name": "TikTok / TikTok USDS Joint Venture — statements",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://newsroom.tiktok.com/",
+      "access": "manual_read",
+      "notes": "Nashville closure statement quoted by WSMV and TechCrunch."
+    },
+    {
+      "source_id": "SRC-TNW",
+      "name": "The Next Web",
+      "class": "WIRE_PRESS",
+      "home_url": "https://thenextweb.com/",
+      "access": "manual_read",
+      "notes": "Tech press."
+    },
+    {
+      "source_id": "SRC-TYSON",
+      "name": "Tyson Foods Newsroom",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://www.tysonfoods.com/news",
+      "access": "manual_read",
+      "notes": "Press releases; also furnished as 8-K exhibits."
+    },
+    {
+      "source_id": "SRC-UBER-PR",
+      "name": "Uber Technologies — newsroom and spokesperson statements",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://www.uber.com/newsroom/",
+      "access": "manual_read",
+      "notes": "Sept 2, 2026 CEO memo published at uber.com/us/en/newsroom/simplerfasteruber/. July 22 community-operations spokesperson statement and Yethadka memo exist only as quoted by Bloomberg/CX Dive/Engadget."
+    },
+    {
+      "source_id": "SRC-UPS-IR",
+      "name": "UPS Investor Relations press releases",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://investors.ups.com/",
+      "access": "manual_read",
+      "notes": "Quarterly results; transformation-charge disclosures."
+    },
+    {
+      "source_id": "SRC-VISA-PR",
+      "name": "Visa Inc. — investor relations, earnings call, CEO staff memo",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://investor.visa.com/",
+      "access": "manual_read",
+      "notes": "Q3 FY2026 call (July 28, 2026) read via Investing.com transcript; CEO memo not published, quoted by Bloomberg/CNBC."
+    },
+    {
+      "source_id": "SRC-WARN-OH",
+      "name": "Ohio Dept. of Job and Family Services — WARN notices",
+      "class": "GOV_LEGAL",
+      "home_url": "https://jfs.ohio.gov/",
+      "access": "manual_read",
+      "notes": "Official Ohio WARN PDFs hosted under dam.assets.ohio.gov/.../jfs.ohio.gov/warn/WARN 2026/."
+    },
+    {
+      "source_id": "SRC-WARN-TN",
+      "name": "Tennessee Department of Labor & Workforce Development — WARN notices",
+      "class": "GOV_LEGAL",
+      "home_url": "https://www.tn.gov/workforce/general-resources/major-publications0/major-publications-redirect/reports.html",
+      "access": "manual_read",
+      "notes": "Per-employer PDF memos (e.g., /content/dam/tn/workforce/documents/warn/TikTok-USDS-JV.pdf). Text extracted from the PDF stream directly."
+    },
+    {
+      "source_id": "SRC-WARN-WA",
+      "name": "Washington Employment Security Department — WARN layoff and closure database",
+      "class": "GOV_LEGAL",
+      "home_url": "https://esd.wa.gov/employer-requirements/layoffs-and-employee-notifications/worker-adjustment-and-retraining-notification-warn-layoff-and-closure-database",
+      "access": "manual_read",
+      "notes": "Data grid served at https://fortress.wa.gov/esd/file/WARN/Public/SearchWARN.aspx (ASP.NET postback pagination); 323 rows paged in full on 2026-09-18. Fields: company, location, layoff start date, workers, type, received date."
+    },
+    {
+      "source_id": "SRC-WARNTRACKER",
+      "name": "WARNTracker.com",
+      "class": "OUTPLACEMENT_ANALYTICS",
+      "home_url": "https://www.warntracker.com/",
+      "access": "manual_read",
+      "notes": "Third-party mirror of state WARN registers (per-company pages). Derived from public records; verify against the state site before sole A1 reliance."
+    },
+    {
+      "source_id": "SRC-WASHINGTONIAN",
+      "name": "Washingtonian",
+      "class": "WIRE_PRESS",
+      "home_url": "https://washingtonian.com/",
+      "access": "manual_read",
+      "notes": "DC magazine; carried Guild headcounts."
+    },
+    {
+      "source_id": "SRC-WHYY",
+      "name": "WHYY (Philadelphia public media)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://whyy.org/",
+      "access": "manual_read",
+      "notes": "Regional public media."
+    },
+    {
+      "source_id": "SRC-WIRE-9TO5MAC",
+      "name": "9to5Mac",
+      "class": "WIRE_PRESS",
+      "home_url": "https://9to5mac.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-ALJAZ",
+      "name": "Al Jazeera",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.aljazeera.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-AMBANKER",
+      "name": "American Banker",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.americanbanker.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-BANKINGDIVE",
+      "name": "Banking Dive (Industry Dive)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.bankingdive.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-BI",
+      "name": "Business Insider (read via Yahoo Finance syndication)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.businessinsider.com/",
+      "access": "manual_read",
+      "notes": "ServiceNow exclusive read at finance.yahoo.com."
+    },
+    {
+      "source_id": "SRC-WIRE-CIO",
+      "name": "CIO.com (Foundry)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.cio.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-CTECH",
+      "name": "CTech by Calcalist",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.calcalistech.com/",
+      "access": "manual_read",
+      "notes": "Israeli business press; strong on monday.com, ServiceNow Israel, Oracle Israel."
+    },
+    {
+      "source_id": "SRC-WIRE-CXDIVE",
+      "name": "CX Dive (Industry Dive)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.customerexperiencedive.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-DECCAN",
+      "name": "Deccan Herald",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.deccanherald.com/",
+      "access": "manual_read",
+      "notes": "Page body blocked (403); headline/summary only."
+    },
+    {
+      "source_id": "SRC-WIRE-ENGADGET",
+      "name": "Engadget",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.engadget.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-FORTUNE",
+      "name": "Fortune",
+      "class": "WIRE_PRESS",
+      "home_url": "https://fortune.com/",
+      "access": "manual_read",
+      "notes": "Some pages returned 403."
+    },
+    {
+      "source_id": "SRC-WIRE-GIZMODO",
+      "name": "Gizmodo",
+      "class": "WIRE_PRESS",
+      "home_url": "https://gizmodo.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-HOUSINGWIRE",
+      "name": "HousingWire",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.housingwire.com/",
+      "access": "manual_read",
+      "notes": "Article disclosed use of an automation system in drafting."
+    },
+    {
+      "source_id": "SRC-WIRE-IBTIMES",
+      "name": "International Business Times UK",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.ibtimes.co.uk/",
+      "access": "manual_read",
+      "notes": "Lower-tier; used only where its figures matched government WARN data."
+    },
+    {
+      "source_id": "SRC-WIRE-NBC",
+      "name": "NBC News",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.nbcnews.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-NOWBEN",
+      "name": "NowBen (ServiceNow community news)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://nowben.com/",
+      "access": "manual_read",
+      "notes": "Niche outlet; used only for the June 2026 ServiceNow round and verbatim statement."
+    },
+    {
+      "source_id": "SRC-WIRE-PAYMENTSDIVE",
+      "name": "Payments Dive (Industry Dive)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.paymentsdive.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-PYMNTS",
+      "name": "PYMNTS",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.pymnts.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-RENEWS",
+      "name": "Real Estate News",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.realestatenews.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-RETAILDIVE",
+      "name": "Retail Dive (Industry Dive)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.retaildive.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-SAREPORT",
+      "name": "San Antonio Report",
+      "class": "WIRE_PRESS",
+      "home_url": "https://sanantonioreport.org/",
+      "access": "manual_read",
+      "notes": "Nonprofit local newsroom."
+    },
+    {
+      "source_id": "SRC-WIRE-TC",
+      "name": "TechCrunch",
+      "class": "WIRE_PRESS",
+      "home_url": "https://techcrunch.com/",
+      "access": "manual_read",
+      "notes": "Also maintains a running list of 2026 layoffs where employers cited AI (July 25, 2026)."
+    },
+    {
+      "source_id": "SRC-WIRE-THEREG",
+      "name": "The Register",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.theregister.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-TNW",
+      "name": "The Next Web",
+      "class": "WIRE_PRESS",
+      "home_url": "https://thenextweb.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WIRE-WSMV",
+      "name": "WSMV-TV Nashville",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.wsmv.com/",
+      "access": "manual_read",
+      "notes": null
+    },
+    {
+      "source_id": "SRC-WMT-PR",
+      "name": "Walmart — Global Tech internal memo (Kumar/Danker)",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://corporate.walmart.com/news",
+      "access": "manual_read",
+      "notes": "Memo not published; quoted by IBTimes UK (SF Chronicle/SFGate blocked)."
+    },
+    {
+      "source_id": "SRC-WTAJ",
+      "name": "WTAJ (Altoona, PA; Nexstar)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://www.wtaj.com/",
+      "access": "manual_read",
+      "notes": "Reports Pennsylvania WARN database entries; read via Yahoo syndication (direct 403)."
+    },
+    {
+      "source_id": "SRC-XBOX-MEMO",
+      "name": "Xbox CEO Asha Sharma — “Resetting XBOX” memo (published by the executive on X)",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://x.com/asha_shar",
+      "access": "manual_read",
+      "notes": "Full text read via mirror at playday.one (Variety copy paywalled). Zero AI references; 3,200 across FY27 incl. 1,600 on July 6."
+    },
+    {
+      "source_id": "SRC-YAHOOFIN",
+      "name": "Yahoo Finance / Yahoo News (syndication)",
+      "class": "WIRE_PRESS",
+      "home_url": "https://finance.yahoo.com/",
+      "access": "manual_read",
+      "notes": "Used to read syndicated Reuters, Quartz, Investing.com, Fox Business, TheStreet, WTAJ, Michigan Advance and Houston Chronicle pieces that block direct fetches; originating outlet named in each claim."
+    },
+    {
+      "source_id": "SRC-ZILLOW-BLOG",
+      "name": "Zillow Front Porch / Zillow news",
+      "class": "PRIMARY_FIRM",
+      "home_url": "https://www.zillow.com/news/",
+      "access": "manual_read",
+      "notes": "Aug 4, 2026 post “How we're organizing for the path ahead” — returned HTTP 403 to this agent; content taken from HousingWire/Real Estate News quoting it."
     }
   ]
 }

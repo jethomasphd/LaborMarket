@@ -18,8 +18,10 @@ STEPS
 1. Sync:            git pull origin main         (or the working branch)
 2. Refresh JOLTS    (only if BLS released a new month, ~1st week of month):
                     python scripts/fetch_jolts.py
-                    # Uses BLS_API_KEY if set, else keyless v1, else FRED_API_KEY. Pulls SA level
-                    # series; refuses to write rate-shaped data. Updates data/jolts-series.json.
+                    # Uses BLS_API_KEY if set, else keyless BLS v1, else FRED_API_KEY, else the
+                    # keyless FRED CSV mirror (no quota — the route that works when BLS's daily
+                    # limit is spent). Pulls SA level series; refuses to write rate-shaped data.
+                    # Updates data/jolts-series.json.
 3. Apply:           python scripts/apply_manifest.py manifests/<WEEK_ENDING>.md
                     # Parses ops (add/update events, challenger_upsert, source_add), builds a
                     # candidate copy, regenerates data/derived/*, runs the FULL validator, and only

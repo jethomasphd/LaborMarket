@@ -28,9 +28,20 @@
       }
     },
     {
+      "sector": "Media & Advertising — Agency holding company",
+      "event_count": 1,
+      "total_headcount": 15000,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
       "sector": "Retail — consumer/beauty",
       "event_count": 1,
-      "total_headcount": 9000,
+      "total_headcount": 10000,
       "by_b_tier": {
         "B1": 0,
         "B2": 0,
@@ -47,6 +58,28 @@
         "B2": 1,
         "B3": 0,
         "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — software / cloud / gaming (Xbox)",
+      "event_count": 1,
+      "total_headcount": 4800,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 1,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Manufacturing — Food processing (beef)",
+      "event_count": 2,
+      "total_headcount": 4703,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 2
       }
     },
     {
@@ -83,6 +116,39 @@
       }
     },
     {
+      "sector": "Technology — ride-hailing & delivery platform",
+      "event_count": 1,
+      "total_headcount": 3300,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 1,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Telecommunications — Wireless retail & corporate",
+      "event_count": 1,
+      "total_headcount": 3000,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Financial services — payments network",
+      "event_count": 1,
+      "total_headcount": 2600,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
       "sector": "Technology — enterprise software",
       "event_count": 2,
       "total_headcount": 2600,
@@ -105,6 +171,17 @@
       }
     },
     {
+      "sector": "Manufacturing — Automotive (EV)",
+      "event_count": 1,
+      "total_headcount": 1500,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
       "sector": "Retail — apparel",
       "event_count": 1,
       "total_headcount": 1400,
@@ -112,6 +189,50 @@
         "B1": 0,
         "B2": 1,
         "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Manufacturing — Commercial trucks",
+      "event_count": 1,
+      "total_headcount": 1341,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Wholesale & Logistics — Office products distribution",
+      "event_count": 1,
+      "total_headcount": 1278,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — internet infrastructure",
+      "event_count": 1,
+      "total_headcount": 1100,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Healthcare — Revenue-cycle management services",
+      "event_count": 1,
+      "total_headcount": 1037,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 1,
         "B0": 0
       }
     },
@@ -127,7 +248,7 @@
       }
     },
     {
-      "sector": "Technology — internet infrastructure",
+      "sector": "Technology — web/SaaS",
       "event_count": 1,
       "total_headcount": 1000,
       "by_b_tier": {
@@ -138,9 +259,9 @@
       }
     },
     {
-      "sector": "Technology — web/SaaS",
+      "sector": "Technology — enterprise software & cloud infrastructure",
       "event_count": 1,
-      "total_headcount": 1000,
+      "total_headcount": 800,
       "by_b_tier": {
         "B1": 1,
         "B2": 0,
@@ -160,9 +281,75 @@
       }
     },
     {
+      "sector": "Technology — cloud / managed IT services",
+      "event_count": 1,
+      "total_headcount": 750,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
       "sector": "Technology — crypto/fintech",
       "event_count": 1,
       "total_headcount": 700,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — enterprise software (work management / AI Work Platform)",
+      "event_count": 1,
+      "total_headcount": 620,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Healthcare — Health system (IT service desk / applications support)",
+      "event_count": 1,
+      "total_headcount": 557,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — real-estate marketplace",
+      "event_count": 1,
+      "total_headcount": 500,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 1,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Retail — corporate technology organization",
+      "event_count": 1,
+      "total_headcount": 394,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 1,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — enterprise software (DevSecOps platform)",
+      "event_count": 1,
+      "total_headcount": 350,
       "by_b_tier": {
         "B1": 1,
         "B2": 0,
@@ -182,12 +369,111 @@
       }
     },
     {
-      "sector": "Technology — software/cloud",
+      "sector": "Financial services — retail brokerage / fintech",
+      "event_count": 1,
+      "total_headcount": 290,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — enterprise software (workflow platform)",
+      "event_count": 1,
+      "total_headcount": 287,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Financial services — digital payments",
+      "event_count": 1,
+      "total_headcount": 251,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — social media (content moderation / trust & safety operations)",
+      "event_count": 1,
+      "total_headcount": 250,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — e-commerce marketplace",
+      "event_count": 1,
+      "total_headcount": 220,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 0,
+        "B3": 1,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Financial services — consumer fintech / neobank",
+      "event_count": 1,
+      "total_headcount": 150,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — consumer hardware & software (Siri / Vision Pro teams)",
+      "event_count": 1,
+      "total_headcount": 147,
+      "by_b_tier": {
+        "B1": 0,
+        "B2": 1,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Technology — ride-hailing & delivery platform (customer support function)",
+      "event_count": 1,
+      "total_headcount": 41,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 0
+      }
+    },
+    {
+      "sector": "Manufacturing — Packaged food",
       "event_count": 1,
       "total_headcount": 0,
       "by_b_tier": {
         "B1": 0,
-        "B2": 1,
+        "B2": 0,
+        "B3": 0,
+        "B0": 1
+      }
+    },
+    {
+      "sector": "Technology — software/cloud",
+      "event_count": 1,
+      "total_headcount": 0,
+      "by_b_tier": {
+        "B1": 1,
+        "B2": 0,
         "B3": 0,
         "B0": 0
       }

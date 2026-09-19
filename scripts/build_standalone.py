@@ -2,7 +2,7 @@
 """
 build_standalone.py — Bundle the dashboard into ONE self-contained HTML file.
 
-The live site (index.html) reads its three data files over HTTP at load time. That is
+The live site (index.html) reads its four data files over HTTP at load time. That is
 perfect for Cloudflare Pages, but it means the page can't be opened straight from disk
 (browsers block fetch() on file://). This script inlines the data so the result opens
 anywhere — double-click it, attach it to an email, drop it in Slack.
@@ -22,11 +22,12 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# The same three files index.html fetches at runtime, keyed the same way.
+# The same four files index.html fetches at runtime, keyed the same way.
 DATA_FILES = {
     "challenger": "data/challenger-monthly.json",
     "events": "data/ai-layoff-events.json",
     "jolts": "data/jolts-series.json",
+    "log": "data/manifest-log.json",
 }
 MARKER = "<!-- DATA -->"   # index.html carries this marker in <head>; the blob is injected there.
 
